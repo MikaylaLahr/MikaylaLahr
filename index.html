@@ -145,6 +145,33 @@
           <div id="pubs_selected" class="hidden">
             <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
               <tbody>
+
+                <tr onmouseout="spatialtracker_stop()" onmouseover="spatialtracker_start()">
+                  <td style="padding:20px;width:25%;vertical-align:right">
+                    <!-- <div class="one">
+                      <div class="two" id='spatialtracker_image'>
+                        <video  width="100%" height="100%" muted autoplay loop>
+                          <source src="images/spatial_tracker.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                      <img src='images/spatial_tracker.jpg' id='spatialtracker_before' width="160" > 
+                    </div> -->
+                    <script type="text/javascript">
+                      function spatialtracker_start() {
+                        document.getElementById('spatialtracker_image').style.opacity = "1";
+                      }
+                      function spatialtracker_stop() {
+                        document.getElementById('spatialtracker_image').style.opacity = "0";
+                      }
+                      spatialtracker_stop()
+                    </script>
+                  </td>
+                  
+                  <td style="padding:20px;width:75%;vertical-align:left">
+                    <heading> Publications </heading>
+                  </td>
+                </tr> 
+                
                 <tr onmouseout="som_stop()" onmouseover="som_start()">
                   <td style="padding:20px;width:25%;vertical-align:middle">
                     <div class="one">
@@ -250,21 +277,7 @@
                   </td>
                   
                   <td style="padding:20px;width:75%;vertical-align:left">
-                    <a href="folder/FoR.html">
-                      <heading> Foundations of Robotics </heading>
-                    </a>
-                    <br>
-                    <!-- <strong>Qianqian Wang</strong>*,
-                    <a href="https://people.eecs.berkeley.edu/~vye/">Vickie Ye*</a>,
-                    <a href="https://hangg7.com/">Hang Gao*</a>,
-                    <a href="https://www.linkedin.com/in/jakeaustin4701/">Jake Austin</a>,
-                    <a href="https://zhengqili.github.io/">Zhengqi Li</a>,
-                    <a href="https://people.eecs.berkeley.edu/~kanazawa/">Angjoo Kanazawa</a> --> 
-                    <br>
-                    <!-- <em>arXiv</em>, 2024 -->
-                    <br>
-                    <a href="folder/FoR.html">project page</a>
-                    <p></p>
+                    <heading> Selected Course Projects </heading>
                   </td>
                 </tr> 
       
