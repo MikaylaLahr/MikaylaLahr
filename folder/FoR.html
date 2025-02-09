@@ -38,6 +38,51 @@
                                 </ul>
                                 <h2>Part 2: Kinematics</h2>
                                 <h3>Part 2.1 Car Kinematics</h3>
+                                <p>
+                                    The kinematics model of the MuSHR car created previously will be implemented in 2D. 
+                                    First, the derivation of the kinematics model is computed by hand by annotating the 
+                                    lengths and angles in the below figure. 
+                                </p>
+                                <p>The changes in states are found using </p>
+                                $$
+\begin{align*}
+&\dot{x} = v \cos \theta \\
+&\dot{y} = v \sin \theta \\
+&\dot{\theta} = \omega
+\end{align*}
+$$
+    
+where $\omega$ is the angular velocity from the center of rotation to the center of the rear axle.
+By the definition of angular velocity:
+    
+$$
+\omega = \frac{v}{R} = \frac{v}{L} \tan \alpha
+$$
+    
+Formally, the changes in states are:
+    
+$$
+\begin{align*}
+&\frac{\partial x}{\partial t} = v \cos \theta \\
+&\frac{\partial y}{\partial t} = v \sin \theta \\
+&\frac{\partial \theta}{\partial t} = \frac{v}{L} \tan \alpha
+\end{align*}
+$$
+
+You will now derive the update to state $\mathbf{x} \_{t-1}$
+after applying control $\mathbf{u}\_t$ 
+to obtain $\mathbf{x}\_{t}$ by integrating over the time step. The update rule for $\theta\_{t-1}$ is done for you below:
+
+$$
+\begin{align*}
+&\int_{\theta_{t-1}}^{\theta_{t}}d\theta =
+\int_{t}^{t+\Delta t} \frac{v}{L} \tan \alpha dt \\
+&\theta_{t}-\theta_{t-1} =\frac{v}{L} \tan \alpha \Delta t \\
+&\theta_{t} = \theta_{t-1} + \frac{v}{L} \tan \alpha \Delta t \\
+\end{align*}
+$$
+
+                                
                                 <h2>Part 1: Running a MuSHR Car in Simulation and Visualizing the Simulator using RViz</h2>
                                 <p>
                                    The simulation is set up for a kinematic car model that includes noise by 
