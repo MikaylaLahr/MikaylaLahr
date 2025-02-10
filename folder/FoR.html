@@ -45,18 +45,20 @@
                                     First, the derivation of the kinematics model is computed by hand by annotating the 
                                     lengths and angles in the below figure. 
                                 </p>
-                                <img src="PNG_FoR/RViz.png" width="800" height="auto">
-                                <img src="PNG_FoR/e1.png" width="300" height="auto">
-                                <img src="PNG_FoR/e2.png" width="300" height="auto">
-                                <img src="PNG_FoR/e3.png" width="300" height="auto">
-                                <img src="PNG_FoR/e4.png" width="300" height="auto">
+                                <strong>Car Kinematics Model</strong> <p></p>
+                                <img src="PNG_FoR/kinematics_model.png" width="400" height="auto"> <p></p>
+                                <img src="PNG_FoR/e1.png" width="300" height="auto"> <p></p>
+                                <img src="PNG_FoR/e2.png" width="200" height="auto"> <p></p>
+                                <img src="PNG_FoR/e3.png" width="300" height="auto"> <p></p>
+                                <img src="PNG_FoR/e4.png" width="300" height="auto"> <p></p>
                                 <p>
                                     These kinematic car equations were implemented in Python in a deterministic manner. 
                                     An initial state and control is given and the equations are integrated to return a 
                                     new state. This implementation is then expanded upon to create a deterministic motion
                                     model. A plot showing the car turning left, going straight, and turning right is below.
                                 </p>
-                                <img src="PNG_FoR/Q1.3Plot.png" width="800" height="auto">
+                                <strong>Deterministic Motion Model</strong> <p></p>
+                                <img src="PNG_FoR/Q1.3Plot.png" width="400" height="auto">
                                 <p>
                                     Finally, noise is added to create a more robust model. The added noise is parametrized by
                                     action noise and model noise. 
@@ -76,6 +78,7 @@ Modifying vel_std resulted in the arrows being extended in a line in the directi
                                 <strong>Plot 1: vel_std: 0, alpha_std: 0, x_std: 0.011, y_std: 0.011, theta_std: 0</strong>
                                 <p></p>
                                 <img src="PNG_FoR/plot1.png" width="400" height="auto">
+                                <p></p>
                                 <strong>Plot 2: vel_std: 0.02, alpha_std: 0.098, x_std: 0.025, y_std: 0.005, theta_std: 0</strong>
                                 <p></p>
                                 <img src="PNG_FoR/mm3.png" width="400" height="auto">
@@ -84,12 +87,15 @@ Modifying vel_std resulted in the arrows being extended in a line in the directi
                                     A 6 degree of freedom arm <a href="https://docs.trossenrobotics.com/interbotix_xsarms_docs/specifications/wx250.html">WidowX 250</a>
                                     was modeled as a spatial 6R open chain with six rotational joints. The figure below is a model of the six rotational joints. 
                                 </p>
-                                <img src="PNG_FoR/RViz.png" width="800" height="auto">
-                                <img src="PNG_FoR/RViz.png" width="800" height="auto">
+                                <strong>WidowX250 and Model</strong>
+                                <p></p>
+                                <img src="PNG_FoR/widowx250.png" width="400" height="auto">
+                                <img src="PNG_FoR/dh_params_2023.png" width="400" height="auto">
                                 <p>
                                     The D-H parameters were found and are listed in the below table.
                                 </p>
-                                <img src="PNG_FoR/Q2.1.png" width="800" height="auto">
+                                <strong>D-H Parameters</strong>
+                                <img src="PNG_FoR/Q2.1.png" width="500" height="auto">
 
 
                                 
