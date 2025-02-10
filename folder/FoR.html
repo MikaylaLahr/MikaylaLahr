@@ -41,14 +41,38 @@
                                     <li>Deterministic Models</li>
                                     <li>Kinematics on 6 Degree of Freedom Arm with D-H Parameters</li>
                                     <strong>Part 3</strong>
-                                    <li>State Estimation</li>
+                                    <li>State Estimation - Particle Filter</li>
+                                    <li>Object Tracking</li>
+                                    <li>Localization</li>
                                 </ul>
 
                                 <h2>Part 3: State Estimation</h2>
                                 <p>
                                     A particle filter will be implemented for the MuSHR car and WidowX350 arm robot. 
                                 </p>
-                                <h3>Part 3.1 Object Traking for WidowX 250 Arm</h3>
+                                <h3>Part 3.1 Object Tracking for WidowX 250 Arm</h3>
+                                <p>
+                                    Object tracking locates moving objects over time after initially detecting the 
+                                    location of the object. Tracking algorithms are robust to noise and occlusions when
+                                    performing object detection. The experiment setup for this simulation uses an RGB image 
+                                    obtained from a camera placed above the robot arm. A top down view from the robot arm is
+                                    captured. During the simulation a moving cylinder is tracked using the particle filter 
+                                    algorithm.
+                                </p>
+                                <p>
+                                    The particle filter records the possible states (positions of the cylinder) using 
+                                    particles and states, where each particle is a candidate state and each weight is the
+                                    states probability. The cylinder's initial position depends on the initial pose estimate 
+                                    of the particle filter. The current position of the cylinder is detected using the 
+                                    estimated position from the previous timestep. The cylinder's tracked position is used to 
+                                    direct the end-effector of the arm. For the simulation I implemented the predict, update, 
+                                    and resample steps for the particle filter. 
+                                </p>
+                                <p>
+                                    When implementing the predict step of the particle filter, I first added a noisy constant 
+                                    velocity model for the particles. The particle weights were updated by obtaining the 
+                                    observation
+                                </p>
                                 
                                 
                                 <h2>Part 2: Kinematics</h2>
