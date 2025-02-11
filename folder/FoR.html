@@ -96,7 +96,17 @@ After understanding the effects of each parameter, I continued tuning std_consta
                                 <p></p>
                                 <h3>Part 3.2 Localization for MuSHR Car</h3>
                                 <p>
-                                    
+                                    The particle filter implemented for localization on the MUsHR car uses the motion model 
+                                    and the sensor model. These models were implemented previously. For this task, the 
+                                    particle and the corresponding weights need to be initialized. The library rangelibc 
+                                    is used to cast rays into the map from the robot state and measures the distance to 
+                                    an obstacle. 
+                                </p>
+                                <p>
+                                    First, the belief of the robot is initialized. Then, three publishers are created to 
+                                    collect information on the inferred pose, the particles, and odometry readings. In the
+                                    simaultion, the car can drive forward, backward, and turn throughout the map. An image
+                                    of the simulation is below.
                                 </p>
                                 
                                 
