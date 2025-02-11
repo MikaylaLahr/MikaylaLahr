@@ -44,8 +44,12 @@
                                     <li>State Estimation - Particle Filter</li>
                                     <li>Object Tracking</li>
                                     <li>Localization</li>
+                                    <strong>Part 4</strong>
                                 </ul>
 
+                                <h2>Part 4: Planning</h2>
+                                
+                                <p></p>
                                 <h2>Part 3: State Estimation</h2>
                                 <p>
                                     A particle filter will be implemented for the MuSHR car and WidowX350 arm robot. 
@@ -79,8 +83,8 @@
                                     of the detector, the green circle is the estimated position from the particle filter, and 
                                     the robot arm is the black object.  
                                 </p>
-                                <strong>Untuned Particle Filter for Robot Arm</strong>
-                                <img src="PNG_FoR/bad_pf.png" width="300" height="auto"> <p></p>
+                                <strong>Untuned Particle Filter for Robot Arm</strong> <p></p>
+                                <img src="PNG_FoR/bad_pf.png" width="500" height="auto"> <p></p>
                                 <p>
                                     After tuning the parameters, the particles are around the observation and the estimated 
                                     position. The parameters were tuned to the following:
@@ -90,8 +94,8 @@
                                     <li>Initial mean and covariance of the sampled particles: initial_mean = np.array([320, 320]).reshape((-1, 1)), 
                                         initial_cov = np.diag([5e1, 5e1])</li>
                                 </p>
-                                <strong>Tuned Particle Filter for Robot Arm</strong>
-                                <img src="PNG_FoR/Q1.4.png" width="300" height="auto"> <p></p>
+                                <strong>Tuned Particle Filter for Robot Arm</strong> <p></p>
+                                <img src="PNG_FoR/Q1.4.png" width="500" height="auto"> <p></p>
                                 <p>
                                     The process for tuning the parameters included initially testing the default parameters before changing anything. After testing the default parameters, I noticed that the blue and green circles moved quickly and there were not a lot of red particles on the screen. The particles I observed moved quickly across the screen. I then started to tune the parameters. First, I decreased the value of initial_cov to initial_cov = np.diag([10e1, 10e1]). I observed that this resulted in the green and blue circles moving around the screen quickly for a longer period of time, and there were more particles on the screen compared to the previous parameters. Then, I decreased the value of std_constant_vel to 50, then 10, then 5, and then 1. Each time I decreased the value of std_constant_vel the particles started closer together and near the middle of the green and blue circles. I then proceeded to test other parameters using the values of initial_cov = np.diag([10e1, 10e1]) and std_constant_vel = 1. I decreased num_particles from 1000 to 100, and observed that the number of particles on the screen decreased. I decided to keep this parameter the same for my final answer and changed num_particles to be 1000. I increased self.constant_vel from self.constant_vel = np.array([0,0]) to self.constant_vel = np.array([10,10]) and noticed that the particles and circles moved faster for the higher velocity values. I decided to keep this parameter at self.constant_vel = np.array([0,0]). Finally, I observed the effects of initial_mean running initial_mean = np.array([320, 320]).reshape((-1, 1)) resulted in the particles and circles starting in the lower half of the screen in the center. Running initial_mean = np.array(120, 120]).reshape((-1, 1)) resulted in the particles and circles starting in the middle of the upper left corner. I decided to keep this parameter at its default value of initial_mean = np.array([320, 320]).reshape((-1, 1)).
                                 </p>
@@ -99,7 +103,7 @@
 After understanding the effects of each parameter, I continued tuning std_constant_vel and initial_cov. I passed the test case when using std_constant_vel = 1 and initial_cov = np.diag([10e1, 10e1]). The mean position error was around 4.65 pixels. I wanted to reduce the position error further and decided to lower the parameter values to std_constant_vel = 0.5 and initial_cov = np.diag([5e1, 5e1]). This tuning resulted in a position error of around 
 4.46 pixels as my final result. The position error graph is below.
                                 </p>
-                                <strong>Position Error</strong>
+                                <strong>Position Error</strong> <p></p>
                                 <img src="PNG_FoR/position_error.png" width="500" height="auto"> <p></p>
                                 <p></p>
                                 <h3>Part 3.2 Localization for MuSHR Car</h3>
@@ -116,7 +120,7 @@ After understanding the effects of each parameter, I continued tuning std_consta
                                     simaultion, the car can drive forward, backward, and turn throughout the map. An image
                                     of the simulation is below.
                                 </p>
-                                <strong>Car Localization Simulation</strong>
+                                <strong>Car Localization Simulation</strong> <p></p>
                                 <img src="PNG_FoR/rviz_tracking.png" width="800" height="auto"> <p></p>
                                 
                                 
