@@ -67,21 +67,29 @@
                                     and the f-values were computed. From these f-values the desired path was implemented. The 
                                     computed shortest path for A* can be seen below.
                                 </p>
+                                <strong>A* Computed Paths</strong> <p></p>
+                                <img src="PNG_FoR/map1_Q1_2.png" width="500" height="auto"> <p></p>
+                                <img src="PNG_FoR/map2_Q1_2.png" width="500" height="auto"> <p></p>
                                 <strong>RRT</strong>
                                 <p>
                                     RRT planning was implemented next. The logic for RRT creates a map and finds a path to the goal.
-                                    The resulting RRT graph is below. 
+                                    A shortened path version of the RRT algorithm wwas also implemented. The resulting RRT graphs are below. 
                                 </p>
-                                <p>
-                                    A shortened path version of RRT was implemented and is below. 
-                                </p>
+                                <strong>RRT Computed Paths</strong> <p></p>
+                                <img src="PNG_FoR/map1_Q2_1.png" width="500" height="auto"> <p></p>
+                                <img src="PNG_FoR/map2_Q2_1.png" width="500" height="auto"> <p></p>
+                                <strong>RRT Computed Shortened Path</strong> <p></p>
+                                <img src="PNG_FoR/map1_Q2_2.png" width="500" height="auto"> <p></p>
+    
                                 <strong>Tradeoffs and Comparison</strong>
                                 <p>
                                     The two maps were created by myself. The first was created with the intention of A* running faster 
                                     than RRT. The second was created for RRT to run faster than A*. 
                                 </p>
-                                <strong>A* Faster Than RRT</strong>
-                                <strong>RRT Faster Than A*</strong>
+                                <strong>A* Faster Than RRT</strong> <p></p>
+                                <img src="PNG_FoR/astar_beats_rrt_map.png" width="500" height="auto"> <p></p>
+                                <strong>RRT Faster Than A*</strong> <p></p>
+                                <img src="PNG_FoR/rrt_beats_astar_map.png" width="500" height="auto"> <p></p>
                                 <p>
                                     A* often results in shorter paths compared to RRT and uses a heuristic function when searching. A* chooses nodes based on the estimated cost to the goal and uses an exhaustive search that can be computationally expensive in complex environments. RRT examines the the entire space of the map, often resulting in longer paths compared to A*, and randomly samples points. A* is better suited for simpler paths that are well-defined, such as in the astar_beats_rrt_map image. In the astar_beats_rrt_map, the shape of the obstacles results in the path to bounce between the walls of the obstacles that results in a longer path for RRT comparted to A* for that map. RRT is better suited for maps that include many obstacles, such as in the rrt_beats_astar_map image. (Source: Lectures on Canvas, "Graph-based Methods Slides.pdf" and "Sampling-based Methods.pdf")
                                 </p>
@@ -90,9 +98,21 @@
                                     The MuSHR car includes x and y position as well as orientation. The A* planning is adapted to 
                                     include orientation by using Dubins path, connecting two configurations and using directed edges. 
                                 </p>
+                                <strong>A* For MuSHR Car</strong> <p></p>
+                                <img src="PNG_FoR/map1_Q4.png" width="500" height="auto"> <p></p>
                                 <h3>Planning For WidowX 250 Arm</h3>
+                                <strong>A*</strong>
                                 <p>
-                                    
+                                    Implementing A* for the simulated WidowX 250 Arm involved interpreting the distance between
+                                    two arm configurations as the change in the joint angles. The distance between two joint states 
+                                    is the sum of the absolute change in all joint angles. This is implemented as a heuristic function.
+                                </p>
+                                <strong>RRT</strong>
+                                <p>
+                                    Implementing RRT for the simulated WidowX 250 Arm involved writing a distance function that finds
+                                    the path to the desired position that takes the least time to complete given velocity. Time moving
+                                    from q1 to q2 is calculated by using: Time = max abs((q1[i] - q2[i])/v[i]) where [i = 1 to 6]. This
+                                    is implemented in a heuristic function. 
                                 </p>
                                 
                                 
