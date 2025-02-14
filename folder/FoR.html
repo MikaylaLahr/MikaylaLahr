@@ -86,6 +86,14 @@
                                     A* often results in shorter paths compared to RRT and uses a heuristic function when searching. A* chooses nodes based on the estimated cost to the goal and uses an exhaustive search that can be computationally expensive in complex environments. RRT examines the the entire space of the map, often resulting in longer paths compared to A*, and randomly samples points. A* is better suited for simpler paths that are well-defined, such as in the astar_beats_rrt_map image. In the astar_beats_rrt_map, the shape of the obstacles results in the path to bounce between the walls of the obstacles that results in a longer path for RRT comparted to A* for that map. RRT is better suited for maps that include many obstacles, such as in the rrt_beats_astar_map image. (Source: Lectures on Canvas, "Graph-based Methods Slides.pdf" and "Sampling-based Methods.pdf")
                                 </p>
                                 <h3>Planning For MuSHR Car</h3>
+                                <p>
+                                    The MuSHR car includes x and y position as well as orientation. The A* planning is adapted to 
+                                    include orientation by using Dubins path, connecting two configurations and using directed edges. 
+                                </p>
+                                <h3>Planning For WidowX 250 Arm</h3>
+                                <p>
+                                    
+                                </p>
                                 
                                 
                                 <p></p>
