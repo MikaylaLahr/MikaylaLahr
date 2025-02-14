@@ -49,11 +49,45 @@
                                     <li>A* and RRT</li>
                                     <strong>Part 5</strong>
                                     <li>Control</li>
+                                    <li>PID Control</li>
+                                    <li>Model Predictive Control</li>
                                 </ul>
 
                                 <h2>Part 5: Control</h2>
+                                <p>
+                                    Proportional Integral Derivative (PID) Control and Model Predictive Control (MPC) are implemented
+                                    for path tracking. The robot motions were split into two parts, motion planning and control.
+                                    Motion planning generates a refernce path and the feedback control uses the current state of the 
+                                    robot to follow the reference path. 
+                                </p>
+                                <h3>Proportional Integral Derivative (PID) Control</h3>
+                                <p>
+                                    First, a function was defined to compute the PID error, the distance between the current 
+                                    position and the desired position. The error (Fp) was computed using the following equation. 
+                                </p>
+                                <img src="PNG_FoR/error.png" width="400" height="auto">
+                                <p>
+                                    PID Control was implemented by using the following equation where Kp, Ki, and Kd are 
+                                    coefficients for the proportional, integral, and derivative error terms. 
+                                </p>
+                                <img src="PNG_FoR/pid.png" width="400" height="auto">
+                                <h3>Model Predictive Control (MPC)</h3>
+                                <p>
+                                    In MPC, a model is first used to solve a T-horizon optimization problem. A cost function J 
+                                    is defined that penalizes specific states and actions. The return from the optimization 
+                                    problem is a sequence of T-1 actions to minimize the cost. After finding the sequence of 
+                                    actions, the first action is executed and the current estimation state is updated. Below 
+                                    are tuned MPC graphs. 
+                                </p>
+                                <strong>MPC Graphs</strong> <p></p>
+                                <img src="PNG_FoR/4_4path1.png" width="400" height="auto"> <p></p>
+                                <img src="PNG_FoR/Q4_4saw.png" width="400" height="auto"> <p></p>
+                                <img src="PNG_FoR/Q4_4sine.png" width="400" height="auto"> <p></p>
+                                <p>
+                                    To start tuning the parameters, I initially increased K while keeping T and distance_lookahead as the default values when I started to work on the problem. As I increase K, the car continued to run into the object without moving around it. I then increased T until the car stared curving more along it's path and then increased distance_lookahead until the car did not hit the object. After I fixed my distance_lookahead value, I noticed that my T value was too large and the car was making wide curves around the object. I decreased T until the car followed a close path around the object.
+                                </p>
                                 
-
+                                <p></p>
                                 <h2>Part 4: Planning</h2>
                                 <p>
                                     A* and RRT planning algorithms will be implemented for a MuSHR car and WidowX 250 robotic 
