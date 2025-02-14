@@ -51,8 +51,41 @@
                                     <li>Control</li>
                                     <li>PID Control</li>
                                     <li>Model Predictive Control</li>
+                                    <strong>Final Project</strong>
+                                    <li>Program a WidowX 250 Robotic Arm to pick up and drop items</li>
+                                    <li>State Estimation, Planning, and Control</li>
                                 </ul>
 
+                                <h2>Final Project: WidowX 250 Robotic Arm Simulation</h2>
+                                <p>
+                                    Simulate the WidowX 250 robotic arm to pick up and drop items in the desired locations. A particle
+                                    filter or predefined target pose establish the robot's target. A path is then computed between the start
+                                    and end positions. Inverse kinematics are used to convert between the target pose in Cartesian space
+                                    to the planner in joint space. The path is then sent to the controller to execute the trajectory. 
+                                </p>
+                                <p>
+                                    Images of the trajectory are found below. The order of actions are: 
+                                    <li>Pick up can</li>
+                                    <li>Drop can into trash</li>
+                                    <li>Pick up tray</li>
+                                    <li>Drop tray on the table</li>
+                                    <li>Pick up wallet</li>
+                                    <li>Drop wallet on the tray</li>
+                                </p>
+                                <strong>Pick Up Can</strong> <p></p>
+                                <img src="PNG_FoR/pickup_can.png" width="600" height="auto"> <p></p>
+                                <strong>Drop Can Into Trash</strong> <p></p>
+                                <img src="PNG_FoR/drop_can.png" width="600" height="auto"> <p></p>
+                                <strong>Pick Up Tray</strong> <p></p>
+                                <img src="PNG_FoR/pickup_tray.png" width="600" height="auto"> <p></p>
+                                <strong>Drop Tray Onto The Table</strong> <p></p>
+                                <img src="PNG_FoR/drop_tray.png" width="600" height="auto"> <p></p>
+                                <strong>Pick Up Wallet</strong> <p></p>
+                                <img src="PNG_FoR/pickup_wallet.png" width="600" height="auto"> <p></p>
+                                <strong>Drop Wallet Onto Tray</strong> <p></p>
+                                <img src="PNG_FoR/drop_wallet.png" width="600" height="auto"> <p></p>
+
+                                <p></p>
                                 <h2>Part 5: Control</h2>
                                 <p>
                                     Proportional Integral Derivative (PID) Control and Model Predictive Control (MPC) are implemented
@@ -70,7 +103,7 @@
                                     PID Control was implemented by using the following equation where Kp, Ki, and Kd are 
                                     coefficients for the proportional, integral, and derivative error terms. 
                                 </p>
-                                <img src="PNG_FoR/pid.png" width="400" height="auto">
+                                <img src="PNG_FoR/pid.png" width="350" height="auto">
                                 <h3>Model Predictive Control (MPC)</h3>
                                 <p>
                                     In MPC, a model is first used to solve a T-horizon optimization problem. A cost function J 
@@ -79,10 +112,11 @@
                                     actions, the first action is executed and the current estimation state is updated. Below 
                                     are tuned MPC graphs. 
                                 </p>
-                                <strong>MPC Graphs</strong> <p></p>
-                                <img src="PNG_FoR/4_4path1.png" width="400" height="auto"> <p></p>
-                                <img src="PNG_FoR/Q4_4saw.png" width="400" height="auto"> <p></p>
-                                <img src="PNG_FoR/Q4_4sine.png" width="400" height="auto"> <p></p>
+                                <strong>MPC Graphs: Obstacle Avoidance</strong> <p></p>
+                                <img src="PNG_FoR/4_4path1.png" width="600" height="auto"> <p></p>
+                                <strong>MPC Graphs: Follow Desired Path in Green</strong> <p></p>
+                                <img src="PNG_FoR/Q4_4saw.png" width="600" height="auto"> <p></p>
+                                <img src="PNG_FoR/Q4_4sine.png" width="600" height="auto"> <p></p>
                                 <p>
                                     To start tuning the parameters, I initially increased K while keeping T and distance_lookahead as the default values when I started to work on the problem. As I increase K, the car continued to run into the object without moving around it. I then increased T until the car stared curving more along it's path and then increased distance_lookahead until the car did not hit the object. After I fixed my distance_lookahead value, I noticed that my T value was too large and the car was making wide curves around the object. I decreased T until the car followed a close path around the object.
                                 </p>
