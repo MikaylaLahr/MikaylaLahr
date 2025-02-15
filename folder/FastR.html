@@ -373,19 +373,12 @@
                             (mu_Store). I added a delay in KF_CASE before running the while loop. When I was testing the
                             filter I was repeatedly starting with distances of 0mm. The delay after the ToF distance 
                             sensor starts ranging reduces the amount of 0mm distance readings when starting the filter. 
-                            The Arduino cases and Jupyter Notebook commands can be found below:
                         </p>
-                        <img width="500" height="auto" src="Lab8EC/PyKF_CASE.png"></img>
-                    <hr>
-                        <img width="350" height="auto" src="Lab8EC/KF_CASE.png"></img>
-                    <hr>
-                        <img width="500" height="auto" src="Lab8EC/PySEND_KF_DATA.png"></img>
-                    <hr>
-                        <img width="500" height="auto" src="Lab8EC/SEND_KF_DATA.png"></img>
                         <p>After creating the cases for the Kalman Filter, I then started working on writing a Kalman 
                             Filter function in Arduino IDE. The final initialization of the matrices is below:
                         </p>
                          <img width="350" height="auto" src="Lab8EC/KF_Matrix.png"></img>
+                        <p></p>
                     <h3 class="mb-0">Step 1: Kalman Filter Function</h3> <!------------------------------------------>
                         <p>The first function that I wrote for the lab was the function Kalman_Filter() that is called 
                             from inside the larger while loop. To perform this task, I referenced the Jupyter Notebook 
@@ -402,6 +395,7 @@
                             is the prediction step and assigns the mu_p value to mu and the sigma_p value to sigma. 
                             During both steps the first value for mu is stored in the array mu_Store. 
                         </p>
+                                <p></p>
                     <h3 class="mb-0">Step 2: Kalman Filter Update Step On Robot</h3> <!----------------------------->
                     <h4 class="mb-0">Using ToF Readings For PID Loop</h4> <!---------------------------------------->
                         <p>I started working on the calling the Kalman Filter from inside the while loop by modifying 
@@ -418,19 +412,12 @@
                             showing the plotted ToF data and the Kalman Filter updates is shown below. It can be seen that
                             the Kalman Filter updates align with each new reading of the ToF sensor. 
                         </p>
-                        <img width="500" height="auto" src="Lab8EC/K1/K1Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K1/K1Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K1/K1P1.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K1/K1Full.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K1/K1P1.png"></img>
                         <p>The video below shows the Serial Monitor outputs for the ToF distance readings and the update 
                             values:
                         </p>
                         <iframe width="550" height="400" src="https://youtube.com/embed/Yn4fIvG2Z2M"></iframe>
-                        <p>The full while loop code for this section is below:</p>
-                            <script src="https://gist.github.com/MikaylaLahr/97630dbdb965dee528180ff2d633432d.js"></script>
-                        <p>The FORWARD() Function that was used previously for PID control is below:</p>
-                            <script src="https://gist.github.com/MikaylaLahr/3d9726d205ac31bbae9ff771b72704d8.js"></script>
-                        <p>The BACKWARD() Function that was used previously for PID control is below:</p>
-                            <script src="https://gist.github.com/MikaylaLahr/31ec327d8a714c92bb866bdadd62bae6.js"></script>
                         <p>After successfully implemeting the update step of the Kalman Filter, I started working on 
                             the prediction step. 
                         </p>
@@ -450,33 +437,7 @@
                         <img width="500" height="auto" src="Lab8EC/P2UpdateAndPredict.png"></img>
                         <p>The PID_Function is below:</p>
                         <img width="500" height="auto" src="Lab8EC/PID_Function.png"></img>
-                        <p>The PID controller was run using the same Kp, Ki, and Kd values as the previous section. An initial test run 
-                            showing the plotted ToF data and the Kalman Filter updates is shown below. The graphs show that the filter is
-                            predicting distances between ToF readings, but the predicted values do not follow the trend of the data 
-                            towards the next update value. 
-                        </p>
-                        <img width="500" height="auto" src="Lab8EC/K2/K2Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K2/K2Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K2/K2P1.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K2/K2P2.png"></img>
-                    <hr>
-                        <p>To address the above issue, I multiplied the B matrix by 3 and again tested the robot. The graphs below show 
-                            that multiplying matrix B by 3 did not significantly change the predicted values. 
-                        </p>
-                        <img width="500" height="auto" src="Lab8EC/K4/K4Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K4/K4Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K4/K4P1.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K4/K4P2.png"></img>
-                    <hr>
-                        <p>I then multiplied the B matrix by 6 and achieved the below results. The predicted values trend downwards, but 
-                            still do not reach the update values.
-                        </p>
-                        <img width="500" height="auto" src="Lab8EC/K5/K5Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K5/K5Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K5/K5P1.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K5/K5P2.png"></img>
-                    <hr>
-                    <p>Throughout more testing, I determined that a good value to multuiply the B matrix with is 8. The Kalman Filter 
+                    <p>Throughout testing, I determined that a good value to multuiply the B matrix with is 8. The Kalman Filter 
                         updates align with each new reading of the ToF sensor and the prediction values follow the trend of the data. 
                         Below are two sets of graphs showing data that was recorded after the B matrix was multiplied by 8. Needing to 
                         multiply the B matrix by 8 indicates that the value found for m during the Jupyter Lab simulation does not work 
@@ -484,49 +445,19 @@
                     </p>
                     <p>Test 1:</p>
                         <img width="500" height="auto" src="Lab8EC/K6/K6Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K6/K6Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K6/K6P1.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K6/K6P2.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K6/K6P1.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K6/K6P2.png"></img>
                     <hr>
                     <p>Test 2:</p>
                         <img width="500" height="auto" src="Lab8EC/K7/K7Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K7/K7Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K7/K7P1.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K7/K7P2.png"></img>
-                    <hr>
-                    <p>In addition during testing, I accidentally set the robot to a higher speed than necessary and the robot 
-                        ran into multiple walls and did not always travel in a straight line for the below run. I decided to run the collected data
-                        through the Kalman Filter to see the outcome. The graphs below show that the update values and some of 
-                        the predicted values align with the recorded ToF data. The Kalman Filter is able to update to the correct
-                        ToF value, even during somewhat random running conditions. 
-                    </p>
-                        <img width="500" height="auto" src="Lab8EC/K8/K8Full.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K8/K8Motor.png"></img>
-                        <img width="500" height="auto" src="Lab8EC/K8/K8P1.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K7/K7P1.png"></img>
+                        <img width="400" height="auto" src="Lab8EC/K7/K7P2.png"></img>
                     <hr>
                         <p>The video below shows the Serial Monitor outputs for the ToF distance readings and the update 
                             values:
                         </p>
                         <iframe width="550" height="400" src="https://youtube.com/embed/PYxf5fFNzd0"></iframe>
-                        <p>Below is an example run of the Kalman Filter on the robot:</p>
-                        <iframe width="550" height="400" src="https://youtube.com/embed/4BA5eVdi1n8"></iframe>
-                        <p>The full while loop code for this section is below:</p>
-                            <script src="https://gist.github.com/MikaylaLahr/f5b4c83fa975e1a934abff50aed396e8.js"></script>
-                     <h4 class="mb-0">Issues and Mistakes During Implementation</h4> <!----------------------------->
-                        <p>While I was implementing the Kalman Filter onto the robot I was able to work through most
-                            of the debugging in an efficient manner. One mistake that I made early during implementation 
-                            was not converting dt to seconds which caused my predicted values to drastically increase or 
-                            decrease. Initially I thought that there was a problem with my sigma values and spent time 
-                            changing the sigma values to see if there was any change. This did not work and I discovered 
-                            the issue with dt during office hours. 
-                        </p>
-<!-- Extra Credit References --------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Extra Credit References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-            </div>
-        </section>
+                                <p></p>
 
                             </div>
                         </div>
