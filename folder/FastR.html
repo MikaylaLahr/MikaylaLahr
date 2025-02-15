@@ -34,11 +34,938 @@
                                     <strong>Part 1</strong>
                                     <li>Robot Operating System (ROS)</li>
                                 </ul>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>  
+<!__ Lab 11: Localization On The Robot ______________________________________________________________________________>
                                 <h2 class="mb-2.5">Lab 11: Localization On The Robot</h2> 
                                 <p>The objective of the lab is to implement the Bayes Filter on the real robot. Due to noise when 
                                     the robot is turning, only the update step of the filter will be be used during a 360 degree
                                     scan.
                                 </p>
+<!-- Lab 11 Prelab -------------------------------------------------------------------------------------------------->
+                                <h2 class="mb-2.5">Prelab</h2>
+                                <p>The lab materials include a fully assembled 
+                                        <a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">robot</a>
+                                        with <a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a>,
+                                        <a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensors</a>, and a
+                                        <a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a>.
+                                    </p>
+                                    <p>Course lectures on sensor models, motion models, and the Bayes Filter were reviewed before 
+                                        starting the lab.
+                                    </p>
+                                
+<!-- Lab 11 Lab Tasks ----------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab Tasks</h2>
+                    <h3 class="mb-0">Simulation Localization</h3> <!------------------------------------------------->
+                    <p>The first lab task was to run the provided Bayes Filter simulation. The lab11_sim.ipynb file was 
+                        downloaded and a screenshot of the final result is below as well as a 
+                        <a href="https://docs.google.com/document/d/120ek_jK8Y9CPmBWIn1pVJgnnejH-On_O0puMCUnvyTg/edit">link to the data</a>
+                        from the simulation. 
+                        The red line is odometry, the green line is the ground truth, and the blue line is the 
+                        belief. The map is a three dimensional grid (x, y, theta). The dimension of x is 12, the dimension 
+                        of y is 9, and the dimension of theta is 18. 
+                    </p>
+                    <img width="500" height="auto" src="Lab11/SimulationGraph.png"></img>
+                    <h3 class="mb-0">Arduino IDE Code</h3> <!-------------------------------------------------------->
+                    <p>To perform localization on the robot the Arduino IDE code from Lab 9: Mapping was used to rotate 
+                        the robot 360 degrees. The setAngle was changed from 10 degrees, used in Lab 9, to 20 degrees 
+                        for Lab 11. I removed some of the append statements in case SEND_ORIENTATION_DATA to only send 
+                        time, angle in 20 degree increments, and the distance readings at each angle increment. In the 
+                        main while loop I changed how I stored the distance data and yaw readings. I initially stored 
+                        the readings as variables before assigning them to an array at each 20 degree increment. The 
+                        code is below.
+                    </p>
+                    <p>ORIENTATION_CASE:</p>
+                    <script src="https://gist.github.com/MikaylaLahr/c4c9a964a183e65bd3d6242d9ebe144c.js"></script>
+                    <p>SEND_ORIENTATION_DATA:</p>
+                    <script src="https://gist.github.com/MikaylaLahr/ad3ef6f465d6edb4b9049e093b82c19e.js"></script>
+                    <p>While Loop:</p>
+                    <script src="https://gist.github.com/MikaylaLahr/17797f37041e1a1a32076ee78be6abea.js"></script>
+                    <p>The RIGHT_MOTOR() and LEFT_MOTOR() functions used did not change from Lab 9.</p>
+                    <h3 class="mb-0">Implement Perform_Observation_Loop</h3> <!-------------------------------------->
+                    <p>The code lab11_real.ipynb was downloaded and opened in Jupyter Notebook. 
+                        The function perform_observation_loop was 
+                        written to sort through the collected data from one rotation. First arrays are established and
+                        then the command to send orientation data is run. The asynicio function was used to run the 
+                        while loop until 18 data readings are sent over Bluetooth. The for loop assigns the angle readings 
+                        to the sensor_bearings array and the distance readings, converted from millimeters to meters, to
+                        the sensor_ranges array. Initially, I put the command to run the ORIENTATION_CASE inside 
+                        of the perform_observation_loop function, but I decided to run the rotation first before calling 
+                        the function. Removing the command to run ORIENTATION_CASE from inside of the function allowed 
+                        me to more easily turn on/off the rotation.  
+                    </p>
+                    <p>The function perform_observation_loop is below:</p>
+                    <img width="750" height="auto" src="Lab11/FunctionPython.png"></img>
+                    <p>The command to run ORIENTAION_CASE is below:</p>
+                    <img width="400" height="auto" src="Lab11/CasePython.png"></img>
+                    <h3 class="mb-0">Run Robot Localization</h3> <!-------------------------------------------------->
+                    <p>The results of rotating the robot at the four marked positions are below. The four marked positions 
+                        include: (-3ft, -2ft, 0deg), (0ft, 3ft, 0deg), (5ft, -3ft, 0deg), and (5ft, 3ft, 0deg). The robot 
+                        was run around 4-5 times at each point. Two runs for each point are shown below. The ground truth 
+                        is plotted as the green dot and is the location where the robot rotated. The belief of the robots 
+                        position is plotted as the blue dot. The ToF sensor used to collect distance readings was located 
+                        on the front of the robot, between the left and right sides of the robot. When the robot was at 
+                        zero degrees the ToF sensor was pointed towards the rightside wall. The robot turned counterclockwise
+                        in the same manner as in Lab 9. The Jupyter Notebook code to plot each Ground Truth value is below:
+                    </p>
+                     <img width="400" height="auto" src="Lab11/Points.png"></img>
+                    <h4 class="mb-0">Bottom Left Point (-3ft, -2ft, 0deg):</h4> <!----------------------------------->
+                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
+                        <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/BL1_Belief.png"></img>
+                        <img width="500" height="auto" src="Lab11/BL1_GroundTruth.png"></img>
+                        <p>For run 1 of the bottom left point, the Belief was at the same point as the Ground Truth. 
+                            As can be seen in the below polar plot, the robot sensed the surrounding walls very well. 
+                            I reran the rotation several (5) times and this point had the most rotations result in the
+                            Belief being the same as the Ground Truth. This is a result of the several walls surrounding 
+                            the robot when rotating. The next run shows one of the runs where the Belief was different 
+                            then the Ground Truth.
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/BL1_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/BL1_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/5d1f0c5ea18d45adee5102a74273559e.js"></script>
+                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
+                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/BL2_Graph.png"></img>
+                        <p>For run 2 of the bottom left point, the Belief was 0.3050 meters above the Ground Truth. 
+                            As can be seen in the below polar plot, the walls were not as defined as in the previous run, 
+                            resulting in the error in localization. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/BL2_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/BL2_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/c689c21c79f07317ea60fe8bb38f3c9b.js"></script>
+                    <h4 class="mb-0">Top Middle Point (0ft, 3ft, 0deg):</h4> <!-------------------------------------->
+                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
+                        <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/TM1_Belief.png"></img>
+                        <img width="500" height="auto" src="Lab11/TM1_GroundTruth.png"></img>
+                        <p>For run 1 of the top middle point, the Belief was at the same point as the Ground Truth. 
+                            I was surprised to achieve this result as there are not a lot of nearby walls to use for 
+                            localization and I suspected that this would be the hardest point to localize. As can be 
+                            seen in the below polar plot, the robot was able to sense the surrounding walls and obstacles. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/TM1_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/TM1_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/c2b518070164f4591702cf29ea1d15b2.js"></script>
+                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
+                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/TM2_Graph.png"></img>
+                        <p>For run 2 of the top middle point, the Belief was 0.3050 meters to the right of the Ground Truth. 
+                            The robot did not turn as well as in the previous run and the left side wall was not as accurately 
+                            sensed. The results are shown in the below polar plot. Despite the non-ideal rotation of the 
+                            robot, the location of the robot was still fairly close to the Ground Truth value. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/TM2_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/TM2_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/df2ea3866102ebd4869be3089fb37ccd.js"></script>
+                    <h4 class="mb-0">Bottom Right Point (5ft, -3ft, 0deg):</h4> <!----------------------------------->
+                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
+                        <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/BR1_Belief.png"></img>
+                        <img width="500" height="auto" src="Lab11/BR1_GroundTruth.png"></img>
+                        <p>For run 1 of the bottom right point, the Belief was at the same point as the Ground Truth. 
+                            As can be seen in the below polar plot, the robot rotated well and was able to sense the 
+                            surrounding walls and obstacles. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/BR1_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/BR1_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/4c6e659ab228d568f74421e9c481aa85.js"></script>
+                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
+                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/BR2_Graph.png"></img>
+                        <p>For run 2 of the bottom right point, the Belief was located 0.3050 meters to the right and 
+                            0.3046 meters below the Ground Truth.
+                            As can be seen in the below polar plot, for this run the plotted edges of the walls are not as 
+                            straight as in the previous run.
+                        </p>
+                        <p>Some runs of the robot for the bottom right point resulted in a Belief that was plotted around 
+                            (-0.8m, 0.2m) as the corner outside of the map resembled the lower right corner inside of the 
+                            map. I found it surprising that the Belief would be plotted outside of the map and discussed 
+                            the results with a TA. To address this issue the probability that the robot is located outside
+                            of the map can be set to zero in the Bayes Filter. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/BR2_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/BR2_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/9b229544b973a528e2556a73e0192596.js"></script>
+                    <h4 class="mb-0">Top Right Point (5ft, 3ft, 0deg):</h4> <!--------------------------------------->
+                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
+                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/TR1_Graph.png"></img>
+                        <p>For run 1 of the top right point, the Belief was located 0.3050 meters to the right and 
+                            0.3044 meters below the Ground Truth. As can be seen in the below polar plot the robot had 
+                            difficulty achieving the correct distance measurements for the right side wall, which may 
+                            have impacted the localization Belief. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/TR1_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/TR1_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/9df5658c58b5a2805997c30b82c2ff27.js"></script>
+                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
+                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
+                        <img width="500" height="auto" src="Lab11/TR2_Graph.png"></img>
+                        <p>For run 2 of the top right point, the Belief was located 0.3044 meters below the Ground Truth. 
+                            As can be seen in the below polar plot the robot again had difficulty achieving the correct 
+                            distance measurements for the right side wall, which may have impacted the localization Belief. 
+                        </p>
+                    <hr>
+                        <p>Belief Data:</p>
+                        <img width="600" height="auto" src="Lab11/TR2_Data.png"></img>
+                    <hr>
+                        <p>Polar Plot and recorded data below:</p>
+                        <img width="400" height="auto" src="Lab11/TR2_PolarPlot.png"></img>
+                        <script src="https://gist.github.com/MikaylaLahr/787c575ae5895c4044f2c23dda1353a5.js"></script>
+                    <h3 class="mb-0">Comparison of Localization Results</h3> <!-------------------------------------->
+                    <p>Overall, the localization implemented on the robot was able to achieve Belief results that 
+                        aligned with the Ground Truth values for 3 out of the 4 tested points (bottom left, top middle, 
+                        bottom right). I also included non-ideal runs in the lab report to show that even for non-ideal 
+                        rotations the robot would still localize fairly well. The bottom left point had the most number 
+                        of rotations (4/5) that resulted in the Belief being in the same location as the Ground Truth. 
+                        This is compared to the Top Middle having 1/4, Top Right having 0/4, and the Bottom Right 
+                        having 2/4. I suspect that the Top Right did not achieve any Belief values that were the same 
+                        as the Ground Truth values because the rotations at that point did not adequately pick up on the 
+                        straight edges of the wall. 
+                    </p>
+<!-- Lab 11 References ---------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab 11 References</h2>
+                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
+                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
+                </p>
+            </div>
+        </section>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>   
+<!__ Lab 10: Grid Localization Using Bayes Filter (Simulation) ______________________________________________________>
+            <section class="resume-section" id="Lab 10">
+                <div class="resume-section-content">
+                    <h2 class="mb-2.5">Lab 10: Grid Localization Using Bayes Filter</h2> 
+                    <p>The objective of the lab is to use the Bayes Filter to implement grid localization. 
+                    </p>
+<!-- Lab 10 Prelab --------------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Prelab</h2>
+                    <p>Before starting the lab, I familiarized myself with how the Bayes Filter worked and how to 
+                        implement the Bayes filter for the robot in simulation. Localization and of the robot determines 
+                        where the robot is in the enviroment. There is a predition and update step 
+                        of the Bayes filter. The prediction step uses the control input and accounts for the noise 
+                        from the actuator to predict the new location of the robot. After the prediction step, the 
+                        robot rotates 360 degrees gathering distance measurement data. The update step uses the gathered 
+                        distance measurements to determine the real location of the robot. The Bayes Filter from Lecture 16 
+                        is below: 
+                    </p>
+                    <img width="500" height="auto" src="Lab10/BayesFilterEq.png"></img>
+                    <p>The dimensions of each grid cell in the x, y, and theta axes are 0.3048 meters, 0.3048 meters, 
+                        and 20 degrees. The grid is (12,9,18) in three dimensions, totalling 1944 cells. The discritized 
+                        grid map is:
+                        <li>(-1.6764,+1.9812) meters or (-5.5,6.5) feet in the x-axis</li>
+                        <li>(-1.3716,+1.3716) meters or (-4.5,4.5) feet in the y-axis</li>
+                        <li>(-180,+180) degrees in the theta-axis</li>
+                    </p>
+<!-- Lab 10 Lab Tasks ----------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab Tasks</h2>
+                    <h3 class="mb-0">Implementation</h3> <!---------------------------------------------------------->
+                    <p>Five functions were written to run the Bayes Filter as outlined below.</p>
+                    <h4 class="mb-0">Compute Control</h4> <!--------------------------------------------------------->
+                    <p>The control information from the robot is used to find the first rotation, translation, and 
+                        second rotation. The inputs include the current position (cur_pose) and the previous position 
+                        (prev_pose). The return values include the first rotation (delta_rot_1), the translation 
+                        (delta_trans), and the second rotation (delta_rot_2). The Lecture 17 slide with the equations
+                        to find the odometry model parameters is below: 
+                    </p>
+                    <img width="450" height="auto" src="Lab10/ComputeControlEq.png"></img>
+                    <p>The above equations were modeled in Jupyter Notebook. The code is found below. First the 
+                        differences in the y and x positions are found (y_comp and x_comp). Then the normalized rotations 
+                        are calculated as well as the translation. 
+                    </p>
+                    <img width="700" height="auto" src="Lab10/compute_control.png"></img>
+                    <h4 class="mb-0">Odometry Motion Model</h4> <!--------------------------------------------------->
+                    <p>The odometry motion model finds the probability that the robot performed the motion that was 
+                        calculated in the previous step. The inputs include the current position (cur_pose), previous
+                        position (prev_pose), and odometry control values (u) for rotation 1, translation, and rotation 
+                        2. The return value is the probablility ( p(x'|x,u) ) that the robot achieved the current 
+                        position (x'), knowing the previous position (x) and odometry control values (u). A Gaussian 
+                        distribution is used. Each motion is assumed to be an independent event. The probability of
+                        each event is then multiplied together to find the probability of the entire motion. The Jupyter 
+                        Notebook code is found below.
+                    </p>
+                    <img width="700" height="auto" src="Lab10/odom_motion_model.png"></img>
+                    <h4 class="mb-0">Prediction Step</h4> <!--------------------------------------------------------->
+                    <p>The prediction step of the Bayes Filter as implemented in Jupyter Notebook uses six for loops 
+                        to calculate the probability that the robot moved to the next grid cell. The inputs include the
+                        current odometry position (cur_odom) and the previous odometry position (prev_odom).
+                        The if statement in the pediction step code is 
+                        used to speed up the filter. If the belief is less than 0.0001 than the three remaining 
+                        for loops will not be entered as the robot is unlikely to be in the remaining grid cells. If 
+                        the belief is greater than or equal to 0.0001 the probability will be calculated. The code for 
+                        calculating the probability is below.
+                    </p>
+                    <img width="700" height="auto" src="Lab10/prediction_step.png"></img>
+                    <h4 class="mb-0">Sensor Model</h4> <!------------------------------------------------------------>
+                    <p>The sensor model function finds the probability of the sensor measurements, modelled as a 
+                        Gaussian distribution. The length of the array is 18 as the robot measures 18 different distance 
+                        reading values. The input includes the 1D observation array (obs) for the robot position. The
+                        function returns a 1D array of the same length including the likelihood of each event (prob_array).
+                        The Jupyter Notebook code is below.
+                    </p>
+                    <img width="700" height="auto" src="Lab10/sensor_model.png"></img>
+                    <h4 class="mb-0">Update Step</h4> <!------------------------------------------------------------->
+                    <p>The update step calculates the belief of the robot for each grid cell. The probability ( p(z|x) )
+                        is multiplied by the predicted belief (loc.bel_bar) to find the belief (loc.bel). The belief is 
+                        then normalized. The code can be found below.
+                    </p>
+                    <img width="700" height="auto" src="Lab10/update_step.png"></img>
+                    <h3 class="mb-0">Simulation Results</h3> <!------------------------------------------------------>
+                    <p>Two runs of the Bayes Filter simulation are found below. The green line is the ground truth, 
+                        the blue line is the belief, and the red line is the odometry measurements. The lighter grid 
+                        cells represent a higher belief. For both runs the ground truth and the belief are close 
+                        together. Both runs were 15 iterations.
+                    </p>
+                    <h4 class="mb-0">Run 1 Results</h4> <!----------------------------------------------------------->
+                    <iframe width="550" height="400" src="https://youtube.com/embed/VLH8bvA__mk"></iframe>
+                    <p>Run 1 Final Graph:</p>
+                    <img width="500" height="auto" src="Lab10/Run1Graph.png"></img>
+                    <h4 class="mb-0">Run 2 Results</h4> <!----------------------------------------------------------->
+                    <iframe width="550" height="400" src="https://youtube.com/embed/4hKQfm8IZOE"></iframe>
+                    <p>Run 2 Final Graph:</p>
+                    <img width="500" height="auto" src="Lab10/Run2Graph.png"></img>
+<!-- Lab 10 References ---------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab 10 References</h2>
+                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
+                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
+                </p>
+            </div>
+        </section>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>
+<!____________________________________________________________________________________________________________________>   
+<!__ Lab 9: Mapping __________________________________________________________________________________________________>
+            <section class="resume-section" id="Lab 9">
+                <div class="resume-section-content">
+                    <h2 class="mb-2.5">Lab 9: Mapping</h2> 
+                    <p>The objective of the lab is to use yaw angle measurements from the IMU sensor and distance 
+                        readings from the ToF sensor to map a room. The map will be used during localization and navigation 
+                        tasks. Map quality depends on how many readings are obtained and the separation between each 
+                        reading during each rotation. 
+                    </p>
+<!-- Lab 9 Prelab --------------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Prelab</h2>
+                    <p>The lab materials include a fully assembled 
+                        <a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">robot</a>
+                        with <a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a>,
+                        <a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensors</a>, and a
+                        <a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a>.
+                    </p>
+                    <p>Course Lecture 2 on transformation matrices was reviewed before starting the lab.</p>
+<!-- Lab 9 Lab Tasks ----------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab Tasks</h2>
+                    <h3 class="mb-0">Orientation Control</h3> <!---------------------------------------------------->
+                        <p>Option 2: Orientation Control was chosen as the PID controller for the lab. The PID controller 
+                            results in the robot performing on-axis turns in 10 degree increments. The ToF sensor used
+                            to collect distance readings is located on the front of the robot between the left and right 
+                            motor sides. 
+                        </p>
+                    <h4 class="mb-0">Code For Orientation Control</h4> <!------------------------------------------->
+                        <p>The Arduino code for the created ORIENTATION_CASE in the while loop is found below. </p>
+                        <img width="600" height="auto" src="Lab9/Case1.png"></img>
+                        <img width="600" height="auto" src="Lab9/Case2.png"></img>
+                        <p>First 
+                            the distance is found using the readings from the ToF sensors, then the yaw angle is found 
+                            using the IMU sensor. The PID controller value is used in the RIGHT_MOTOR and LEFT_MOTOR 
+                            functions to determine the motor input value. If the error between the current yaw angle 
+                            and the setAngle (10 degrees) is less than -0.5 degrees or greater than 0.5 degrees then 
+                            the RIGHT_MOTOR and LEFT_MOTOR functions will run. The "stop" variable is set to be 360 
+                            divided by the "setAngle" variable, which is equal to 10. The results in stop = 36 
+                            increments. If variable "end" is less than "stop" the robot will stop for one second. 
+                            I stopped the robot for one second to ensure that the ToF sensor is pointed towards a 
+                            fixed point in space. 
+                            The total yaw angle is recorded by adding the current total to the current yaw value (yaw_arr). 
+                            The yaw value is then set to zero for the next iteration of the while loop. Resetting the 
+                            yaw value for the IMU sensor reduces gyroscope drift.
+                            If the "end" 
+                            value is greater than or equal to the "stop" value the robot will stop and no new data will 
+                            be recorded into the yaw_arr array. 
+                        </p>
+                    <hr>
+                        <p>The RIGHT_MOTOR and LEFT_MOTOR functions called from the code above are found below.</p>
+                        <img width="600" height="auto" src="Lab9/RIGHT_MOTOR.png"></img>
+                        <img width="600" height="auto" src="Lab9/LEFT_MOTOR.png"></img>
+                    <hr>
+                        <p>The Jupyter Notebook command and Arduino case to start the PID orientation controller are 
+                            below. From testing I found that using a Kp value of 1, Ki value of 0 and Kd value of 0 
+                            worked to move the robot in 10 degree increments. Each time the PID orientation controller
+                            starts, yaw[0], yaw_arr[0], and the total are set to zero. In addition the stop variable 
+                            is found. Graphs showing the changing yaw angles to confirm the PID controller works are 
+                            found in the next section.
+                        </p>
+                        <img width="550" height="auto" src="Lab9/PythonCase.png"></img>
+                        <img width="450" height="auto" src="Lab9/ORIENTATION_CASE.png"></img>
+                    <hr>
+                        <p>The Jupyter Notebook command and Arduino case to send the collected data are below.</p>
+                        <img width="550" height="auto" src="Lab9/PythonData.png"></img>
+                        <img width="450" height="auto" src="Lab9/SEND_ORIENTATION_DATA.png"></img>
+                    <h4 class="mb-0">Video and PID Control Graphs</h4> <!------------------------------------------->
+                        <p>Two videos of the robot turning are below. The robot roughly turns on axis. In the second 
+                            video, the robot overshoots at some increments but is able to correct itself to the correct 
+                            angle. The robot stays inside of one floor tile for the duration of the turn.
+                        </p>
+                        <p>Turn 1:</p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/yQFxBwK8bnc"></iframe>
+                        <p>Turn 2:</p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/bgJ58W0-rNg"></iframe>
+                        <p>I plotted the values of yaw for each 10 degree increment. As can be seen in the below graph
+                            the PID controller works as expected. After yaw increases to 10 degrees, the value of yaw 
+                            is reset to zero and then again increases to 10 degrees for the next increment. The slight 
+                            variation in the final yaw value is due to the -0.5 to 0.5 degree tolerance. 
+                        </p>
+                        <img width="500" height="auto" src="Lab9/BR_Yaw_Test.png"></img>
+                        <p>The total angle values were found by adding each final yaw value (between 9.5 and 10.5 
+                            degrees) to a summation of all previous yaw values. The values and graph for an example 
+                            turn are found below. 
+                        </p>
+                        <img width="900" height="auto" src="Lab9/BR_Yaw_0_360.png"></img>
+                        <img width="500" height="auto" src="Lab9/BR_Yaw_Angles.png"></img>
+                        <p>In the above graph as the turn progresses the angles remain accurate as the summation 
+                            calculation is correct to the yaw reading of the robot, but the angles slightly vary from 
+                            the ideal 360 degree turn values. To address this I also performed half turns from 0 to 180
+                            degrees, and 180 to 360 degrees. The angle values and corresponding graphs can be found 
+                            below:
+                        </p>
+                        <img width="600" height="auto" src="Lab9/BR_Yaw_0_180.png"></img>
+                        <img width="500" height="auto" src="Lab9/BR_Yaw180.png"></img>
+                    <hr>
+                        <img width="600" height="auto" src="Lab9/BR_Yaw_180_360.png"></img>
+                        <img width="500" height="auto" src="Lab9/BR_Yaw360.png"></img>
+                        <p>The half turns in the above graphs are more in line with the ideal angles. When testing the 
+                            robot in the lab, I collected angle data for full turns and half turns.
+                        </p>
+                    <h4 class="mb-0">Average And Maximum Error</h4> <!---------------------------------------------->
+                        <p>There is no significant gyroscope drift in the IMU sensor because the robot resets the yaw 
+                            value to zero after every 10 degree rotation. For a 360 degree rotation, the maximum error
+                            in the final angle value is -18 or +18 degrees (342 degrees or 378 degrees) if the yaw angle 
+                            for every rotation is 9.5 degrees or 10.5 degrees respectively. For a 360 degree rotation,
+                            the average error in the final angle value is -9 or +9 degrees (351 degrees or 369 degrees)
+                            if the yaw angle for every rotation is 9.75 degrees or 10.25 degrees respectively. As noted 
+                            previously, the final angle value for an example 360 degree turn is 353.859 degrees. A 
+                            difference of (360 - 353.859) degrees = 6.141 degrees. 
+                        </p>
+                        <p>The robot turns roughly on axis, but the potential difference in the starting position and
+                            ending position may result in error for the distance measurements. Based on observing the 
+                            motion of the robot the average error between the starting position and the ending position 
+                            is 12mm, and the maximum acceptable error is 25mm. Due to friction, the robot might move 
+                            off axis more for one rotation, while staying on axis for the next rotation. Assuming the 
+                            robot moves off axis the same amount for each rotation, the average error in position for 
+                            each rotation is 12mm/36 = 0.3333mm. The maximum error in position for each rotation is 
+                            25mm/36 = 0.6944mm. 
+                        </p>
+                    <h3 class="mb-0">Read Out Distances</h3> <!----------------------------------------------------->
+                    <h4 class="mb-0">Execute Turn At Each Marked Position</h4> <!----------------------------------->
+                        <p>The robot was placed at each of the following points: (-3,-2), (0,0), (0,3), (5,3), and (5,-3).
+                            The image below shows each of the points in the lab. 
+                        </p>
+                        <img width="500" height="auto" src="Lab9/LabPoints.png"></img>
+                        <p>The distance was measured using the front ToF sensor between the left and right motor sides. 
+                            The data collected was sent over Bluetooth to Jupyter Notebook to be plotted. The robot 
+                            was started in the same orietation, facing the right side wall of the lab, for each full 
+                            turn and each half turn starting at zero degrees. For half turns starting at 180 degrees, 
+                            the robot started facing the left side wall. The range of potential angle values for each 
+                            ideal 10 degree rotation is 9.5 degrees to 10.5 degrees. There is a -/+ 0.5 degree range 
+                            for the robot to stop and collect a distance measurement. Due to the range of degree values,
+                            it can not be assumed that the robot will stop at exactly 10 degrees every time it rotates.
+                            This behaviour was desribed in the "Code for Orientation Control" section at the beginning 
+                            of the lab report. The distance measurements can not be assumed to be spaced equally in 
+                            angular space. To address this issue, I did not assume that the robot stopped at exactly 
+                            10 degrees for every rotation and instead recorded a "total" variable value that added the 
+                            angle that the robot stopped at to the previously recorded stopping angle. This allowed me 
+                            to plot the distance measurements with the correct recorded angles.
+                        </p>
+                    <h3 class="mb-0">Polar And Global Frame Plots: Part 1</h3> <!----------------------------------->
+                        <p>This section details the first attempt at collecting data at each point. The data collected 
+                            for each point in the lab is plotted in the below graphs. For each point I plotted a polar 
+                            graph and a global frame graph. The first two graphs show all of the data I 
+                            collected for each point. The next two graphs show the data that I choose to keep when 
+                            combining all of the global plots. In this section I noticed that the ToF sensor was pointed 
+                            too downwards, resulting in a lot of noise in the middle of the plots. The noise resulted in
+                            the boundaries of the walls being hard to determine. After plotting this section I readjusted 
+                            the ToF sensor to be pointed more upwards to avoid hitting the floor of the map. 
+                        </p>
+                        <h5 class="mb-0">Bottom Left: Point (-3,-2)</h5> <!---------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(-3,-2).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(-3,-2).png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/Polar(-3,-2).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/Global(-3,-2).png"></img>
+                        <h5 class="mb-0">Middle: Point (0,0)</h5> <!----------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(0,0).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(0,0).png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/Polar(0,0).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/Global(0,0).png"></img>
+                        <h5 class="mb-0">Top Middle: Point (0,3)</h5> <!------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(0,3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(0,3).png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/Polar(0,3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/Global(0,3).png"></img>
+                        <h5 class="mb-0">Top Right: Point (5,3)</h5> <!-------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(5,3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(5,3).png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/Polar(5,3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/Global(5,3).png"></img>
+                        <h5 class="mb-0">Bottom Right: Point (5,-3)</h5> <!---------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(5,-3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(5,-3).png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test1/Polar(5,-3).png"></img>
+                            <img width="500" height="auto" src="Lab9/Test1/Global(5,-3).png"></img>
+                    <h4 class="mb-0">Merge And Plot Readings: Part 1</h4> <!---------------------------------------->
+                    <p>The graph for the combined global frames can be found below.</p>
+                        <img width="500" height="auto" src="Lab9/Test1/AllGlobal1.png"></img>
+                        <img width="200" height="auto" src="Lab9/Test1/Legend1.png"></img>
+                    <h3 class="mb-0">Polar And Global Frame Plots: Part 2</h3> <!----------------------------------->
+                        <p>This section details the second attempt at collecting data at each point. The data collected 
+                            for each point in the lab is plotted in the below graphs. I readjusted the ToF sensor to point 
+                            more upwards before collecting the following data. This adjustement removed noise from inside 
+                            the map region. The data collected for each point in the lab is plotted in the below graphs.
+                        </p>
+                        <h5 class="mb-0">Bottom Left: Point (-3,-2)</h5> <!---------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllBL.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllBL.png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarBL.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalBL.png"></img>
+                        <h5 class="mb-0">Middle: Point (0,0)</h5> <!----------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllM.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllM.png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarM.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalM.png"></img>
+                        <h5 class="mb-0">Top Middle: Point (0,3)</h5> <!------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllTM.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllTM.png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarTM.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalTM.png"></img>
+                        <h5 class="mb-0">Top Right: Point (5,3)</h5> <!-------------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllTR.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllTR.png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarTR.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalTR.png"></img>
+                        <h5 class="mb-0">Bottom Right: Point (5,-3)</h5> <!---------------------------------------->
+                        <p>All Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllBR.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllBR.png"></img>
+                        <hr>
+                        <p>Partial Data:</p>
+                            <img width="400" height="auto" src="Lab9/Test2/2PolarBR.png"></img>
+                            <img width="500" height="auto" src="Lab9/Test2/2GlobalBR.png"></img>
+                    <h4 class="mb-0">Merge And Plot Readings: Part 2</h4> <!---------------------------------------->
+                    <p>I plotted the distances in the global frame using the below transformation matrix. The 
+                        transformation matrix converts the frame of the robot used to collect the sensor measurements 
+                        into the global frame. The example below is for the point (-3,-2). The variable "theta" is the 
+                        angle measurement in radians relative to the origin of the global frame and "dis" is the 
+                        distance measurement. One ToF sensor between the left and right sides of the robot was used to 
+                        collect distance data. 
+                    </p>
+                        <img width="500" height="auto" src="Lab9/Test2/TransformMatrices.png"></img>
+                    <p>The code used to sort through the data is below.</p>
+                        <script src="https://gist.github.com/MikaylaLahr/89ce0bfc86f4758c0f7cb6815a6d6b39.js"></script>
+                    <p>Below are the distance readings in the global frame.</p>
+                        <img width="500" height="auto" src="Lab9/Test2/AllGlobal2.png"></img>
+                        <img width="200" height="auto" src="Lab9/Test2/Legend2.png"></img>
+                    <h3 class="mb-0">Convert To Line Based Map</h3> <!---------------------------------------------->
+                    <p>After plotting the above graph I plotted lines representing the walls of the map. The plot showing 
+                        the line based map is below as well as the code used to plot each line. 
+                    </p>
+                        <img width="500" height="auto" src="Lab9/Test2/AllGlobal2Lines.png"></img>
+                        <img width="350" height="auto" src="Lab9/Test2/Lines.png"></img>
+<!-- Lab 9 References ---------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab 9 References</h2>
+                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
+                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
+                </p>
+            </div>
+        </section>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>      
+<!__ Lab 8: Stunts __________________________________________________________________________________________________>
+            <section class="resume-section" id="Lab 8">
+                <div class="resume-section-content">
+                    <h2 class="mb-2.5">Lab 8: Stunts</h2>
+                    <p>The objective of the lab is to implement a stunt on the robot using the knowledge gained from 
+                        previous labs. Labs 5-8 detail PID, 
+                        sensor fusion, and stunts. This lab is focused on using the ToF sensor and IMU sensor to drive 
+                        the robot forward and then turn 180 degrees when the robot is within 3ft (914mm) of the wall. 
+                        Task B: Orientation Control will be implemented on the robot. 
+                    </p>
+<!-- Lab 8 Prelab --------------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Prelab</h2>
+                    <p>The lab materials include a fully assembled 
+                        <a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">robot</a>
+                        with <a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a>,
+                        <a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensors</a>, and a
+                        <a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a>.
+                    </p>
+<!-- Lab 8 Lab Tasks ----------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab Task B: Orientation Control</h2>
+                    <h3 class="mb-0">Initial Approach Before Changing Designs</h3> <!------------------------------->
+                        <p>My inital approach to the orientation control stunt was to break down the stunt into three 
+                            separate parts: driving towards the wall, turning, driving away from the wall. When driving 
+                            straight towards the wall the robot uses PID control on the speed before slowing down and 
+                            turning. The speed PID control function can be found below:
+                        </p>
+                        <script src="https://gist.github.com/MikaylaLahr/cd02de330d6d252c54f4ca65fb994a79.js"></script>
+                        <p>After the robot is within 3ft of the wall, PID control on orientation is used to turn the robot 
+                            180 degrees. The PID control value is determined by the yaw angle reading from the IMU sensor. 
+                            If the PID control value is positive the wheels on the right side of the robot will move forwards
+                            and the wheels on the left side of the robot will move backwards.
+                            If the PID control value is negative the wheels on the right side of the robot will move backwards
+                            and the wheels on the left side of the robot will move forwards.
+                            The orientation PID control function can be found below:
+                        </p>
+                        <script src="https://gist.github.com/MikaylaLahr/3a82ec2548d2294b90f259d1163cae18.js"></script>
+                        <p>The above two functions were called inside of the while loop. If the distance error is greater
+                            than zero, the speed PID control function is called. If the distance error is less than zero 
+                            the orientation PID control function is called to turn the robot. The while loop can be found 
+                            below:
+                        </p>
+                        <script src="https://gist.github.com/MikaylaLahr/a5f60f368a530ce0ff772b9adc939ccd.js"></script>
+                        <p>Before implementing the final part of the task (driving away from the wall), I ran the above 
+                            Arduino script. The inputs included a start/stop integer (1/0); a setDistance for the robot 
+                            to start turning; and the Kp, Ki, and Kd PID values. While running the Arduino IDE code 
+                            multiple times with different setDistance values (914mm-1300mm) and PID values, the robot 
+                            did not perform in the expected manner. The robot would often either hit the wall or turn too 
+                            late even when inputting larger setDistance values. In addition, the robot turned too slow 
+                            whe inputting smaller Kp values (such as 0.5), or would spin multiple times when inputting 
+                            larger Kp values (such as 2).
+                            Videos showing the behaviour of the robot are below:
+                        </p>
+                        <p>The robot hits the wall before turning (setDistance = 915mm, Kp = 0.5):</p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/9L0uD5fG9t8"></iframe>
+                        <p>The robot stops before hitting the wall, but turns too slowly during orientation control 
+                            (setDistance = 1100mm, Kp = 0.5):
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/ROrj824-twE"></iframe>
+                        <p>When a high value of 2 was used for Kp, the robot would spin too fast and not correct itself:</p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/_CRFOAtSy6s"></iframe>
+                        <p>In addition, there were some bad runs that resulted in the robot turning towards the right 
+                            immediately after starting the stunt due to the input PWM values: 
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/Hwz2Dv5nzv8"></iframe>
+                        <p>After continuously testing the robot, I decided to write a new Arduino IDE script that only 
+                            used orientation control. The robot runs towards the wall at a constant speed, and within 
+                            the desired setDistance turns 180 degrees and moves away from the wall.  
+                        </p>
+                    <h3 class="mb-0">Second Approach</h3> <!--------------------------------------------------------->
+                         <h4 class="mb-0">Driving Straight</h4> <!--------------------------------------------------->
+                        <p>I first started 
+                            working on implementing orientation control while the robot is driving forwards. Orientation 
+                            control when the robot is driving forwards keeps the robot moving in a straight line. The robot 
+                            is set to run at a base speed and PID control using the readings from the IMU correct the 
+                            orientation of the robot to keep the robot at the starting yaw angle. Yaw was initially set 
+                            to zero each time the case ran. Below are some videos of the robot being tested using orientation 
+                            control at low speeds. Initially I tested the robot using the calibration factor of 1.1667 
+                            found in Lab 4, setting a base speed of 80 for pin 12 and 93 for pin 9. I found that setting 
+                            each side of the robot to different speeds resulted in the robot moving towards the right 
+                            or left as can be seen below:
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/v8gcEDruMEE"></iframe>
+                        <p>I decided to set both pins to the same PWM value of 80 that resulted in the robot moving 
+                            straight, as can be seen below:
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/c0YJfiJh3F8"></iframe>
+                        <h3 class="mb-0">Code and Turning</h3> <!--------------------------------------------------->
+                        <p>I added to the code for orientation control to make the robot turn 180 degress, rather than 
+                            stopping as in the previous step. Initially yaw is set to zero and a base speed of 150 PWM
+                            was used for the motors on both sides of the robot. I tested various values for the 
+                            setDistance and found that 1300mm allows the robot to recognize the wall with enough time 
+                            to turn 180 degrees within 3ft and drive away from the wall. The Arduino code that runs 
+                            inside the while loop is below. First the distance reading from the ToF sensor is found and
+                            used to calculate the error between the ToF sensor measurement and the setDistance. Then 
+                            the yaw angle is found using the IMU and the error between the yaw reading and the desired 
+                            setAngle is calculated. The yaw angle is used to find the orientation PID control value. 
+                            If the distance error is less than zero (robot is past 1300mm) and the setAngle equals 0, 
+                            the setAngle will be changed to 180. If the orietation error is greater than or equal to -3, 
+                            or less than or equal to 3, the left and right side motors will be set to the base speed.
+                            If the previous condition is not met, the left side motor will be set to the base speed
+                            minus the PID control value and the right side motor will be set to the base speed added 
+                            to the PID control value. The code inside the while loop is found below:
+                        </p>
+                        <img width="650" height="auto" src="Lab8/WhileLoop.png"></img>
+                        <p>The RIGHT_MOTOR and LEFT_MOTOR functions are below:</p>
+                        <img width="350" height="auto" src="Lab8/RIGHT_MOTOR.png"></img>
+                        <img width="350" height="auto" src="Lab8/LEFT_MOTOR.png"></img>
+                        <p>The Arduino cases and Jupyter Notebook commands for STUNT_CASE and SEND_STUNT_DATA are below.
+                            The ToF distance sensor starts ranging, yaw is set to zero, endTime is found, and 
+                            previousTime_0 is found when the run_STUNT_CASE is set to 1.
+                        </p>
+                        <img width="500" height="auto" src="Lab8/PythonStunt.png"></img>
+                    <hr>
+                        <img width="300" height="auto" src="Lab8/STUNT_CASE.png"></img>
+                    <hr>
+                        <img width="500" height="auto" src="Lab8/PythonStuntData.png"></img>
+                    <hr>
+                        <img width="400" height="auto" src="Lab8/SEND_STUNT_DATA.png"></img>
+                        <h3 class="mb-0">Stunt Videos and Graphs</h3> <!-------------------------------------------->
+                        <p>The three working stunt videos are found below. The base speed is 150 for both motors, 
+                            setDistance is 1300mm, Kp = 1.25, Ki = 0.01, and Kd = 0.05. The stunt takes around 4 seconds
+                            to run. 
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/X2lJQpjQUIQ"></iframe>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/sYY8-m-Xkdo"></iframe>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/oO9w2KhdUaA"></iframe>
+                        <p>Below are graphs showing the ToF distance readings, yaw angles, and motor input values. 
+                            The graphs show that the robot turns before hitting the wall.
+                        </p>
+                        <p>Run 1:</p>
+                        <img width="500" height="auto" src="Lab8/Run1Distance.png"></img>
+                        <img width="500" height="auto" src="Lab8/Run1Yaw.png"></img>
+                        <img width="500" height="auto" src="Lab8/Run1Motor.png"></img>
+                        <p>Run 2:</p>
+                        <img width="500" height="auto" src="Lab8/Run2Distance.png"></img>
+                        <img width="500" height="auto" src="Lab8/Run2Yaw.png"></img>
+                        <img width="500" height="auto" src="Lab8/Run2Motor.png"></img>
+                        <p>The below video shows the serial monitor outputs for the code used to run the stunt. 
+                            <li>y: yaw angle in degrees</li>
+                            <li>sL: speed of left side in PWM</li>
+                            <li>sR: speed of right side in PWM</li>
+                            <li>d: distance in millimeters</li>
+                            <li>e: distance error in millimeters</li>
+                            <li>a: setAngle in degrees (this is the desired angle used to find the error in orientation)</li>
+                            <li>eo: yaw angle error</li>
+                            <li>PID_O: orientation PID control value</li>
+                            When the setAngle changes the PID control value changes, which changes the speed of the motors.
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/7i86UjsLJdY"></iframe>
+<!-- Lab 8 References ---------------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Lab 8 References</h2>
+                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
+                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
+                </p>
+            </div>
+        </section>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>
+<!___________________________________________________________________________________________________________________>      
+<!__ Extra Credit ___________________________________________________________________________________________________>
+                <section class="resume-section" id="Extra Credit">
+                <div class="resume-section-content">
+                    <h2 class="mb-0">Extra Credit: Implement Kalman Filter On Robot</h2> <!-------------------------->
+                        <p>I implemented the Kalman Filter on the robot for extra credit. To complete this task I needed 
+                            to install the Basic Linear Algebra Library on Arduino IDE.
+                            To implement the Kalman 
+                            Filter I first created two new cases in Arduino IDE: KF_DATA and SEND_KF_DATA. These cases 
+                            are similar to the cases used to start/stop the PID controller and send PID controller data,
+                            but I added array's for Kalman Filter time (KF_Time) and the Kalman filter distance 
+                            (mu_Store). I added a delay in KF_CASE before running the while loop. When I was testing the
+                            filter I was repeatedly starting with distances of 0mm. The delay after the ToF distance 
+                            sensor starts ranging reduces the amount of 0mm distance readings when starting the filter. 
+                            The Arduino cases and Jupyter Notebook commands can be found below:
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/PyKF_CASE.png"></img>
+                    <hr>
+                        <img width="350" height="auto" src="Lab8EC/KF_CASE.png"></img>
+                    <hr>
+                        <img width="500" height="auto" src="Lab8EC/PySEND_KF_DATA.png"></img>
+                    <hr>
+                        <img width="500" height="auto" src="Lab8EC/SEND_KF_DATA.png"></img>
+                        <p>After creating the cases for the Kalman Filter, I then started working on writing a Kalman 
+                            Filter function in Arduino IDE. The final initialization of the matrices is below:
+                        </p>
+                         <img width="350" height="auto" src="Lab8EC/KF_Matrix.png"></img>
+                    <h3 class="mb-0">Step 1: Kalman Filter Function</h3> <!------------------------------------------>
+                        <p>The first function that I wrote for the lab was the function Kalman_Filter() that is called 
+                            from inside the larger while loop. To perform this task, I referenced the Jupyter Notebook 
+                            code I wrote for Lab 7 and modified the code for the Arduino IDE syntax. The function can 
+                            be seen below:
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/KF_Function.png"></img>
+                        <p>The Ad (discritized A) and Bd (discritized B) matrices are updated each time the Kalman Filter
+                            is called to use the most recent dt value. I printed the dt (time difference) values to the 
+                            Serial Monitor and observed that the dt values slightly varied each time the while loop ran. 
+                            The variable dt is how fast the while loop runs and ranged from around 10ms to 25ms. After
+                            finding Ad and Bd, mu_p and sigma_p are calculated. The if statement of the filter is the 
+                            update step and runs when there is a new TOF sensor reading (newTOF == 1). The else statement
+                            is the prediction step and assigns the mu_p value to mu and the sigma_p value to sigma. 
+                            During both steps the first value for mu is stored in the array mu_Store. 
+                        </p>
+                    <h3 class="mb-0">Step 2: Kalman Filter Update Step On Robot</h3> <!----------------------------->
+                    <h4 class="mb-0">Using ToF Readings For PID Loop</h4> <!---------------------------------------->
+                        <p>I started working on the calling the Kalman Filter from inside the while loop by modifying 
+                            the script for my PID controller. After finding the ToF sensor readings and running the PID 
+                            controller within the larger while loop, I added an if statement inside the loop to call the
+                            Kalman Filter to find the update values. The if statement runs if dStart == 1 and 
+                            if the currect distance value is not equal to the previous distance value. The variable dStart
+                            is set to 1 if the new ToF sensor distance is not the same value as the previous sensor distance.
+                            If the current distance reading is the same as the previous distance reading dStart is set to 0. 
+                            The if statement to call the update of the Kalman Filter is below:
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/P1Update.png"></img>
+                        <p>The PID controller was run using values of Kp = 0.05, Ki = 0.0000008, and Kd = 0.5. A test run 
+                            showing the plotted ToF data and the Kalman Filter updates is shown below. It can be seen that
+                            the Kalman Filter updates align with each new reading of the ToF sensor. 
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/K1/K1Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K1/K1Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K1/K1P1.png"></img>
+                        <p>The video below shows the Serial Monitor outputs for the ToF distance readings and the update 
+                            values:
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/Yn4fIvG2Z2M"></iframe>
+                        <p>The full while loop code for this section is below:</p>
+                            <script src="https://gist.github.com/MikaylaLahr/97630dbdb965dee528180ff2d633432d.js"></script>
+                        <p>The FORWARD() Function that was used previously for PID control is below:</p>
+                            <script src="https://gist.github.com/MikaylaLahr/3d9726d205ac31bbae9ff771b72704d8.js"></script>
+                        <p>The BACKWARD() Function that was used previously for PID control is below:</p>
+                            <script src="https://gist.github.com/MikaylaLahr/31ec327d8a714c92bb866bdadd62bae6.js"></script>
+                        <p>After successfully implemeting the update step of the Kalman Filter, I started working on 
+                            the prediction step. 
+                        </p>
+                    <h3 class="mb-0">Step 3: Kalman Filter Update and Prediction Steps On Robot</h3> <!------------->
+                    <h4 class="mb-0">Using ToF Readings and Predicted Distances For PID Loop</h4> <!---------------->
+                        <p>I started the next step by removing the PID control from the larger while loop and creating 
+                            a separate function called PID_Function(). A separate function for PID control allowed for 
+                            me to more easily switch the order to performing the Kalman Filter before the PID controller.
+                            Previously the PID controller used the ToF sensor measurements every time the loop ran. In 
+                            the new iteration of the code, if the update step of the filter runs, the distance measurement 
+                            used will be the ToF sensor reading. If the prediction step runs the most current value of mu
+                            will be used in the PID controller. The if and else statements for the update and prediction steps
+                            are shown below. The variable dis is the 
+                            distance measurement used in the PID controller. The u value for the Kalman Filter was calculated 
+                            the same as in Jupyter Notebook using the PID control values. 
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/P2UpdateAndPredict.png"></img>
+                        <p>The PID_Function is below:</p>
+                        <img width="500" height="auto" src="Lab8EC/PID_Function.png"></img>
+                        <p>The PID controller was run using the same Kp, Ki, and Kd values as the previous section. An initial test run 
+                            showing the plotted ToF data and the Kalman Filter updates is shown below. The graphs show that the filter is
+                            predicting distances between ToF readings, but the predicted values do not follow the trend of the data 
+                            towards the next update value. 
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/K2/K2Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K2/K2Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K2/K2P1.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K2/K2P2.png"></img>
+                    <hr>
+                        <p>To address the above issue, I multiplied the B matrix by 3 and again tested the robot. The graphs below show 
+                            that multiplying matrix B by 3 did not significantly change the predicted values. 
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/K4/K4Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K4/K4Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K4/K4P1.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K4/K4P2.png"></img>
+                    <hr>
+                        <p>I then multiplied the B matrix by 6 and achieved the below results. The predicted values trend downwards, but 
+                            still do not reach the update values.
+                        </p>
+                        <img width="500" height="auto" src="Lab8EC/K5/K5Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K5/K5Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K5/K5P1.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K5/K5P2.png"></img>
+                    <hr>
+                    <p>Throughout more testing, I determined that a good value to multuiply the B matrix with is 8. The Kalman Filter 
+                        updates align with each new reading of the ToF sensor and the prediction values follow the trend of the data. 
+                        Below are two sets of graphs showing data that was recorded after the B matrix was multiplied by 8. Needing to 
+                        multiply the B matrix by 8 indicates that the value found for m during the Jupyter Lab simulation does not work 
+                        as well when implementing the Kalman Filter on the robot. 
+                    </p>
+                    <p>Test 1:</p>
+                        <img width="500" height="auto" src="Lab8EC/K6/K6Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K6/K6Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K6/K6P1.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K6/K6P2.png"></img>
+                    <hr>
+                    <p>Test 2:</p>
+                        <img width="500" height="auto" src="Lab8EC/K7/K7Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K7/K7Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K7/K7P1.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K7/K7P2.png"></img>
+                    <hr>
+                    <p>In addition during testing, I accidentally set the robot to a higher speed than necessary and the robot 
+                        ran into multiple walls and did not always travel in a straight line for the below run. I decided to run the collected data
+                        through the Kalman Filter to see the outcome. The graphs below show that the update values and some of 
+                        the predicted values align with the recorded ToF data. The Kalman Filter is able to update to the correct
+                        ToF value, even during somewhat random running conditions. 
+                    </p>
+                        <img width="500" height="auto" src="Lab8EC/K8/K8Full.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K8/K8Motor.png"></img>
+                        <img width="500" height="auto" src="Lab8EC/K8/K8P1.png"></img>
+                    <hr>
+                        <p>The video below shows the Serial Monitor outputs for the ToF distance readings and the update 
+                            values:
+                        </p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/PYxf5fFNzd0"></iframe>
+                        <p>Below is an example run of the Kalman Filter on the robot:</p>
+                        <iframe width="550" height="400" src="https://youtube.com/embed/4BA5eVdi1n8"></iframe>
+                        <p>The full while loop code for this section is below:</p>
+                            <script src="https://gist.github.com/MikaylaLahr/f5b4c83fa975e1a934abff50aed396e8.js"></script>
+                     <h4 class="mb-0">Issues and Mistakes During Implementation</h4> <!----------------------------->
+                        <p>While I was implementing the Kalman Filter onto the robot I was able to work through most
+                            of the debugging in an efficient manner. One mistake that I made early during implementation 
+                            was not converting dt to seconds which caused my predicted values to drastically increase or 
+                            decrease. Initially I thought that there was a problem with my sigma values and spent time 
+                            changing the sigma values to see if there was any change. This did not work and I discovered 
+                            the issue with dt during office hours. 
+                        </p>
+<!-- Extra Credit References --------------------------------------------------------------------------------------->
+                <h2 class="mb-2.5">Extra Credit References</h2>
+                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
+                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
+                </p>
+            </div>
+        </section>
 
                             </div>
                         </div>
