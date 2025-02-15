@@ -630,7 +630,7 @@
                         A and B matrices. Delta_T and the A and B matrices affect the values of the Ad and Bd matrices. 
                     </p>
                     <h4 class="mb-0">Kp = 0.05, Ki = 0.000008, Kd = 8</h4> <!------------------------------->
-                        <img width="500" height="auto" src="Lab7/Graph2/Graph2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/Graph2.png"></img>
                         <img width="250" height="auto" src="Lab7/Graph2/PID_Graph2.png"></img>
                     <p>Initially running the Kalman Filter results in the above graphs. 
                         The calculated Delta_T for the PID controller is 0.0058 seconds, a frequency of 172.41Hz. The Kalman 
@@ -651,7 +651,7 @@
                         All other parameters (d, m, and Delta_T) were kept the same as the previous step.
                         As can be seen from the graphs the Kalman Filter more closely follows the trend of the distance measurements.
                     </p>
-                        <img width="500" height="auto" src="Lab7/Graph2/ChangedZoomFG2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/ChangedZoomFG2.png"></img>
                     <p>In the above graph I kept all previously found parameters the same but changed the value of the increment "i"
                         in the while loop in the same manner as I did for Graph 1. The line changed from "i = i + Delta_T" to "i = i + 2*Delta_T". 
                         This change results in less Kalman Filter predictions to be plotted and the same offset behaviour as seen in Graph 1. 
@@ -662,37 +662,11 @@
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>                    
 <!__ Lab 6: Orientation PID Control _________________________________________________________________________________>
-            <section class="resume-section" id="Lab 6">
-                <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 6: Orientation PID Control</h2>
                     <p>The objective of the lab to to gain experience working with PID controllers for orientation. 
-                        I am a 5000 level student and I choose to work on a PID controller. Labs 5-8 detail PID, sensor 
+                        Labs 5-8 detail PID, sensor 
                         fusion, and stunts. This lab is focused on using a PID controller for orientation control of the 
                         robot. The IMU will be used to control the yaw of the robot.
-                    </p>
-<!-- Lab 6 Prelab --------------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>I replaced one of my motor drivers that was overheating due to some solder touching between pins 
-                        after I had to reconnect a loose wire. The new motor driver and connections solved the issue.
-                    </p>
-                    <p>I considered using tape around the wheels to reduce friction with the ground, but decided that I
-                        did not want to change the surface of the wheels. During the lab I found the lower limit PWM value
-                        for turning and implemented the found value as a lower limit for the motor control functions. The 
-                        surface of the wheels is consistent with all past labs as I have previously found lower limit PWM
-                        values for forwards/backwards motion using both wheels and one wheel, starting from stationary and 
-                        moving at a constant speed before lowering the PWM. All of my found lower limit PWM values are for the 
-                        same wheel surface.
-                    </p>
-                    <p>The lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a></li>
-                        <li><a href="https://www.sparkfun.com/products/18012">QWIIC Breakout Board</a></li>
-                        <li><a href="https://www.sparkfun.com/products/14426">QWIIC Connector</a></li>
-                        <li><a href="https://www.amazon.com/dp/B07V56N33J?smid=A2ZDGCOOU4F0SF&ref_=chk_typ_imgToDp&th=1">JST2 Connector + Cable</a></li>
-                        <li><a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">Force1 RC Car</li>
-                        <li><a href="https://www.amazon.com/URGENEX-Battery-Rechargeable-Quadcopter-Charger/dp/B08T9FB56F/ref=sr_1_3?keywords=lipo+battery+3.7V+850mah&qid=1639066404&sr=8-3">Li-Ion 3.7V 850mAh battery</a></li>
-                        <li><a href="https://www.digikey.com/en/products/detail/pololu-corporation/2130/10450426">Dual Motor Drivers</a></li>
                     </p>
                     <h3 class="mb-0">PID Control Explanation</h3> <!----------------------------------------------->
                         <p>For this lab a PID controller will be used for orientation control of the robot. The below 
