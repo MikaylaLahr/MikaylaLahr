@@ -209,46 +209,33 @@
                     </p>
                     <h4 class="mb-0">Run 1 Results</h4> <!----------------------------------------------------------->
                     <iframe width="550" height="400" src="https://youtube.com/embed/VLH8bvA__mk"></iframe>
-                    <img width="300" height="auto" src="Lab10/Run1Graph.png"></img>
-                    
+                    <img width="400" height="auto" src="Lab10/Run1Graph.png"></img>
+                    <p></p>
                     <h4 class="mb-0">Run 2 Results</h4> <!----------------------------------------------------------->
                     <iframe width="550" height="400" src="https://youtube.com/embed/4hKQfm8IZOE"></iframe>
-                    <img width="300" height="auto" src="Lab10/Run2Graph.png"></img>
+                    <img width="400" height="auto" src="Lab10/Run2Graph.png"></img>
+                    <p></p>
 
 <!____________________________________________________________________________________________________________________>
 <!____________________________________________________________________________________________________________________>
 <!____________________________________________________________________________________________________________________>
 <!____________________________________________________________________________________________________________________>   
 <!__ Lab 9: Mapping __________________________________________________________________________________________________>
-            <section class="resume-section" id="Lab 9">
-                <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 9: Mapping</h2> 
                     <p>The objective of the lab is to use yaw angle measurements from the IMU sensor and distance 
                         readings from the ToF sensor to map a room. The map will be used during localization and navigation 
                         tasks. Map quality depends on how many readings are obtained and the separation between each 
                         reading during each rotation. 
                     </p>
-<!-- Lab 9 Prelab --------------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Prelab</h2>
-                    <p>The lab materials include a fully assembled 
-                        <a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">robot</a>
-                        with <a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a>,
-                        <a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensors</a>, and a
-                        <a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a>.
-                    </p>
-                    <p>Course Lecture 2 on transformation matrices was reviewed before starting the lab.</p>
 <!-- Lab 9 Lab Tasks ----------------------------------------------------------------------------------------------->
                 <h2 class="mb-2.5">Lab Tasks</h2>
                     <h3 class="mb-0">Orientation Control</h3> <!---------------------------------------------------->
-                        <p>Option 2: Orientation Control was chosen as the PID controller for the lab. The PID controller 
+                        <p>Orientation Control was chosen as the PID controller for the lab. The PID controller 
                             results in the robot performing on-axis turns in 10 degree increments. The ToF sensor used
                             to collect distance readings is located on the front of the robot between the left and right 
                             motor sides. 
                         </p>
                     <h4 class="mb-0">Code For Orientation Control</h4> <!------------------------------------------->
-                        <p>The Arduino code for the created ORIENTATION_CASE in the while loop is found below. </p>
-                        <img width="600" height="auto" src="Lab9/Case1.png"></img>
-                        <img width="600" height="auto" src="Lab9/Case2.png"></img>
                         <p>First 
                             the distance is found using the readings from the ToF sensors, then the yaw angle is found 
                             using the IMU sensor. The PID controller value is used in the RIGHT_MOTOR and LEFT_MOTOR 
@@ -266,11 +253,6 @@
                             value is greater than or equal to the "stop" value the robot will stop and no new data will 
                             be recorded into the yaw_arr array. 
                         </p>
-                    <hr>
-                        <p>The RIGHT_MOTOR and LEFT_MOTOR functions called from the code above are found below.</p>
-                        <img width="600" height="auto" src="Lab9/RIGHT_MOTOR.png"></img>
-                        <img width="600" height="auto" src="Lab9/LEFT_MOTOR.png"></img>
-                    <hr>
                         <p>The Jupyter Notebook command and Arduino case to start the PID orientation controller are 
                             below. From testing I found that using a Kp value of 1, Ki value of 0 and Kd value of 0 
                             worked to move the robot in 10 degree increments. Each time the PID orientation controller
@@ -278,12 +260,6 @@
                             is found. Graphs showing the changing yaw angles to confirm the PID controller works are 
                             found in the next section.
                         </p>
-                        <img width="550" height="auto" src="Lab9/PythonCase.png"></img>
-                        <img width="450" height="auto" src="Lab9/ORIENTATION_CASE.png"></img>
-                    <hr>
-                        <p>The Jupyter Notebook command and Arduino case to send the collected data are below.</p>
-                        <img width="550" height="auto" src="Lab9/PythonData.png"></img>
-                        <img width="450" height="auto" src="Lab9/SEND_ORIENTATION_DATA.png"></img>
                     <h4 class="mb-0">Video and PID Control Graphs</h4> <!------------------------------------------->
                         <p>Two videos of the robot turning are below. The robot roughly turns on axis. In the second 
                             video, the robot overshoots at some increments but is able to correct itself to the correct 
@@ -319,25 +295,6 @@
                         <p>The half turns in the above graphs are more in line with the ideal angles. When testing the 
                             robot in the lab, I collected angle data for full turns and half turns.
                         </p>
-                    <h4 class="mb-0">Average And Maximum Error</h4> <!---------------------------------------------->
-                        <p>There is no significant gyroscope drift in the IMU sensor because the robot resets the yaw 
-                            value to zero after every 10 degree rotation. For a 360 degree rotation, the maximum error
-                            in the final angle value is -18 or +18 degrees (342 degrees or 378 degrees) if the yaw angle 
-                            for every rotation is 9.5 degrees or 10.5 degrees respectively. For a 360 degree rotation,
-                            the average error in the final angle value is -9 or +9 degrees (351 degrees or 369 degrees)
-                            if the yaw angle for every rotation is 9.75 degrees or 10.25 degrees respectively. As noted 
-                            previously, the final angle value for an example 360 degree turn is 353.859 degrees. A 
-                            difference of (360 - 353.859) degrees = 6.141 degrees. 
-                        </p>
-                        <p>The robot turns roughly on axis, but the potential difference in the starting position and
-                            ending position may result in error for the distance measurements. Based on observing the 
-                            motion of the robot the average error between the starting position and the ending position 
-                            is 12mm, and the maximum acceptable error is 25mm. Due to friction, the robot might move 
-                            off axis more for one rotation, while staying on axis for the next rotation. Assuming the 
-                            robot moves off axis the same amount for each rotation, the average error in position for 
-                            each rotation is 12mm/36 = 0.3333mm. The maximum error in position for each rotation is 
-                            25mm/36 = 0.6944mm. 
-                        </p>
                     <h3 class="mb-0">Read Out Distances</h3> <!----------------------------------------------------->
                     <h4 class="mb-0">Execute Turn At Each Marked Position</h4> <!----------------------------------->
                         <p>The robot was placed at each of the following points: (-3,-2), (0,0), (0,3), (5,3), and (5,-3).
@@ -352,124 +309,39 @@
                             ideal 10 degree rotation is 9.5 degrees to 10.5 degrees. There is a -/+ 0.5 degree range 
                             for the robot to stop and collect a distance measurement. Due to the range of degree values,
                             it can not be assumed that the robot will stop at exactly 10 degrees every time it rotates.
-                            This behaviour was desribed in the "Code for Orientation Control" section at the beginning 
-                            of the lab report. The distance measurements can not be assumed to be spaced equally in 
-                            angular space. To address this issue, I did not assume that the robot stopped at exactly 
+                            To address this issue, I did not assume that the robot stopped at exactly 
                             10 degrees for every rotation and instead recorded a "total" variable value that added the 
                             angle that the robot stopped at to the previously recorded stopping angle. This allowed me 
                             to plot the distance measurements with the correct recorded angles.
                         </p>
-                    <h3 class="mb-0">Polar And Global Frame Plots: Part 1</h3> <!----------------------------------->
-                        <p>This section details the first attempt at collecting data at each point. The data collected 
-                            for each point in the lab is plotted in the below graphs. For each point I plotted a polar 
-                            graph and a global frame graph. The first two graphs show all of the data I 
-                            collected for each point. The next two graphs show the data that I choose to keep when 
-                            combining all of the global plots. In this section I noticed that the ToF sensor was pointed 
-                            too downwards, resulting in a lot of noise in the middle of the plots. The noise resulted in
-                            the boundaries of the walls being hard to determine. After plotting this section I readjusted 
-                            the ToF sensor to be pointed more upwards to avoid hitting the floor of the map. 
-                        </p>
-                        <h5 class="mb-0">Bottom Left: Point (-3,-2)</h5> <!---------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(-3,-2).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(-3,-2).png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/Polar(-3,-2).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/Global(-3,-2).png"></img>
-                        <h5 class="mb-0">Middle: Point (0,0)</h5> <!----------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(0,0).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(0,0).png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/Polar(0,0).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/Global(0,0).png"></img>
-                        <h5 class="mb-0">Top Middle: Point (0,3)</h5> <!------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(0,3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(0,3).png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/Polar(0,3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/Global(0,3).png"></img>
-                        <h5 class="mb-0">Top Right: Point (5,3)</h5> <!-------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(5,3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(5,3).png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/Polar(5,3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/Global(5,3).png"></img>
-                        <h5 class="mb-0">Bottom Right: Point (5,-3)</h5> <!---------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/PolarAll(5,-3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/GlobalAll(5,-3).png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test1/Polar(5,-3).png"></img>
-                            <img width="500" height="auto" src="Lab9/Test1/Global(5,-3).png"></img>
-                    <h4 class="mb-0">Merge And Plot Readings: Part 1</h4> <!---------------------------------------->
-                    <p>The graph for the combined global frames can be found below.</p>
-                        <img width="500" height="auto" src="Lab9/Test1/AllGlobal1.png"></img>
-                        <img width="200" height="auto" src="Lab9/Test1/Legend1.png"></img>
-                    <h3 class="mb-0">Polar And Global Frame Plots: Part 2</h3> <!----------------------------------->
+                        
+                        <h3 class="mb-0">Polar And Global Frame Plots</h3> <!----------------------------------->
                         <p>This section details the second attempt at collecting data at each point. The data collected 
                             for each point in the lab is plotted in the below graphs. I readjusted the ToF sensor to point 
                             more upwards before collecting the following data. This adjustement removed noise from inside 
                             the map region. The data collected for each point in the lab is plotted in the below graphs.
                         </p>
                         <h5 class="mb-0">Bottom Left: Point (-3,-2)</h5> <!---------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllBL.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllBL.png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarBL.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalBL.png"></img>
+                            <img width="300" height="auto" src="Lab9/Test2/2PolarBL.png"></img>
+                            <img width="400" height="auto" src="Lab9/Test2/2GlobalBL.png"></img>
                         <h5 class="mb-0">Middle: Point (0,0)</h5> <!----------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllM.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllM.png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarM.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalM.png"></img>
+                            <img width="300" height="auto" src="Lab9/Test2/2PolarM.png"></img>
+                            <img width="400" height="auto" src="Lab9/Test2/2GlobalM.png"></img>
                         <h5 class="mb-0">Top Middle: Point (0,3)</h5> <!------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllTM.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllTM.png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarTM.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalTM.png"></img>
+                            <img width="300" height="auto" src="Lab9/Test2/2PolarTM.png"></img>
+                            <img width="400" height="auto" src="Lab9/Test2/2GlobalTM.png"></img>
                         <h5 class="mb-0">Top Right: Point (5,3)</h5> <!-------------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllTR.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllTR.png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarTR.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalTR.png"></img>
+                            <img width="300" height="auto" src="Lab9/Test2/2PolarTR.png"></img>
+                            <img width="400" height="auto" src="Lab9/Test2/2GlobalTR.png"></img>
                         <h5 class="mb-0">Bottom Right: Point (5,-3)</h5> <!---------------------------------------->
-                        <p>All Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarAllBR.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalAllBR.png"></img>
-                        <hr>
-                        <p>Partial Data:</p>
-                            <img width="400" height="auto" src="Lab9/Test2/2PolarBR.png"></img>
-                            <img width="500" height="auto" src="Lab9/Test2/2GlobalBR.png"></img>
-                    <h4 class="mb-0">Merge And Plot Readings: Part 2</h4> <!---------------------------------------->
-                    <p>I plotted the distances in the global frame using the below transformation matrix. The 
-                        transformation matrix converts the frame of the robot used to collect the sensor measurements 
-                        into the global frame. The example below is for the point (-3,-2). The variable "theta" is the 
-                        angle measurement in radians relative to the origin of the global frame and "dis" is the 
-                        distance measurement. One ToF sensor between the left and right sides of the robot was used to 
-                        collect distance data. 
+                            <img width="300" height="auto" src="Lab9/Test2/2PolarBR.png"></img>
+                            <img width="400" height="auto" src="Lab9/Test2/2GlobalBR.png"></img>
+                                
+                    <h4 class="mb-0">Merge And Plot Readings</h4> <!---------------------------------------->
+                    <p>I plotted the distances in the global frame using a
+                        transformation matrix to convert the frame of the robot used to collect the sensor measurements 
+                        into the global frame. 
                     </p>
-                        <img width="500" height="auto" src="Lab9/Test2/TransformMatrices.png"></img>
-                    <p>The code used to sort through the data is below.</p>
-                        <script src="https://gist.github.com/MikaylaLahr/89ce0bfc86f4758c0f7cb6815a6d6b39.js"></script>
                     <p>Below are the distance readings in the global frame.</p>
                         <img width="500" height="auto" src="Lab9/Test2/AllGlobal2.png"></img>
                         <img width="200" height="auto" src="Lab9/Test2/Legend2.png"></img>
@@ -478,14 +350,9 @@
                         the line based map is below as well as the code used to plot each line. 
                     </p>
                         <img width="500" height="auto" src="Lab9/Test2/AllGlobal2Lines.png"></img>
-                        <img width="350" height="auto" src="Lab9/Test2/Lines.png"></img>
-<!-- Lab 9 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 9 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-            </div>
-        </section>
+
+                    <p></p>
+
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
