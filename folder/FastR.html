@@ -44,18 +44,6 @@
                                     the robot is turning, only the update step of the filter will be be used during a 360 degree
                                     scan.
                                 </p>
-<!-- Lab 11 Prelab -------------------------------------------------------------------------------------------------->
-                                <h2 class="mb-2.5">Prelab</h2>
-                                <p>The lab materials include a fully assembled 
-                                        <a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">robot</a>
-                                        with <a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a>,
-                                        <a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensors</a>, and a
-                                        <a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a>.
-                                    </p>
-                                    <p>Course lectures on sensor models, motion models, and the Bayes Filter were reviewed before 
-                                        starting the lab.
-                                    </p>
-                                
 <!-- Lab 11 Lab Tasks ----------------------------------------------------------------------------------------------->
                 <h2 class="mb-2.5">Lab Tasks</h2>
                     <h3 class="mb-0">Simulation Localization</h3> <!------------------------------------------------->
@@ -68,22 +56,7 @@
                         of y is 9, and the dimension of theta is 18. 
                     </p>
                     <img width="500" height="auto" src="Lab11/SimulationGraph.png"></img>
-                    <h3 class="mb-0">Arduino IDE Code</h3> <!-------------------------------------------------------->
-                    <p>To perform localization on the robot the Arduino IDE code from Lab 9: Mapping was used to rotate 
-                        the robot 360 degrees. The setAngle was changed from 10 degrees, used in Lab 9, to 20 degrees 
-                        for Lab 11. I removed some of the append statements in case SEND_ORIENTATION_DATA to only send 
-                        time, angle in 20 degree increments, and the distance readings at each angle increment. In the 
-                        main while loop I changed how I stored the distance data and yaw readings. I initially stored 
-                        the readings as variables before assigning them to an array at each 20 degree increment. The 
-                        code is below.
-                    </p>
-                    <p>ORIENTATION_CASE:</p>
-                    <script src="https://gist.github.com/MikaylaLahr/c4c9a964a183e65bd3d6242d9ebe144c.js"></script>
-                    <p>SEND_ORIENTATION_DATA:</p>
-                    <script src="https://gist.github.com/MikaylaLahr/ad3ef6f465d6edb4b9049e093b82c19e.js"></script>
-                    <p>While Loop:</p>
-                    <script src="https://gist.github.com/MikaylaLahr/17797f37041e1a1a32076ee78be6abea.js"></script>
-                    <p>The RIGHT_MOTOR() and LEFT_MOTOR() functions used did not change from Lab 9.</p>
+                    <p></p>
                     <h3 class="mb-0">Implement Perform_Observation_Loop</h3> <!-------------------------------------->
                     <p>The code lab11_real.ipynb was downloaded and opened in Jupyter Notebook. 
                         The function perform_observation_loop was 
@@ -110,9 +83,8 @@
                         zero degrees the ToF sensor was pointed towards the rightside wall. The robot turned counterclockwise
                         in the same manner as in Lab 9. The Jupyter Notebook code to plot each Ground Truth value is below:
                     </p>
-                     <img width="400" height="auto" src="Lab11/Points.png"></img>
+                     <img width="300" height="auto" src="Lab11/Points.png"></img>
                     <h4 class="mb-0">Bottom Left Point (-3ft, -2ft, 0deg):</h4> <!----------------------------------->
-                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
                         <img width="500" height="auto" src="Lab11/BL1_Belief.png"></img>
                         <img width="500" height="auto" src="Lab11/BL1_GroundTruth.png"></img>
@@ -130,22 +102,8 @@
                         <p>Polar Plot and recorded data below:</p>
                         <img width="400" height="auto" src="Lab11/BL1_PolarPlot.png"></img>
                         <script src="https://gist.github.com/MikaylaLahr/5d1f0c5ea18d45adee5102a74273559e.js"></script>
-                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
-                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/BL2_Graph.png"></img>
-                        <p>For run 2 of the bottom left point, the Belief was 0.3050 meters above the Ground Truth. 
-                            As can be seen in the below polar plot, the walls were not as defined as in the previous run, 
-                            resulting in the error in localization. 
-                        </p>
-                    <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/BL2_Data.png"></img>
-                    <hr>
-                        <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/BL2_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/c689c21c79f07317ea60fe8bb38f3c9b.js"></script>
+                        
                     <h4 class="mb-0">Top Middle Point (0ft, 3ft, 0deg):</h4> <!-------------------------------------->
-                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
                         <img width="500" height="auto" src="Lab11/TM1_Belief.png"></img>
                         <img width="500" height="auto" src="Lab11/TM1_GroundTruth.png"></img>
@@ -161,21 +119,7 @@
                         <p>Polar Plot and recorded data below:</p>
                         <img width="400" height="auto" src="Lab11/TM1_PolarPlot.png"></img>
                         <script src="https://gist.github.com/MikaylaLahr/c2b518070164f4591702cf29ea1d15b2.js"></script>
-                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
-                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/TM2_Graph.png"></img>
-                        <p>For run 2 of the top middle point, the Belief was 0.3050 meters to the right of the Ground Truth. 
-                            The robot did not turn as well as in the previous run and the left side wall was not as accurately 
-                            sensed. The results are shown in the below polar plot. Despite the non-ideal rotation of the 
-                            robot, the location of the robot was still fairly close to the Ground Truth value. 
-                        </p>
-                    <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/TM2_Data.png"></img>
-                    <hr>
-                        <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/TM2_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/df2ea3866102ebd4869be3089fb37ccd.js"></script>
+                    
                     <h4 class="mb-0">Bottom Right Point (5ft, -3ft, 0deg):</h4> <!----------------------------------->
                         <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
@@ -192,44 +136,8 @@
                         <p>Polar Plot and recorded data below:</p>
                         <img width="400" height="auto" src="Lab11/BR1_PolarPlot.png"></img>
                         <script src="https://gist.github.com/MikaylaLahr/4c6e659ab228d568f74421e9c481aa85.js"></script>
-                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
-                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/BR2_Graph.png"></img>
-                        <p>For run 2 of the bottom right point, the Belief was located 0.3050 meters to the right and 
-                            0.3046 meters below the Ground Truth.
-                            As can be seen in the below polar plot, for this run the plotted edges of the walls are not as 
-                            straight as in the previous run.
-                        </p>
-                        <p>Some runs of the robot for the bottom right point resulted in a Belief that was plotted around 
-                            (-0.8m, 0.2m) as the corner outside of the map resembled the lower right corner inside of the 
-                            map. I found it surprising that the Belief would be plotted outside of the map and discussed 
-                            the results with a TA. To address this issue the probability that the robot is located outside
-                            of the map can be set to zero in the Bayes Filter. 
-                        </p>
-                    <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/BR2_Data.png"></img>
-                    <hr>
-                        <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/BR2_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/9b229544b973a528e2556a73e0192596.js"></script>
+                       
                     <h4 class="mb-0">Top Right Point (5ft, 3ft, 0deg):</h4> <!--------------------------------------->
-                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
-                        <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/TR1_Graph.png"></img>
-                        <p>For run 1 of the top right point, the Belief was located 0.3050 meters to the right and 
-                            0.3044 meters below the Ground Truth. As can be seen in the below polar plot the robot had 
-                            difficulty achieving the correct distance measurements for the right side wall, which may 
-                            have impacted the localization Belief. 
-                        </p>
-                    <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/TR1_Data.png"></img>
-                    <hr>
-                        <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/TR1_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/9df5658c58b5a2805997c30b82c2ff27.js"></script>
-                        <h5 class="mb-0">Run 2</h5> <!--------------------------------------------------------------->
                         <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
                         <img width="500" height="auto" src="Lab11/TR2_Graph.png"></img>
                         <p>For run 2 of the top right point, the Belief was located 0.3044 meters below the Ground Truth. 
@@ -243,31 +151,11 @@
                         <p>Polar Plot and recorded data below:</p>
                         <img width="400" height="auto" src="Lab11/TR2_PolarPlot.png"></img>
                         <script src="https://gist.github.com/MikaylaLahr/787c575ae5895c4044f2c23dda1353a5.js"></script>
-                    <h3 class="mb-0">Comparison of Localization Results</h3> <!-------------------------------------->
-                    <p>Overall, the localization implemented on the robot was able to achieve Belief results that 
-                        aligned with the Ground Truth values for 3 out of the 4 tested points (bottom left, top middle, 
-                        bottom right). I also included non-ideal runs in the lab report to show that even for non-ideal 
-                        rotations the robot would still localize fairly well. The bottom left point had the most number 
-                        of rotations (4/5) that resulted in the Belief being in the same location as the Ground Truth. 
-                        This is compared to the Top Middle having 1/4, Top Right having 0/4, and the Bottom Right 
-                        having 2/4. I suspect that the Top Right did not achieve any Belief values that were the same 
-                        as the Ground Truth values because the rotations at that point did not adequately pick up on the 
-                        straight edges of the wall. 
-                    </p>
-<!-- Lab 11 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 11 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-            </div>
-        </section>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>   
 <!__ Lab 10: Grid Localization Using Bayes Filter (Simulation) ______________________________________________________>
-            <section class="resume-section" id="Lab 10">
-                <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 10: Grid Localization Using Bayes Filter</h2> 
                     <p>The objective of the lab is to use the Bayes Filter to implement grid localization. 
                     </p>
