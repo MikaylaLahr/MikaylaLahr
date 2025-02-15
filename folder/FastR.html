@@ -57,22 +57,6 @@
                     </p>
                     <img width="500" height="auto" src="Lab11/SimulationGraph.png"></img>
                     <p></p>
-                    <h3 class="mb-0">Implement Perform_Observation_Loop</h3> <!-------------------------------------->
-                    <p>The code lab11_real.ipynb was downloaded and opened in Jupyter Notebook. 
-                        The function perform_observation_loop was 
-                        written to sort through the collected data from one rotation. First arrays are established and
-                        then the command to send orientation data is run. The asynicio function was used to run the 
-                        while loop until 18 data readings are sent over Bluetooth. The for loop assigns the angle readings 
-                        to the sensor_bearings array and the distance readings, converted from millimeters to meters, to
-                        the sensor_ranges array. Initially, I put the command to run the ORIENTATION_CASE inside 
-                        of the perform_observation_loop function, but I decided to run the rotation first before calling 
-                        the function. Removing the command to run ORIENTATION_CASE from inside of the function allowed 
-                        me to more easily turn on/off the rotation.  
-                    </p>
-                    <p>The function perform_observation_loop is below:</p>
-                    <img width="750" height="auto" src="Lab11/FunctionPython.png"></img>
-                    <p>The command to run ORIENTAION_CASE is below:</p>
-                    <img width="400" height="auto" src="Lab11/CasePython.png"></img>
                     <h3 class="mb-0">Run Robot Localization</h3> <!-------------------------------------------------->
                     <p>The results of rotating the robot at the four marked positions are below. The four marked positions 
                         include: (-3ft, -2ft, 0deg), (0ft, 3ft, 0deg), (5ft, -3ft, 0deg), and (5ft, 3ft, 0deg). The robot 
@@ -86,9 +70,9 @@
                      <img width="300" height="auto" src="Lab11/Points.png"></img>
                     <h4 class="mb-0">Bottom Left Point (-3ft, -2ft, 0deg):</h4> <!----------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/BL1_Belief.png"></img>
-                        <img width="500" height="auto" src="Lab11/BL1_GroundTruth.png"></img>
-                        <p>For run 1 of the bottom left point, the Belief was at the same point as the Ground Truth. 
+                        <img width="400" height="auto" src="Lab11/BL1_Belief.png"></img>
+                        <img width="400" height="auto" src="Lab11/BL1_GroundTruth.png"></img>
+                        <p>For the bottom left point, the Belief was at the same point as the Ground Truth. 
                             As can be seen in the below polar plot, the robot sensed the surrounding walls very well. 
                             I reran the rotation several (5) times and this point had the most rotations result in the
                             Belief being the same as the Ground Truth. This is a result of the several walls surrounding 
@@ -96,61 +80,44 @@
                             then the Ground Truth.
                         </p>
                     <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/BL1_Data.png"></img>
-                    <hr>
                         <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/BL1_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/5d1f0c5ea18d45adee5102a74273559e.js"></script>
+                        <img width="300" height="auto" src="Lab11/BL1_PolarPlot.png"></img>
                         
                     <h4 class="mb-0">Top Middle Point (0ft, 3ft, 0deg):</h4> <!-------------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/TM1_Belief.png"></img>
-                        <img width="500" height="auto" src="Lab11/TM1_GroundTruth.png"></img>
-                        <p>For run 1 of the top middle point, the Belief was at the same point as the Ground Truth. 
+                        <img width="400" height="auto" src="Lab11/TM1_Belief.png"></img>
+                        <img width="400" height="auto" src="Lab11/TM1_GroundTruth.png"></img>
+                        <p>For the top middle point, the Belief was at the same point as the Ground Truth. 
                             I was surprised to achieve this result as there are not a lot of nearby walls to use for 
                             localization and I suspected that this would be the hardest point to localize. As can be 
                             seen in the below polar plot, the robot was able to sense the surrounding walls and obstacles. 
                         </p>
                     <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/TM1_Data.png"></img>
-                    <hr>
                         <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/TM1_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/c2b518070164f4591702cf29ea1d15b2.js"></script>
+                        <img width="300" height="auto" src="Lab11/TM1_PolarPlot.png"></img>
                     
                     <h4 class="mb-0">Bottom Right Point (5ft, -3ft, 0deg):</h4> <!----------------------------------->
-                        <h5 class="mb-0">Run 1</h5> <!--------------------------------------------------------------->
                         <p>Graphs for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/BR1_Belief.png"></img>
-                        <img width="500" height="auto" src="Lab11/BR1_GroundTruth.png"></img>
-                        <p>For run 1 of the bottom right point, the Belief was at the same point as the Ground Truth. 
+                        <img width="400" height="auto" src="Lab11/BR1_Belief.png"></img>
+                        <img width="400" height="auto" src="Lab11/BR1_GroundTruth.png"></img>
+                        <p>For the bottom right point, the Belief was at the same point as the Ground Truth. 
                             As can be seen in the below polar plot, the robot rotated well and was able to sense the 
                             surrounding walls and obstacles. 
                         </p>
                     <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/BR1_Data.png"></img>
-                    <hr>
                         <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/BR1_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/4c6e659ab228d568f74421e9c481aa85.js"></script>
+                        <img width="300" height="auto" src="Lab11/BR1_PolarPlot.png"></img>
                        
                     <h4 class="mb-0">Top Right Point (5ft, 3ft, 0deg):</h4> <!--------------------------------------->
                         <p>Graph for the Belief (blue) and the Ground Truth (green):</p>
-                        <img width="500" height="auto" src="Lab11/TR2_Graph.png"></img>
-                        <p>For run 2 of the top right point, the Belief was located 0.3044 meters below the Ground Truth. 
+                        <img width="400" height="auto" src="Lab11/TR2_Graph.png"></img>
+                        <p>For the top right point, the Belief was located 0.3044 meters below the Ground Truth. 
                             As can be seen in the below polar plot the robot again had difficulty achieving the correct 
                             distance measurements for the right side wall, which may have impacted the localization Belief. 
                         </p>
                     <hr>
-                        <p>Belief Data:</p>
-                        <img width="600" height="auto" src="Lab11/TR2_Data.png"></img>
-                    <hr>
                         <p>Polar Plot and recorded data below:</p>
-                        <img width="400" height="auto" src="Lab11/TR2_PolarPlot.png"></img>
-                        <script src="https://gist.github.com/MikaylaLahr/787c575ae5895c4044f2c23dda1353a5.js"></script>
+                        <img width="300" height="auto" src="Lab11/TR2_PolarPlot.png"></img>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
