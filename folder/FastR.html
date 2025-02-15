@@ -38,6 +38,7 @@
                                     <strong>Lab 5</strong>
                                     <strong>Lab 6</strong>
                                     <strong>Lab 7</strong>
+                                    <li>Kalman Filter Using Collected ToF Distance Sensor Data</li>
                                     <strong>Lab 8</strong>
                                     <li>Implement the Kalman Filter on the Robot</li>
                                     <strong>Lab 9</strong>
@@ -472,19 +473,6 @@
                         data, having the robot speed towards a wall and stop 1ft in front of the wall. A Kalman Filter
                         will be implemented in Jupyter Notebook using the collected data.
                     </p>
-<!-- Lab 7 Prelab --------------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Prelab</h2>
-                    <p>The lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a></li>
-                        <li><a href="https://www.sparkfun.com/products/18012">QWIIC Breakout Board</a></li>
-                        <li><a href="https://www.sparkfun.com/products/14426">QWIIC Connector</a></li>
-                        <li><a href="https://www.amazon.com/dp/B07V56N33J?smid=A2ZDGCOOU4F0SF&ref_=chk_typ_imgToDp&th=1">JST2 Connector + Cable</a></li>
-                        <li><a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">Force1 RC Car</li>
-                        <li><a href="https://www.amazon.com/URGENEX-Battery-Rechargeable-Quadcopter-Charger/dp/B08T9FB56F/ref=sr_1_3?keywords=lipo+battery+3.7V+850mah&qid=1639066404&sr=8-3">Li-Ion 3.7V 850mAh battery</a></li>
-                        <li><a href="https://www.digikey.com/en/products/detail/pololu-corporation/2130/10450426">Dual Motor Drivers</a></li>
-                    </p>
                     <h3 class="mb-0">Kalman Filter Explaination</h3> <!---------------------------------------------->
                     <p>A Kalman Filter uses a state space model to predict the location (distance from the wall) of 
                         the robot. The location of the robot is predicted and then updated using the ToF sensor reading.
@@ -516,13 +504,7 @@
                         move while still moving straight for a distance of around 6.5ft. I collected time, ToF distance 
                         readings, and used these readings to calculated the velocity.
                         To ensure that the step time 
-                        was long enough for the robot to reach steady state, I ran the test multiple times. The results 
-                        from the first test are below: 
-                    </p>
-                        <img width="500" height="auto" src="Lab7/Dm_Trial1.png"></img>
-                    <p>Looking at the results from the first test it can be seen that the maximum velocity reached is 
-                        just over -2000mm/s. This velocity was only reached once. To confirm the steady state speed, 
-                        the test was run again and the following results were plotted:
+                        was long enough for the robot to reach steady state, I ran the test multiple times. 
                     </p>
                         <img width="500" height="auto" src="Lab7/DM_Trial2.png"></img>
                     <p>From the above graph it can be seen that the steady state velocity is just over -2000mm/s, or 
@@ -647,53 +629,8 @@
                         In extension, the values for drag and momentum affect the 
                         A and B matrices. Delta_T and the A and B matrices affect the values of the Ad and Bd matrices. 
                     </p>
-                    <p>Below are two different runs of the robot using PID control.</p>
-                    <h4 class="mb-0">Graph 1: Kp = 0.07, Ki = 0.000008, Kd = 8</h4> <!------------------------------->
-                        <img width="500" height="auto" src="Lab7/Graph1/Graph1.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph1/MotorGraph1.png"></img>
-                        <img width="250" height="auto" src="Lab7/Graph1/newPID_Graph1.png"></img>
-                    <p>Initially running the Kalman Filter using the previously described code results in the above graphs. 
-                        The calculated Delta_T for the PID controller is 0.0066 seconds, a frequency of 151.52Hz. The Kalman 
-                        Filter is running at a faster frequency than the ToF sensors. 
-                        The deadband for the motor controller input is 40. This deadband is consistent to the deadband used 
-                        in Lab 5 for linear PID control. This was the fastest run of the robot with a maximum PWM value of 
-                        150. Sigma_1 and Sigma_2 are 122.86 and Sigma_3 is 20. Overall, the
-                        model works fairly well, but at around 2 seconds the predictions no longer extend to the next data 
-                        point compared to the earlier predictions. In the next step I modify the parameters to adjust the 
-                        prediction values. 
-                    </p>
-                    <hr>
-                        <img width="500" height="auto" src="Lab7/Graph1/FixedGraph1.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph1/ZoomFG1.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph1/Zoom2FG1.png"></img>
-                    <p>I adjusted the parameters for Sigma_1. Decreasing Sigma_1 (model uncertainty for location) indicates 
-                        that the model is more accurate than what was initially predicted from the calculation for Sigma_1. 
-                        Sigma_2 was set to 120, which is close to the initial calculated value found previously and Sigma_3 remains at 20. 
-                        All other parameters (d, m, and Delta_T) were kept the same as the previous step.
-                        As can be seen from the graphs the Kalman Filter more closely follows the trend of the distance measurements.
-                    </p>
-                        <img width="500" height="auto" src="Lab7/Graph1/ChangedZoomFG1.png"></img>
-                    <p>In the above graph I kept all previously found parameters the same but changed the value of the increment "i"
-                        in the while loop. The line changed from "i = i + Delta_T" to "i = i + 2*Delta_T". This change results in 
-                        less Kalman Filter predictions to be plotted. I initially did this to better see the individually plotted 
-                        prediction points, but then realized that changing how often the while loop runs the prediction step of the
-                        Kalman Filter results in the predictions to be slightly off from the ToF distance measurements and the 
-                        previously plotted prediction values. 
-                    </p>
-                    <hr>
-                        <img width="500" height="auto" src="Lab7/Graph1/TOFGraph1.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph1/ZoomTOFGraph1.png"></img>
-                        <img width="250" height="auto" src="Lab7/Graph1/TOF_Graph1.png"></img>
-                    <p>The above graphs show the Kalman Filter plotted without the prediction steps, only the updated values. 
-                        The calculated Delta_T for the ToF sensor readings is 0.1082 seconds, a frequency of 9.24Hz. The Kalman 
-                        Filter is running at the same frequency as the ToF sensors. Sigma_1 and Sigma_2 are 30.41 and Sigma_3 is 20. 
-                        The Kalman Filter follows the general trend of the ToF readings, but is slightly off from the plotted line
-                        for the ToF distances. I tried modifying the parameters as I did in the previous step, but there was no 
-                        significant change in the Kalman Filter updates. 
-                    </p>
-                    <h4 class="mb-0">Graph 2: Kp = 0.05, Ki = 0.000008, Kd = 8</h4> <!------------------------------->
+                    <h4 class="mb-0">Kp = 0.05, Ki = 0.000008, Kd = 8</h4> <!------------------------------->
                         <img width="500" height="auto" src="Lab7/Graph2/Graph2.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph2/MotorGraph2.png"></img>
                         <img width="250" height="auto" src="Lab7/Graph2/PID_Graph2.png"></img>
                     <p>Initially running the Kalman Filter results in the above graphs. 
                         The calculated Delta_T for the PID controller is 0.0058 seconds, a frequency of 172.41Hz. The Kalman 
@@ -703,10 +640,10 @@
                         In the next step I modify the parameters to adjust the prediction values. 
                     </p>
                     <hr>
-                        <img width="500" height="auto" src="Lab7/Graph2/FixedGraph2.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph2/ZoomFG2.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph2/Zoom2FG2.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph2/Zoom3FG2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/FixedGraph2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/ZoomFG2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/Zoom2FG2.png"></img>
+                        <img width="400" height="auto" src="Lab7/Graph2/Zoom3FG2.png"></img>
                     <p>I adjusted the parameters for Sigma_1, Sigma_2, and Sigma_3. Decreasing Sigma_1 to 10 (model uncertainty for location) 
                         and Sigma_2 to 120 (model uncertainty for velocity) indicates 
                         that the model is more accurate than what was initially predicted.
@@ -719,53 +656,7 @@
                         in the while loop in the same manner as I did for Graph 1. The line changed from "i = i + Delta_T" to "i = i + 2*Delta_T". 
                         This change results in less Kalman Filter predictions to be plotted and the same offset behaviour as seen in Graph 1. 
                     </p>
-                    <hr>
-                        <img width="500" height="auto" src="Lab7/Graph2/TOFGraph2.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph2/ZoomTOFGraph2.png"></img>
-                        <img width="250" height="auto" src="Lab7/Graph2/TOF_Graph2_new.png"></img>
-                    <p>The above graphs show the Kalman Filter plotted without the prediction steps, only the updated values. 
-                        The calculated Delta_T for the ToF sensor readings is 0.1019 seconds, a frequency of 9.81Hz. The Kalman 
-                        Filter is running at the same frequency as the ToF sensors. Besides Delta_T, all other parameters were kept
-                        the same as in the previous step.
-                        The Kalman Filter follows the general trend of the ToF readings, but is slightly off from the plotted line
-                        for the ToF distances, although the plotted line is still closer to the ToF readings compared to Graph 1.
-                    </p>
-                    <h4 class="mb-0">Extra Graphs From Prior Trials</h4> <!------------------------------------------>
-                    <p>Prior to collecting the data to create the previous graphs, I tested the robot multiple times and 
-                        collected distance readings. The distance readings were not as smooth as I would have expected 
-                        and the robot moved slowly. I realized that my distance sensor was set to short mode, rather than 
-                        long mode. The below data was collected before changing the sensor mode. I decided to run this 
-                        data through the Kalman Filter for fun, to see how well the model would respond to non-ideal data. 
-                    </p>
-                        <img width="500" height="auto" src="Lab7/Graph3/Graph3.png"></img>
-                        <img width="500" height="auto" src="Lab7/Graph3/MotorGraph3.png"></img>
-                        <img width="250" height="auto" src="Lab7/Graph3/PID_Graph3.png"></img>
-                    <p>Initially, the Kalman Filter follows the ToF distance measurements, but later the predictions become 
-                        more horizontal rather than continuing along the same slope as the distance sensor readings. I tried 
-                        to address this issue in the next step.
-                    </p>
-                    <hr>
-                        <img width="500" height="auto" src="Lab7/Graph3/FixedGraph3.png"></img>
-                    <p>I adjusted the parameters and determined that decreasing the drag (d) constant resulted in a more 
-                        downward trend of the calculated predictions. This trend was most significant towards the beginning 
-                        of the graph.
-                    </p>
-                    <hr>
-                        <img width="500" height="auto" src="Lab7/Graph3/TOFGraph3.png"></img>
-                        <img width="250" height="auto" src="Lab7/Graph3/TOF_Graph3.png"></img>
-                    <p>Above is the Kalman Filter plotted without the prediction steps.</p>
-                    <h3 class="mb-0">Extra Credit: Implement Kalman Filter On Robot</h3> <!-------------------------->
-                        <p>I will include implementing the Kalman Filter on the robot for extra credit in the next 
-                            lab report for Lab 8: Stunts.
-                        </p>
-                    <p>Thank you!</p>
-<!-- Lab 7 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 7 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-            </div>
-        </section>
+    
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
 <!___________________________________________________________________________________________________________________>
