@@ -997,33 +997,12 @@
                             twice the average current to be delivered without overheating.
                         </p>
                     <img width="550" height="auto" src="Lab4/DualMotorDriverWiring.png"></img>
-                    <h3 class="mb-0">Battery Discussion</h3> <!----------------------------------------------------->
-                        <p>The Artemis board and the motor drivers/motors are powered from separate batteries. The 
-                            Artemis board is powered using a 650mAh battery and the motors are powered using a 850mAh 
-                            battery. Having the Artemis board and motors powered by different power sources avoids 
-                            any potential transient effects and allows each component to function independently. Any
-                            potential current changes in the motors will not affect the Artemis board. In addition, 
-                            the motors require a higher current battery, which is the reason the 850mAh battery is 
-                            used to power the motors.
-                        </p>
+                
 <!-- Lab 4 Lab Tasks ----------------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
                         <h3 class="mb-0">Testing The Circuit With The Oscilloscope and Power Supply</h3> <!--------->
-                        <h4 class="mb-0">Picture Of Setup With Power Supply and Oscilloscope Hookup</h4> <!--------->
-                            <p>The below image is a picture of the power supply and oscilloscope connections. The 
-                                positive power supply wire (red, towards the top of the picture) is connected to the 
-                                positive wire of the battery. The ground wire of the power supply (black) and 
-                                oscilloscope (black) is connected to the same ground wire of the battery (near the 
-                                middle of the picture). The input for the oscilloscope (near the bottom of the 
-                                picture) is connected to the wire that will be attached to one of the motors. Each of 
-                                the four wires that will be attached to the motors was tested to determine if the 
-                                circuit was assembled correctly and a PWM signal was shown on the oscilloscope.
-                            </p>
-                            <img width="550" height="auto" src="Lab4/OscilloscopeAttachedWires.png"></img>
-                            <p>Picture of oscilloscope (left) and power supply (right) connected to the circuit:</p>
-                            <img width="550" height="auto" src="Lab4/FullOscilloscopePicture.png"></img>
                         <h4 class="mb-0">Power Supply Setting And Oscilloscope Discussion</h4> <!--------------------->
                             <p>The voltage of the 850mAh battery is 3.7V. In place of using the battery, a power supply 
                                 was used. The output of the power supply was set to 3.7V to represent the battery 
@@ -1038,22 +1017,7 @@
                             <img width="550" height="auto" src="Lab4/PowerSupply.png"></img>
                             <p>Picture of the oscilloscope output:</p>
                             <img width="550" height="auto" src="Lab4/OscilloscopeMonitor.png"></img>
-                            <p>The below four videos show the output for each pin that was tested:</p>
-                            <p>Pin 11, Output 200:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/lCriKyb0Neg"></iframe>
-                            <p>Pin 12, Output 200:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/N995RlmhQh0"></iframe>
-                            <p>Pin 7, Output 200:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/0vjtACvWswE"></iframe>
-                            <p>Pin 9, Output 200:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/TmjGBAryqm0"></iframe>
-                        <h4 class="mb-0">Motor Driver Code Snippet Using analogWrite</h4> <!------------------------>
-                            <p>The below Arduino code shows how each of the wires to the motors were tested. Pins 7, 
-                                9, 11, and 12 were defined and analogWrite() was used to assign each pin number the 
-                                tested output value. In the below example pin 11 is set to have an output of 200, and
-                                all of the other pins have an output of 0.
-                            </p>
-                            <img width="200" height="auto" src="Lab4/PowerSupplyCode.png"></img>
+                          <p></p>
                         <h3 class="mb-0">Testing The Robot Wheels</h3> <!------------------------------------------->
                         <h4 class="mb-0">Video Of Wheels Spinning (Each Side Of Robot)</h4> <!---------------------->
                             <p>The wheels on each side of the robot were tested individually at two different output 
@@ -1080,7 +1044,6 @@
                                 This is the same code that was used in the previous section to test if the circuit 
                                 was working properly before sautering to the motors.
                             </p>
-                            <img width="200" height="auto" src="Lab4/OneSideWheelsSpinning.png"></img>
                         <h4 class="mb-0">Video Of All Wheels Spinning</h4> <!--------------------------------------->
                             <p>After testing each side of the robot, all of the wheels were tested at the same time. 
                                 The 850mAh battery was used to power the motors instead of the power supply. The below 
@@ -1093,35 +1056,18 @@
                                 value of 0. This is the same code that was used in the previous section to test both 
                                 sides of the robot individually.
                             </p>
-                            <img width="200" height="auto" src="Lab4/WheelsSpinning.png"></img>
                         <h4 class="mb-0">Picture Of All Components On Car</h4> <!----------------------------------->
                             <p>Below is a labeled picture showing all components on the robot. Including the 650mAh 
                                 battery, Artemis board, IMU, two ToF sensors, two motor drivers, and a breakout board.
                                 The 850mAh battery to power the motors is on the other side of the robot. 
                             </p>
                             <img width="550" height="auto" src="Lab4/RobotDiagram.png"></img>
-                            <p>After connecting all components to the car I decided to test how the robot moves. The 
-                                video below shows my first test for having the robot drive on the ground. In the video, 
-                                the robot initially moves towards the left when the pins used for the motors have the 
-                                same output value. This trend was noticed in future steps of the lab when determining 
-                                how to calibrate each of the motors.
-                            </p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/IpvEgT9b_50"></iframe>
-                            <p>The below code shows the loop used to run the robot on the ground.</p>
-                            <img width="200" height="auto" src="Lab4/NonCal1.png"></img>
-                            <img width="200" height="auto" src="Lab4/NonCal2.png"></img>
+                    
                             <p>Below is a diagram of the entire wiring that is used on the robot:</p>
                             <img width="600" height="auto" src="Lab4/CompleteWiring.png"></img>
+                            <p></p>
                         <h3 class="mb-0">Lower Limit PWM And Open Loop Control</h3> <!------------------------------>
                         <h4 class="mb-0">Lower Limit PWM Value Discussion</h4> <!----------------------------------->
-                            <p>During this step of the lab, I used Bluetooth to send a command from Jupyter Notebook 
-                                to run different output values more easily compared to uploading Arduino IDE code every
-                                time I wanted to change the output value of a pin. The below images show the Jupyter
-                                Notebook Command and the Arduino IDE case that uses analogWrite() to move the robot. 
-                            </p>
-                            <img width="650" height="auto" src="Lab4/PythonCMD.png"></img>
-                            <img width="550" height="auto" src="Lab4/ArduinoSLCase1.png"></img>
-                            <img width="550" height="auto" src="Lab4/ArduinoSLCase2.png"></img>
                             <p>The lower limit PWM value is the lowest output value that a pin can be set to that will 
                                 still result in continuous motion of the robot. The wheels on one side of the robot 
                                 were tested, while the wheels on the other side remained stationary. The lower limit 
@@ -1138,15 +1084,7 @@
                                 value of 35.
                             </p>
                             <iframe width="550" height="400" src="https://youtube.com/embed/bWIED69jH9o"></iframe>  
-                            <p>Note: During lab office hours I asked a TA (Larry Lu) about how the surface conditions 
-                                affect the PWM values. Specifically I asked if testing the robot on the floors in my 
-                                apartment (laminate wood flooring) would change the lower limit PWM value compared to 
-                                the tile floors in the lab and hallways. I tested the robot's lower limit PWM value at 
-                                my apartment and received the same PWM values. The PWM values may start to differ if 
-                                the robot is travelling over a surface with a lot of friction such as a carpet or 
-                                outside in the grass. This information is helpful to know as I can better understand 
-                                the operating conditions of the robot.
-                            </p>
+                          
                         <h4 class="mb-0">Calibration Demonstration</h4> <!------------------------------------------>
                             <p>The wheels of the robot do not spin at the same rate and a calibration factor needed 
                                 to be implemented. The below video shows the robot moving in a straight line, starting
@@ -1213,30 +1151,8 @@
                                 spins clockwise, and then stops. I used output values found from the calibration graph.
                             </p>
                             <iframe width="550" height="400" src="https://youtube.com/embed/OKhd_hvgN-8"></iframe>
-                            <p>Arduino code for robot motion:</p>
-                            <img width="200" height="auto" src="Lab4/OpenLoopControl1.png"></img>
-                            <img width="200" height="auto" src="Lab4/OpenLoopControl2.png"></img>
-                        <h3 class="mb-0">5000 Level Tasks:</h3> <!-------------------------------------------------->
-                        <h4 class="mb-0">analogWrite Frequency Discussion</h4> <!----------------------------------->
-                            <p>Below is the image of the oscilloscope when connected to the circuit. The wheel motors 
-                                are powered using the battery. During lab office hours I asked a TA why the oscilloscope 
-                                outputs were more noisy compared to the oscilloscope outputs from earlier in the lab and 
-                                it is most likely because the circuit is now connected to the motors that result in more 
-                                noise compared to when the circuit was not connected to the motors on the robot.
-                            </p>
-                            <img width="550" height="auto" src="Lab4/analogWrite5000.png"></img>
-                            <p>From the image its can be seen that one horizontal block along the x-axis is 2.50ms and 
-                                one vertical block along the y-axis is 1.0V. The period of the PWM signal is about 2.6 
-                                horizontal blocks, which is equivalent to 6.50ms (0.0065s). The frequency analogWrite() 
-                                generates is about 1/0.0065s ~= 154Hz. In lab 3 the sampling period of the ToF sensors
-                                was found to be 0.04s and the sampling frequency was 25Hz. The frequency analogWrite() 
-                                generates is fast enough for the motors on the robot when running tests as well as when 
-                                using data from the ToF sensors. Manually configuring the timers to generate a faster PWM
-                                signal will allow for more control over the movements of the robot and a more steady PWM 
-                                signal.
-                            </p>
-                            <p>The code used during the oscilloscope observation is below:</p>
-                            <img width="200" height="auto" src="Lab4/WheelsSpinningNew.png"></img>
+                          <p></p>
+     
                         <h4 class="mb-0">Lowest PWM Value Speed Discussion</h4> <!---------------------------------->
                             <p>The lowest PWM value for each side of the robot was found by running the robot with an 
                                 initial output of 60 for pin 11 and 70 for pin 7 to correspond with the found 
@@ -1263,19 +1179,7 @@
                             <iframe width="550" height="400" src="https://youtube.com/embed/Qsuw1Hp_cbg"></iframe>
                             <p>Both Wheels: Tested value of 24:</p>
                             <iframe width="550" height="400" src="https://youtube.com/embed/8UgnAjQbpKM"></iframe>
-                            <p>The command line in Jupyter Notebook and the Arduino IDE case can be found below:</p>
-                            <img width="650" height="auto" src="Lab4/PWMContinuousPython.png"></img>
-                            <img width="550" height="auto" src="Lab4/PWMContinuousArduino1.png"></img>
-                            <img width="550" height="auto" src="Lab4/PWMContinuousArduino2.png"></img>                            
-                        </div>
-                    </div>
-<!-- Lab 4 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 4 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-        </div>
-    </section>
+        <p></p>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
@@ -1285,15 +1189,6 @@
                 <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 3: TOF</h2>
                     <p>The objective of the lab is to connect the time of flight (TOF) sensors to the Artemis board. 
-                    </p>
-<!-- Lab 3 Prelab -------------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>The prelab involved reading about the ToF sensor used in the lab. The lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensor</a> ; <a href="https://cdn.sparkfun.com/assets/e/1/8/4/e/VL53L1X_API.pdf">TOF Manual</a> ; <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">TOF Datasheet</a></li>
-                        <li><a href="https://www.sparkfun.com/products/18012">QWIIC Breakout Board</a></li>
-                        <li><a href="https://www.sparkfun.com/products/14426">QWIIC Connector</a></li>
                     </p>
                     <h3 class="mb-0">Task 1: Note The I2C Sensor Address</h3> <!------------------------------------>
                         <p>From the datasheet it was found that the I2C sensor address for the ToF sensor is 0x52. 
