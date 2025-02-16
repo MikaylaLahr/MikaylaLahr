@@ -786,17 +786,6 @@
                         <iframe width="550" height="400" src="https://youtube.com/embed/i6WjCm1ocCw"></iframe>
                     <p>I also tested negative angles. Below is a video of the robot turning -90 degrees:</p>
                         <iframe width="550" height="400" src="https://youtube.com/embed/lYRn-KsOYhc"></iframe>
-                    <h3 class="mb-0">Full PID Control and Programming Implementation</h3> <!------------------------>
-                    <h4 class="mb-0">Sending Bluetooth Commands And Updating The Setpoint In Real Time</h4> <!------>
-                    <p>After tuning the PID controller I tested changing the setpoint (desired angle) while the 
-                        controller was running and recording data for multiple changed angles. 
-                    </p>
-                    <p>The example below shows a change of 60 degrees to 90 degrees: </p>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_setAngle.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_MotorInput.png"></img>
                    <p></p>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
@@ -821,44 +810,6 @@
                             a constant Ki by by the integral of the error over time. Derivative control multiplies a 
                             constant Kd by the rate of change of the error.
                         </p>
-                    <h3 class="mb-0">Send and Receive Data Over Bluetooth</h3> <!----------------------------------->
-                        <p>During the Prelab, I determined how to send and receive data over Bluetooth. Two Arduino IDE 
-                            cases were initallized. The case PID_CASE starts and stops the PID controller and the case
-                            SEND_PID_DATA sends the collected PID data to Jupyter Notebook. The PID controller starts 
-                            when a command from Jupyter Notebook is run. The command inputs include a start(1)/stop(0)
-                            value; the desired setDistance value to determine the desired end distance from the wall;
-                            and the Kp, Ki, and Kd constant values. In Jupyter Notebook a notification handler similar 
-                            to the notification handler from Lab 1 is used to create the data array. The PID controller 
-                            stops when the first input value is set to zero.
-                        </p>
-                        <p>I also determined what data I wanted to store and send to Jupyter Notebook. Initially, I stored
-                            time, two ToF distance values (one in millimeters and one in feet), the error value, the integral
-                            value, the derivative value, and the PID value. Later in the lab I added and removed append 
-                            statements as necessary depending on the task I was working on. The SEND_PID_DATA case sends time, 
-                            distance in millimeters, the error value, P value, I value, D value, PID value, and the motor input
-                            value.
-                        </p>
-                        <p>Below is the Jupyter Notebook Command and corresponding Arduino case to start/stop the PID 
-                            controller. The run_PID_CASE, setDistance, Kp, Ki, and Kd values sent from Jupyter Notebook are 
-                            printed in the Arduino serial monitor each time a command is sent. These values were initalized 
-                            as global variables and will be used in the PID controller that is written in the main void loop(). 
-                            If a command to stop the robot is sent from Jupyter Notebook "Stopped Robot: " will also be 
-                            printed in the Arduino serial monitor. 
-                        </p>
-                        <img width="550" height="auto" src="Lab5/PythonStart.png"></img>
-                        <img width="400" height="auto" src="Lab5/PID_CASE.png"></img>
-                        <p>Below is the Jupyter Notebook Command and corresponding Arduino case to send the collected data.
-                            When data is sent the first time value is printed to the Arduino serial monitor to confirm that 
-                            data was sent to Jupyter Notebook correctly. The time value is compared to the first time value 
-                            in Jupyter Notebook.
-                        </p>
-                        <img width="550" height="auto" src="Lab5/PythonSendData.png"></img>
-                        <img width="500" height="auto" src="Lab5/NewSendData.png"></img>
-                        <p>In addition, a hard stop was implemented on the Artemis to stop the robot if the Bluetooth
-                            connection fails. The pin output values are all set to zero outside of the while (central.connected())
-                            loop. The code for this is inside the larger void loop() and is seen below (lines 465-469):
-                        </p>
-                        <img width="500" height="auto" src="Lab5/NewDisconnect.png"></img>
 <!-- Lab 5 Lab Tasks ----------------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
@@ -876,25 +827,6 @@
                                 be used to determine the distance the robot is from the wall. The implemented PID control 
                                 is also shown to be robust to changing conditions including starting distance and floor 
                                 surface. 
-                            </p>
-                        <h4 class="mb-0">Range and Sampling Time Discussion</h4> <!--------------------------------->
-                            <p>For this task I choose to use the long distance mode for the ToF sensor as I was testing 
-                                the robot for longer distances ranging from 6ft to 13ft and the range for the ToF sensor 
-                                when using the long mode is 4m (13.12ft). The ToF sensor error can be at most 4000mm. 
-                                To determine the sampling time of the ToF sensor I found the time between each new 
-                                distance measurement by temporarily adding the lines below to the code that runs when 
-                                the case to start the robot is called: 
-                            </p>
-                            <img width="350" height="auto" src="Lab5/dtToF.png"></img>
-                            <p>The sampling period was found to be 100ms, resulting in a sampling frequency of 
-                                (1/0.1s) = 10Hz for distance measurements. To find how fast the PID control loop is
-                                running I printed the value for dt that is calculated each time the PID loop runs:
-                            </p>
-                            <img width="250" height="auto" src="Lab5/dtPID.png"></img>
-                            <p>The PID loop runs at around 8ms (1/0.008s = 125Hz). The PID loop is running faster than the ToF sensor 
-                                produces new distance readings. This will be explored later in the lab as the ToF
-                                sensor data will be extrapolated to use estimated data when there is no new ToF sensor
-                                distance measurement. 
                             </p>
                         <h4 class="mb-0">Proportional Control (Kp)</h4> <!------------------------------------------>
                             <p>The first control input I worked on was the Kp input for proportional control. I estimated 
@@ -918,22 +850,15 @@
                                 below. I determined that the Kp value should be set 
                                 to 0.03 to minimize the error and oscillation present.
                                 The graphs showing Time vs ToF Distance, Time vs P Control, and Time vs Error 
-                                for Kp = 0.05 and Kp = 0.03 can be found below: 
+                                for Kp = 0.03 can be found below: 
                             </p>
-                            <p>Plots for Kp = 0.05:</p>
-                            <img width="400" height="auto" src="Lab5/0.05KpToF.png"></img>
-                            <img width="400" height="auto" src="Lab5/0.05KpP.png"></img>
-                            <img width="400" height="auto" src="Lab5/0.05KpError.png"></img>
-                            <p>Video for Kp = 0.05:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/pHbR0qdV2g8"></iframe>
                             <p>Plots for Kp = 0.03:</p>
                             <img width="400" height="auto" src="Lab5/0.03KpToF.png"></img>
                             <img width="400" height="auto" src="Lab5/0.03KpP.png"></img>
                             <img width="400" height="auto" src="Lab5/0.03KpError.png"></img>
                             <p>Video for Kp = 0.03:</p>
                             <iframe width="550" height="400" src="https://youtube.com/embed/_73SAd107NA"></iframe>
-                            <p>In the above videos it can be seen that for a value of Kp = 0.05 the robot moves faster 
-                                but overshoots and oscillates more, resulting in a greater error, compared to when Kp = 0.03. 
+                            <p>
                                 Larger Kp values resulted in the robot moving faster and having more error in the final 
                                 position. Kp = 0.03 was the smallest value for Kp that resulted in the robot completing 
                                 the full motion.
@@ -942,43 +867,7 @@
                                 step using Kp = 0.03. I focused on achieving a faster speed when tuning the integral 
                                 Ki value, and prevented overshoot when tuning the derivative Kd value.
                             </p>
-                            <p>Stopping the Robot or Continuing Motion:</p>
-                            <p>The robot is set to stop when the calculated error is less than 5mm. All pins are then set
-                                to zero. If the error is not within the stopping range than the function FORWARD is
-                                called if the PID value is greater than zero, or the function BACKWARD is called if 
-                                the PID value is less than zero. The if statements and functions can be found below.
-                            </p>
-                            <p>Stop when 1ft is reached or continue motion:</p>
-                            <img width="250" height="auto" src="Lab5/StopOrContinue.png"></img>
-                            <p>Forward motion:</p>
-                            <img width="350" height="auto" src="Lab5/Forward.png"></img>
-                            <p>Backward motion:</p>
-                            <img width="400" height="auto" src="Lab5/Backward.png"></img>
-                            <p>For PID values greater than or equal to 40 and less than or equal to 255, the PID value is used as the input 
-                                PWM value for the motors. For values greater than 0.5 and less than 40 the input PWM value 
-                                is set to be 40, because assigning values less than 40 would result in no motion of
-                                the robot. For values greater than 255, the PWM value is set to 255 as that is the maximum
-                                possible value for the motors.
-                            </p>
-                            <p>Prior to writing the FORWARD and BACKWARD functions for scaling, I tried using map() 
-                                to scale the PID values to PWM motor input values. The written code can be found 
-                                <a href="https://drive.google.com/file/d/1v-03PIDdVK9giT-E1sIs_6NjfWNxw-9e/preview">in this folder</a> 
-                                This approach was not used because when running the robot, I repeatedly entered into a Fault Handler. In a 
-                                first attempt to fix this problem I removed all code in the Arduino script that was 
-                                not being used for this lab to reduce the size of the code, but that did not solve the 
-                                Fault Handler issue. I then wrote the 
-                                previously discussed functions to move the robot. 
-                            </p>
-                            <p>Another way to stop the robot are either intentionally stopping the robot by sending 
-                                a "0" value for run_PID_CASE in Jupyter Notebook. Sending a "0" causes the following if 
-                                statement in the while loop to set all pins to zero. 
-                            </p>
-                            <img width="200" height="auto" src="Lab5/TurnOffManual.png"></img>
-                            <p>The final way that the robot stops is if the maximum value for the collected arrays is 
-                                reached, causing all pins to be set to zero and stopping the robot. This is to ensure
-                                that each time the robot runs I know if the maximum array size is reached.
-                            </p>
-                            <img width="300" height="auto" src="Lab5/MaxDataStop.png"></img>
+         
                         <h4 class="mb-0">Derivative Control (Kd)</h4> <!-------------------------------------------->
                             <p>The next task I worked on was tuning the Kd value using proportional control and 
                                 derivative control at the same time. I wanted to prevent overshoot and any oscillation 
@@ -1005,9 +894,8 @@
                                 moving very fast into the wall. I then decided to decrease Ki until I found a value where 
                                 the robot would stop in front of the wall, but for each value tested the robot ran into the wall.
                                 I then implemented wind up protection for the integral control to prevent the robot from 
-                                overshooting and running into the wall. The Arduino code that was added can be found below:
+                                overshooting and running into the wall. 
                             </p>
-                            <img width="550" height="auto" src="Lab5/WindUpPIDLoop.png"></img>
                             <p>First a distance measurement is taken at the start of the robots motion to determine the 
                                 total distance the robot needs to move and an integralStop value is set to be half of 
                                 the total distance travelled. Each loop an if statement checks to see if the error is
@@ -1021,19 +909,6 @@
                                 KiIntegral (I) terms continuously increase until stopping at 100. The error term is not changing 
                                 significantly, but the KiIntegral (I) term continuously increases.
                             </p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/10gYKj6ty1lz-S9KOhv3S6ftvAakM4APg/preview"></iframe>
-                            <p>
-                                After implementing wind up protection I found a Ki value that allows the robot to lightly run 
-                                into the wall before
-                                pulling back. I started with a Kp value of 0.00001 which resulted in the robot driving 
-                                too fast into the wall. I decreased this value until Ki = 0.000008 resulted in the 
-                                following performance when Kp = 0.03 and Kd = 0:
-                            </p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/1W-NLdBnwsm9ovzuZcmlFnZbAYHb3nCt_/preview"></iframe>
-                            <p>Without wind up protection the robot accelerates quickly and the following behavior 
-                                is observed:
-                            </p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/xd15OHNZmwM"></iframe>
                             <p>I then added the Kd term found in the previous step. A value of Kd = 5 resulted in more 
                                 overshoot than I wanted the robot to have. I increased the Kd value until the overshoot 
                                 was again minimized. This resulted from a value of Kd = 8. For values above Kd = 8 there 
@@ -1041,18 +916,10 @@
                                 Ki = 0.000008, and Kd = 8 can be seen in the three trials below. The robot was started 
                                 from a distance of 6.5ft.
                             </p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/sU7PBIPYIQU"></iframe>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/8Qq6W8jbQz4"></iframe>
                             <iframe width="550" height="400" src="https://youtube.com/embed/nLN_xBjYBLI"></iframe>
-                            <p>The data collected from the last trial can be found below. I included the printed array 
-                                of time, distance, PID values, and motor input to confirm that the data was collected properly.
-                            </p>
-                            <img width="600" height="auto" src="Lab5/DataPythonTrial1.png"></img>
                             <p>The three below graphs show the data for Time vs ToF Distance, Time vs Motor Input, and
                                 Time vs Error.
                             </p>
-                            <img width="400" height="auto" src="Lab5/ToFTrial1.png"></img>
-                            <img width="400" height="auto" src="Lab5/MotorInputTrial1.png"></img>
                             <img width="400" height="auto" src="Lab5/ErrorTrial1.png"></img>
                             <img width="400" height="auto" src="Lab5/NewMotorInputTrial1.png"></img>
                             <p>Graph Analysis and Deadband:</p>
@@ -1092,82 +959,25 @@
                                 the distance_data array and the current time and distance are stored in time1 and dis1 variables. 
                                 The previous time and distance from the last time there was a new distance measurement are stored 
                                 in the time2 and dis2 variables. If there is no new distance reading the extrapolation equation is 
-                                used as can be seen in line 395. The Arduino code for extrapolation is below:
+                                used. 
                             </p>
-                            <img width="700" height="auto" src="Lab5/Extrapolate.png"></img>
-                            <p>I outputted the raw data and extrapolated data to the serial monitor shown in the video below (units are mm). 
-                                The first printed value is the raw data and the second printed value is the extrapolated data. The
-                                video shows that the extrapolated data readjusts whenever a new raw distance value is received. 
-                            </p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/1CmtYit7SdR9MK5A0gmJVgACQ_h2TSEbt/preview"></iframe>
                             <p>Below is a graph for the raw and extrapolated distances. The graph is zoomed in to show that the 
                                 extrapolated data (orange) readjusts to the raw data reading (blue) every time there is a new distance 
                                 measurement. In the next section I ran tests using the extrapolated data. 
                             </p>
-                            <img width="500" height="auto" src="Lab5/ExtrapolatedGraph.png"></img>
-                        <h5 class="mb-0">Testing Different Distances and Surfaces</h5> <!---------------------------------------->
-                            <p>In addition, I tested the extrapolated distance PID control using different starting distances. 
-                                The videos for each distance can be found below:
-                            </p>
-                            <p>6.5 ft: Kp = 0.03, Ki = 0.000008, and Kd = 8</p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/1cnjdNX4rb1GZpWqJ6Z32lHd7pB-AA8MW/preview"></iframe>
-                            <p>9.5 ft: Kp = 0.03, Ki = 0.000008, and Kd = 8</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/fYHeH6zBsfo"></iframe>
-                            <p>13 ft: Kp = 0.03, Ki = 0.000008, and Kd = 8</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/Pf3wnHGp8JQ"></iframe>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/bY9moI0BHbA"></iframe>
-                            <p>In the above videos it can be seen that the robot stops 1ft in front of the door, however 
-                                for the largest tested distance of 13ft there were some runs where the robot did not 
-                                go straight and instead curved towards the wall. This behavior can be seen 
-                                in the second 13ft video. To correct this behavior orientation control can be 
-                                implemented to keep the robot moving straight. 
-                            </p>
-                            <p>As a note, the PID control for the robot was tested on two different types of flooring
-                                as can be seen throughout the lab videos. The behavior of the robot on both surfaces 
-                                was the same using the PID control. One surface was tile the other was laminate wood 
-                                flooring.
-                            </p>
-                        <h3 class="mb-0">5000 Level Task: Wind-Up Protection</h3> <!-------------------------------->
-                            <p>See above: Completed in the 5000 Level Task: Integral Control (Ki) and Wind Up 
-                                Protection Section.
-                            </p>
-                        </div>
-                    </div>
-<!-- Lab 5 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 5 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-        </div>
-    </section>
+                            <img width="400" height="auto" src="Lab5/ExtrapolatedGraph.png"></img>
+                            <p></p>
+
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__ Lab 4: Motors and Open Loop Control ___________________________________________________________________________>
-            <section class="resume-section" id="Lab 4">
-                <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 4: Motors and Open Loop Control</h2>
                         <p>The objective of the lab is to control the car using open loop control, rather than the 
                             manual controller. Two dual motor drivers will be connected to the car's motors and the 
                             Artemis board. The dual motor drivers will be used to control the movement of the car.
                         </p>
-<!-- Lab 4 Prelab -------------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>The prelab involved reading about how to use an oscilloscope and determining how to connect 
-                        the dual motor drivers to the motors and Artemis board.
-                        The lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.mouser.com/ProductDetail/SparkFun/SEN-15335?qs=uwxL4vQweFMcls1MYZT00A%3D%3D">IMU Sensor</a></li>
-                        <li><a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensor</a> ; <a href="https://cdn.sparkfun.com/assets/e/1/8/4/e/VL53L1X_API.pdf">TOF Manual</a> ; <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">TOF Datasheet</a></li>
-                        <li><a href="https://www.sparkfun.com/products/18012">QWIIC Breakout Board</a></li>
-                        <li><a href="https://www.sparkfun.com/products/14426">QWIIC Connector</a></li>
-                        <li><a href="https://www.amazon.com/dp/B07V56N33J?smid=A2ZDGCOOU4F0SF&ref_=chk_typ_imgToDp&th=1">JST2 Connector + Cable</a></li>
-                        <li><a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">Force1 RC Car</li>
-                        <li><a href="https://www.amazon.com/URGENEX-Battery-Rechargeable-Quadcopter-Charger/dp/B08T9FB56F/ref=sr_1_3?keywords=lipo+battery+3.7V+850mah&qid=1639066404&sr=8-3">Li-Ion 3.7V 850mAh battery</a></li>
-                        <li><a href="https://www.digikey.com/en/products/detail/pololu-corporation/2130/10450426">Dual Motor Drivers</a></li>
-                    </p>
                     <h3 class="mb-0">Sketch Of Wiring Diagram</h3> <!----------------------------------------------->
                         <p>Below is a wiring diagram for the two dual motor drivers connected to the Artemis board, 
                             DC Motors, and 850mAh battery. The two VIN pins and the two GND pins on both dual motor 
