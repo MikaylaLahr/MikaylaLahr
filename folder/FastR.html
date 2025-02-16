@@ -32,11 +32,17 @@
                                 <h2>Objectives</h2>
                                 <ul>
                                     <strong>Lab 1</strong>
+                                    <li>Bluetooth Setup</li>
                                     <strong>Lab 2</strong>
+                                    <li>Reading IMU Data</li>
                                     <strong>Lab 3</strong>
+                                    <li>Time of Flight (ToF) Distance Sensors</li>
                                     <strong>Lab 4</strong>
+                                    <li>Motor Driver Assembly</li>
                                     <strong>Lab 5</strong>
+                                    <li>Linear PID Control</li>
                                     <strong>Lab 6</strong>
+                                    <li>Orientation PID Control</li>
                                     <strong>Lab 7</strong>
                                     <li>Kalman Filter Using Collected ToF Distance Sensor Data</li>
                                     <strong>Lab 8</strong>
@@ -1188,47 +1194,34 @@
                     <h2 class="mb-2.5">Lab 3: TOF</h2>
                     <p>The objective of the lab is to connect the time of flight (TOF) sensors to the Artemis board. 
                     </p>
-                    <h3 class="mb-0">Task 1: Note The I2C Sensor Address</h3> <!------------------------------------>
+                    <h3 class="mb-0">Note The I2C Sensor Address</h3> <!------------------------------------>
                         <p>From the datasheet it was found that the I2C sensor address for the ToF sensor is 0x52. 
                             The two ToF sensors have the same address and one of the addresses will need to be changed 
                             in order to receive data from both sensors at the same time. 
                         </p>
-                    <h3 class="mb-0">Task 2: Approach To Using Two ToF Sensors</h3> <!------------------------------>
+                    <h3 class="mb-0">Approach To Using Two ToF Sensors</h3> <!------------------------------>
                         <p>To use two ToF sensors, the XSHUT pin will be used to connect one of the ToF sensors to pin 
                             8 on the Artemis board. The XSHUT pin will be set to LOW and then the I2C sensor address 
                             will be changed for the other ToF sensor that is on. After the I2C address has been changed 
                             the XSHUT pin will be set to HIGH, turning the other TOF sensor back on. This will allow for 
                             both ToF sensors to be used in parallel. 
                         </p>
-                    <h3 class="mb-0">Task 3: Placement Of Sensors On Robot</h3> <!---------------------------------->
-                        <p>The placement of the two ToF sensors on the robot will impact the field of vision. Two 
-                            long QWIIC connectors will be used to attach the ToF sensors. Longer connectors will allow 
-                            me to position the ToF sensors in more potential ways compared to shorter wires. The 
-                            potential arrangements of the sensors include (1) a sensor on the front and left side, 
-                            (2) a sensor on the front and right side, (3) two sensors positioned on either side of 
-                            the front of the robot, and (4) a sensor on the front and the back. Depending on the task 
-                            at hand any of these sensor positions may be effective. 
-                            If there is no sensor on the back of the robot there might be an issue if the robot needs 
-                            to back up or move in reverse. If there is no sensor on the side then the robot might miss 
-                            an obstacle that is located in a blind spot. 
-                        </p>
-                    <h3 class="mb-0">Task 4: Sketch Of Wiring Diagram</h3> <!--------------------------------------->
+                   
+                    <h3 class="mb-0">Sketch Of Wiring Diagram</h3> <!--------------------------------------->
                         <img width="550" height="auto" src="Lab3/Lab3WireDiagram.jpg"></img>
+                    <p></p>
 <!-- Lab 3 Lab Tasks ----------------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
-                        <h3 class="mb-0">Task 1: ToF Sensor Connected To QWIIC Breakout Board</h3> <!--------------->
+                        <h3 class="mb-0">ToF Sensor Connected To QWIIC Breakout Board</h3> <!--------------->
                             <p>The Artemis board was powered using a battery:
                             </p>
                             <iframe width="550" height="400" src="https://youtube.com/embed/DU1Uwm4gzos"></iframe>
                             <p>ToF sensors connected to the QWIIC breakout board:</p>
                             <img width="550" height="auto" src="Lab3/Lab3Setup.jpeg"></img>
-                            <hr>
-                            <img width="400" height="auto" src="Lab3/Lab3ToF1.jpeg"></img>
-                            <hr>
-                            <img width="400" height="auto" src="Lab3/Lab3Tof2.jpeg"></img>
-                        <h3 class="mb-0">Task 2: Artemis Scanning For I2C Device</h3> <!---------------------------->
+                           <p></p>
+                        <h3 class="mb-0">Artemis Scanning For I2C Device</h3> <!---------------------------->
                             <p>The SparkFun VL53L1X 4m Laser Distance Sensor Library was installed on Arduino IDE.
                                 The code to find the I2C address: File->Examples->Apollo3->Wire->Example05_Wire_I2C.ino
                             </p>
@@ -1240,7 +1233,7 @@
                                 an address of 0x29 (binary: 0b00101001). The rightmost bit is ignored because the bit 
                                 identifies if data is read/write.
                             </p>
-                        <h3 class="mb-0">Task 3: Sensor Data With Chosen Mode</h3> <!------------------------------->
+                        <h3 class="mb-0">Sensor Data With Chosen Mode</h3> <!------------------------------->
                             <h4 class="mb-0">Sensor Mode Discussion</h4> <!----------------------------------------->
                             <p>The ToF sensor has two modes: (.setDistanceModeMedium(); //3m has been removed)
                                 <li>.setDistanceModeShort(); //1.3m</li>
@@ -1267,11 +1260,7 @@
                             <img width="500" height="auto" src="Lab3/Lab3DistanceSetup1.jpeg"></img>
                             <img width="500" height="auto" src="Lab3/Lab3DistanceSetup2.png"></img>
                             <hr>
-                            <p>Arudino code to find the ToF distance: 
-                            </p>
-                            <img width="650" height="auto" src="Lab3/Lab3DistanceArduino.png"></img>
-                            <img width="550" height="auto" src="Lab3/DistanceJupyter.png"></img>
-                            <hr>
+                           
                             <p>Sensor Range:</p>
                             <p>In the datasheet it is stated that the short mode for the ToF sensor has a range up to 1.3m.
                                 To test the range of the sensor I took an initial measurement at 100mm and continued to take 
@@ -1334,24 +1323,21 @@
                             </p>
                             <img width="400" height="auto" src="Lab3/Lab3RangingTime.png"></img>
                             <hr>
-                        <h3 class="mb-0">Task 4: Two ToF Sensors: Working In Parallel</h3> <!----------------------->
+                        <h3 class="mb-0">Two ToF Sensors: Working In Parallel</h3> <!----------------------->
                             <p>Two ToF Sensors were connected to the Artemis board and Arduino code needed to be 
-                                written for the two ToF sensors to work in parallel. The code below is written 
-                                according to the prelab procedure. 
+                                written for the two ToF sensors to work in parallel. 
                             </p>
-                            <img width="550" height="auto" src="Lab3/2TOFCode.png"></img>
+                           
                             <p>The Serial Monitor prints the I2C addresses for both distance sensors to confirm 
                                 that one of the addresses was changed to 0x30 and the other remains 0x52. 
                             </p>
                             <img width="450" height="auto" src="Lab3/2TOFDistanceSerial.png"></img>
                             <hr>
                             <iframe width="550" height="400" src="https://youtube.com/embed/g8wL6XBF1ZU"></iframe>
-                        <h3 class="mb-0">Task 5: ToF Sensor Speed: Speed And Limiting Factor</h3> <!---------------->
-                            <p>The code to find the ToF sensor speed can be found below. Time is continuously printed 
+                        <h3 class="mb-0">ToF Sensor Speed: Speed And Limiting Factor</h3> <!---------------->
+                            <p>Time is continuously printed 
                                 and distance measurements are only printed when a measurement is available. 
-                            </p>
-                            <img width="550" height="auto" src="Lab3/TimeDistanceCode.png"></img>
-                            <p>When the 
+                                When the 
                                 sensors are not collecting data the loop takes around 2ms. When data is being collected 
                                 the loop takes around 11ms. The longer loop time when collecting ToF sensor data is 
                                 the limiting factor. The limiting factor is the time needed to record distance 
@@ -1360,71 +1346,14 @@
                             <img width="400" height="auto" src="Lab3/TimeDistanceSerial.png"></img>
                             <hr>
                             <iframe width="550" height="400" src="https://youtube.com/embed/8FiNLwD_AbY"></iframe>
-                        <h3 class="mb-0">Task 6: Time vs Distance: Data From Two ToF Sensors Over Bluetooth</h3> <!->
+                        <h3 class="mb-0">Time vs Distance: Data From Two ToF Sensors Over Bluetooth</h3> <!->
                             <p>The code from Lab 2 was modified to send time stamped ToF sensor data to Jupyter 
-                                Notebook. The data for the two ToF sensors was plotted against the recorded time. The 
-                                case I created in Arduino can be found below. 
+                                Notebook. The data for the two ToF sensors was plotted against the recorded time. 
                             </p>
-                            <img width="650" height="auto" src="Lab3/Lab3ToFBluetoothCode.png"></img>
-                            <hr>
                             <img width="550" height="auto" src="Lab3/Lab3ToFTimeGraph2.png"></img>
                             <hr>
                             <img width="550" height="auto" src="Lab3/Lab3TwoSensorsArray.png"></img>
-                        <h3 class="mb-0">5000 Level Task 1: Discuss Different Distance Infrared Sensors</h3> <!----->
-                            <h4 class="mb-0">Active and Passive Infrared Sensors</h4>
-                            <p>The two main types of infrared sensors are active and passive infrared sensors. Passive 
-                                infrared sensors sense nearby emitted infrared light, using a difference in signals 
-                                between two pyroelectric sensors. These sensors are often used for security 
-                                purposes to detect if there is a heat energy change in the environment, but cannot 
-                                determine the distance to an object.
-                                Active infrared sensors use an emitter and receiver to determine the distance
-                                to an object.  
-                                If there is an obstruction, the active infrared sensor knows that there is an object 
-                                in between the emitter and receiver. Active infrared sensors are used in industry 
-                                conveyor belts, as well as in garage door safety mechanisms. 
-                                <a href="https://www.arrow.com/en/research-and-events/articles/understanding-active-and-passive-infrared-sensors">(Source: Arrow Electronics)</a>
-                                Different types of infrared sensors include proximity sensors, ToF sensors, and triangulation sensors.
-                                <a href="https://itp.nyu.edu/physcomp/distance-sensors-the-basics/#:~:text=Infrared%20LED%20Proximity%20Sensors,'%20rather%20than%20'distance'.">(Source: NYU)</a>
-                            </p>
-                        <h3 class="mb-0">5000 Level Task 2: ToF Response To Different Colors And Textures</h3> <!--->
-                            <p>Four colors and three textures were tested at a distance of 500mm. Colors include pink, 
-                                blue, yellow, and red. Textures include a hand towel, rug, and folder. The control 
-                                surface was the dark grey wall that I used throughout the lab for distance readings.
-                                The change in color or texture did not affect the ToF sensor's distance output that 
-                                remained around 478mm.
-                            </p>
-                            <p>Control:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/X29VpoKLW5k"></iframe>
-                            <hr>
-                            <p>Color Pink:</p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/1PUoaYNY344HtOt2QB5BEjrhq8XYqkNpa/preview"></iframe>
-                            <hr>
-                            <p>Color Blue:</p>
-                            <iframe width="550" height="400" src="https://drive.google.com/file/d/1jj8VRlJxJkV5Udfwd45NXSNasH43Xe9T/preview"></iframe>
-                            <hr>
-                            <p>Color Yellow:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/TF_1-f9MVUo"></iframe>
-                            <hr>
-                            <p>Color Red:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/IE-Uqex8R2I"></iframe>
-                            <hr>
-                            <p>Texture Hand Towel:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/FFUvzX8Frlc"></iframe>
-                            <hr>
-                            <p>Texture Rug:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/rp7Hfwz03OA"></iframe>
-                            <hr>
-                            <p>Texture Folder:</p>
-                            <iframe width="550" height="400" src="https://youtube.com/embed/s5__EZTu5o8"></iframe>
-                        </div>
-                    </div>
-<!-- Lab 3 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 3 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-        </div>
-    </section>
+                        <p></p>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
@@ -1433,15 +1362,6 @@
                     <h2 class="mb-2.5">Lab 2: IMU</h2>
                     <p>The objective of the lab is to connect the IMU to the Artemis board and record the robot 
                         performing a stunt.
-                    </p>
-<!-- Lab 2 Prelab -------------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>The prelab involved reading about the IMU used in the lab. The lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.sparkfun.com/products/15335">SparkFun 9DOF IMU Sensor</a> and <a href="https://cdn.sparkfun.com/assets/7/f/e/c/d/DS-000189-ICM-20948-v1.3.pdf">IMU Datasheet</a></li>
-                        <li><a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">Force 1 RC Car</a></li>
-                        <li><a href="https://www.amazon.com/URGENEX-Battery-Rechargeable-Quadcopter-Charger/dp/B08T9FB56F/ref=sr_1_3?keywords=lipo+battery+3.7V+850mah&qid=1639066404&sr=8-3">Li_Ion 3.7V 850mAh Battery</a></li>
                     </p>
 <!-- Lab 2 Lab Tasks ----------------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
