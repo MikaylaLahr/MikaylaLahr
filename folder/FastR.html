@@ -681,52 +681,8 @@
                             a constant Ki by by the integral of the error over time. Derivative control multiplies a 
                             constant Kd by the rate of change of the error.
                         </p>
-                    <h3 class="mb-0">Send and Receive Data Over Bluetooth</h3> <!----------------------------------->
-                        <p>For Lab 6 data was sent over Bluetooth in the same manner as the previous Lab 5.</p>
-                        <p>Two Arduino IDE 
-                            cases were initallized. The case ORIENTATION_CASE starts and stops the PID controller and the case
-                            SEND_ORIENTATION_DATA sends the collected PID data to Jupyter Notebook. 
-                            The PID controller starts 
-                            when a command from Jupyter Notebook is run. The command inputs include a start(1)/stop(0)
-                            value; the desired setAngle value to determine the desired angle;
-                            and the Kp, Ki, and Kd constant values. In Jupyter Notebook a notification handler similar 
-                            to the notification handler from Lab 1 is used to create the data array. The PID controller 
-                            stops when the first input value is set to zero.
-                        </p>
-                        <p>I also determined what data I wanted to store and send to Jupyter Notebook. I stored the
-                            time, yaw, error, proportional value, integral value, derivative value, PID value, right motor input,
-                            left motor input, and the setAngle value. 
-                        </p>
-                        <p>Below is the Jupyter Notebook Command and corresponding Arduino case to start/stop the PID 
-                            controller. The run_ORIENTATION_CASE, setAngle, Kp, Ki, and Kd values sent from Jupyter Notebook are 
-                            printed in the Arduino serial monitor each time a command is sent. These values were initalized 
-                            as global variables and will be used in the PID controller that is written in the main void loop(). 
-                            If a command to stop the robot is sent from Jupyter Notebook "Stopped Robot: " will also be 
-                            printed in the Arduino serial monitor. 
-                        </p>
-                        <img width="550" height="auto" src="Lab6/Code/PythonOriCase.png"></img>
-                        <hr>
-                        <img width="400" height="auto" src="Lab6/Code/ArduinoOriCase.png"></img>
-                        <p>Below is the Jupyter Notebook Command and corresponding Arduino case to send the collected data.
-                            When data is sent the first time value is printed to the Arduino serial monitor to confirm that 
-                            data was sent to Jupyter Notebook correctly. The time value is compared to the first time value 
-                            in Jupyter Notebook.
-                        </p>
-                        <img width="550" height="auto" src="Lab6/Code/PythonSendOriData.png"></img>
-                        <hr>
-                        <img width="500" height="auto" src="Lab6/Code/ArduinoSendOriData.png"></img>
-                        <p>The same hard stop used in Lab 5 is used in Lab 6 as well to stop the robot if Bluetooth 
-                            connection is lost.
-                        </p>
-                        <img width="300" height="auto" src="Lab6/Code/Lab6HardStop.png"></img>
 <!-- Lab 6 Lab Tasks ----------------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
-                    <h3 class="mb-0">Final Code For While Loop and Added Functions</h3> <!-------------------------->
-                    <a href="https://drive.google.com/file/d/1JnUeAH0kGoNh2mOW1wbh2s3G7xOWuXyH/view">Final Code</a>
-                    <p>The above link has the full final version of the code used during the lab. I attached the link 
-                        for my own reference in the future. The below steps show how and why I wrote each piece of 
-                        the code.
-                    </p>
                     <h3 class="mb-0">PID Input Signal</h3> <!------------------------------------------------------->
                     <h4 class="mb-0">Integrate Gyroscope To Estimate Orientation</h4> <!---------------------------->
                     <p>The gyroscope reading was integrated using the following lines of code:</p>
@@ -735,116 +691,19 @@
                         gyroscope updates the sensor readings. Yaw is then found using the previous yaw reading, the 
                         gyroscope reading, and the calculated difference in time.
                     </p>
-                    <h4 class="mb-0">Potential Problems With Digital Integration</h4> <!---------------------------->
-                    <p>A potential problem with digital integration includes not having available data to properly 
-                        integrate. The if statement to read IMU data only runs when data is ready. If data is not ready
-                        then the PID controller will not be using the most current angle available. If there is no ready 
-                        gyroscope data over time this might cause an issue. I observed the angle readings throughout the 
-                        lab procedure and did not notice any significant gaps in data for the yaw calculations.
-                        Another potential problem is gyroscope drift. If the IMU is continuously used the gyroscope 
-                        readings will drift away from the actual angle of the robots location. To address this issue,
-                        I set the initial yaw reading to zero every time I started using the PID controller.
-                    </p>
-                    <h4 class="mb-0">IMU Sensor Bias</h4> <!-------------------------------------------------------->
-                    <p>Potential IMU sensor bias includes the placement of the IMU on the robot. If one of the IMU 
-                        axis is not aligned with the center of the robot or if the IMU is not centered on the middle 
-                        axis, then the calculated angle from the gyroscope sensor reading may not align with the 
-                        physical location of the robot.
-                    </p>
-                    <p>I also checked to see if there was any numerical initial bias in the yaw calculations from 
-                        the gyroscope by printing yaw readings to the Serial Monitor. I did not observe any bias when 
-                        starting the PID controller.
-                    </p>
-                    <h4 class="mb-0">Sensor Limitations and Maximum Rotational Velocity</h4> <!--------------------->
-                    <p>The gyroscope sensor has four selections for rotational velocity. The selections are (+/-)250,
-                        (+/-)500, (+/-)1000, and (+/-)2000 degrees per second. This information is from 
-                        <a href="https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/306/PIM448_Web.pdf">this datasheet</a>.
-                        Of the four potential configurations the settings of (+/-)500, (+/-)1000, and (+/-)2000 degrees 
-                        per second will work for the purposes of this lab. The maximum angle that could potentially be 
-                        used for robot motion control is 360 degrees, while smaller angles of 180 degress or less are 
-                        preferred. The gyroscope configuration of (+/-)500 will be used to ensure that all potential 
-                        gyroscope sensor data is collected.
-                    </p>
-                    <p>Other limitations of the sensor include being compatible with 3.3V or 5V, having 9 
-                        degrees of freedom, and the accelerometer has four configurations including (+/-)2g, (+/-)4g,
-                        (+/-)8g, and (+/-)16g. The accelerometer will not be used for this lab.
-                    </p>
                     <h3 class="mb-0">Orientation Control</h3> <!---------------------------------------------------->
                     <p>For the orientation control task the robot uses a PID controller and the calculated yaw angle 
                         from the gyroscope readings to move towards and maintain the set angle. The implemented PID 
                         controller works for various angles and on different floor surfaces.
                     </p>
-                    <h3 class="mb-0">Range and Sampling Time Discussion</h3> <!------------------------------------->
-                    <p>The calculated yaw error from the gyroscope sensor can be at most 360 degrees. To determine 
-                        the sampling time of the gyroscope readings I found the time between each new IMU measurement 
-                        by temporarily adding a Serial.print(dt_G); line to the if statement inside of the while loop.
-                        The sampling period was found to be 0.01s, resulting in a sampling frequency of (1/0.01s) = 100Hz 
-                        for IMU measurements. 
-                    </p>
-                    <p>To find how fast the PID control loop is running I temporarily adding a Serial.print(dt_O); line 
-                        inside of the while loop for the PID controller. The PID loop runs at around 0.01s (1/0.01s 
-                        = 100Hz). The PID loop is running at around the same speed as the gyroscope sensor readings. 
-                    </p>
                     <h3 class="mb-0">Rotational Lower Limit PWM</h3> <!--------------------------------------------->
                     <p>While I was initially testing the PID controller the lower limit PWM value was set to the same as the 
                         lower limit value of 40 from the previous lab. Using a lower limit of 40 resulted in the robot 
                         getting stuck and not fully turning. I created a new Arduino case and Jupyter Notebook command 
-                        to find the lower limit PWM for turning. The code is below:
+                        to find the lower limit PWM for turning.
+                        After testing various PWM values, I found that a lower limit value of 120 resulted in the robot 
+                        turning. 
                     </p>
-                        <img width="450" height="auto" src="Lab6/Code/PythonLL.png"></img>
-                        <hr>
-                        <img width="400" height="auto" src="Lab6/Code/ArduinoLL.png"></img>
-                    <p>After testing various PWM values, I found that a lower limit value of 120 resulted in the robot 
-                        turning. A video of the robot at a PWM value of 120 is below:
-                    </p>
-                        <iframe width="550" height="400" src="https://youtube.com/embed/fgN8lZe4rXo"></iframe>
-                    <h3 class="mb-0">PID Control: Arduino Code</h3> <!---------------------------------------------->
-                    <h4 class="mb-0">PID Control</h4> <!------------------------------------------------------------>
-                    <p>The Arduino code for PID control is below:</p>
-                    <img width="500" height="auto" src="Lab6/Code/PID_Control.png"></img>
-                    <p>Within the while loop if run_ORIENTATION_CASE is equal to 1, then the PID controller will run.
-                        First the time is recorded and then data for the gyroscope is collected and yaw is found. The
-                        error is the desired angle minus the yaw angle. The proportional control component is the error
-                        multiplied by Kp (within line 660). The integral control component is the error integrated over 
-                        time multiplied by Ki (lines 649 and 650). Wind up protection is used in lines 651-656. If the 
-                        value of the integral term multiplied by the set Ki value is greater than 200 then there will 
-                        be no further increase in the KiIntegral term used to find the value for the integral controller. 
-                        Without wind up protection the integral term will continuously increase causing the robot to not 
-                        stop when the final yaw angle is reached. The derivative control componenet is the rate of change 
-                        of the error multiplied by Kd (lines 658 and 659). The derivative controller uses a low pass filter
-                        and the gyroscope reading (gyrZ) as an input to reduce derivative kick when changing the setpoint.
-                    </p>
-                    <p>The PID controller works for both positive and negative angles. Inputs of positive angles turn the  
-                        robot counter clockwise. Inputs of negative angles turn the robot clockwise.
-                    </p>
-                    <h4 class="mb-0">Motor Control and Stopping</h4> <!--------------------------------------------->
-                    <p>The robot is set to stop when the calculated error is less than 1 degree. All pins are then set
-                        to zero. If the error is not within the stopping range than the functions RIGHT_MOTOR and 
-                        LEFT_MOTOR are called. The if statements and functions can be found below.
-                    </p>
-                    <p>Stop when error is 1 degree or less or continue motion:</p>
-                            <img width="300" height="auto" src="Lab6/Code/StopOrContinue.png"></img>
-                            <p>Right Motor:</p>
-                            <img width="400" height="auto" src="Lab6/Code/RightMotor.png"></img>
-                            <p>Left Motor:</p>
-                            <img width="400" height="auto" src="Lab6/Code/LeftMotor.png"></img>
-                     <p>For PID values greater than or equal to 120 and less than or equal to 255, the PID value is used as the input 
-                        PWM value for the motors. For values greater than 0 and less than 120 the input PWM value 
-                        is set to be 120, because PWM values less than 120 result in no motion of
-                        the robot. For values greater than 255, the PWM value is set to 255 as that is the maximum
-                        possible value for the motors.
-                    </p>
-                    <p>The two other ways to stop the robot are the same as in Lab 5. 
-                        The first way is intentionally stopping the robot by sending 
-                        a "0" value for run_ORIENTATION_CASE in Jupyter Notebook. Sending a "0" causes the following if 
-                        statement in the while loop to set all pins to zero. 
-                    </p>
-                            <img width="300" height="auto" src="Lab6/Code/TurnOffManual.png"></img>
-                     <p>The second way that the robot stops is if the maximum value for the collected arrays is 
-                         reached, causing all pins to be set to zero and stopping the robot. This is to ensure
-                         that each time the robot runs I know if the maximum array size is reached.
-                     </p>
-                            <img width="300" height="auto" src="Lab6/Code/MaxDataStop.png"></img>
                     <h3 class="mb-0">Proportional Control (Kp)</h3> <!---------------------------------------------->
                     <p>I started with testing the proportional controller. I worked on finding a value for Kp, while 
                         keeping Ki and Kd zero. I choose an angle of 180 degrees to start testing the proportional 
@@ -860,24 +719,6 @@
                         should be 2. The code for the proportional controller is below:
                         <script src="https://gist.github.com/MikaylaLahr/4e09fa35c335168ddcc79a11e495780d.js"></script>
                     </p>
-                    <hr>
-                    <p>Graphs for Kp = 1:</p>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1Motor.png"></img>
-                    <hr>
-                    <p>Graphs for Kp = 1.5:</p>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.5Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.5Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.5PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.5Motor.png"></img> 
-                    <hr>
-                    <p>Graphs for Kp = 1.75:</p>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.75Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.75Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.75PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kp/Kp1.75Motor.png"></img>
                     <hr>
                     <p>Graphs for Kp = 2:</p>
                         <img width="400" height="auto" src="Lab6/Kp/Kp2Yaw.png"></img>
