@@ -445,15 +445,9 @@
                         multiply the B matrix by 8 indicates that the value found for m during the Jupyter Lab simulation does not work 
                         as well when implementing the Kalman Filter on the robot. 
                     </p>
-                    <p>Test 1:</p>
                         <img width="400" height="auto" src="Lab8EC/K6/K6Full.png"></img> <p></p>
                         <img width="400" height="auto" src="Lab8EC/K6/K6P1.png"></img>
                         <img width="400" height="auto" src="Lab8EC/K6/K6P2.png"></img>
-                    <hr>
-                    <p>Test 2:</p>
-                        <img width="400" height="auto" src="Lab8EC/K7/K7Full.png"></img> <p></p>
-                        <img width="400" height="auto" src="Lab8EC/K7/K7P1.png"></img>
-                        <img width="400" height="auto" src="Lab8EC/K7/K7P2.png"></img>
                     <hr>
                         <p>The video below shows the Serial Monitor outputs for the ToF distance readings and the update 
                             values:
@@ -748,29 +742,11 @@
                     </p>
                     <p>Below are graphs for the tested values for Kp and Ki.</p>
                     <hr>
-                    <p>Graphs for Kp = 2 and Ki = 0.01:</p>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.01Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.01Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.01PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.01Motor.png"></img>
-                    <hr>
                     <p>Graphs for Kp = 2 and Ki = 0.05:</p>
                         <img width="400" height="auto" src="Lab6/Ki/Ki0.05Yaw.png"></img>
                         <img width="400" height="auto" src="Lab6/Ki/Ki0.05Error.png"></img>
                         <img width="400" height="auto" src="Lab6/Ki/Ki0.05PID.png"></img>
                         <img width="400" height="auto" src="Lab6/Ki/Ki0.05Motor.png"></img>
-                    <hr>
-                    <p>Graphs for Kp = 2 and Ki = 0.1:</p>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.1Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.1Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.1PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.1Motor.png"></img>
-                    <hr>
-                    <p>Graphs for Kp = 2 and Ki = 0.2:</p>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.2Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.2Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.2PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Ki/Ki0.2Motor.png"></img>
                     <hr>
                     <p>Trends that can be observed include, as the value for Ki increases the amount of oscillation 
                         and overshoot of the robot at the desired angle increases. The motor input for all tested 
@@ -782,33 +758,6 @@
                         the proportional, integral, and derivative controllers together.
                     </p>
                     <h3 class="mb-0">Derivative Control (Kd)</h3> <!------------------------------------------------>
-                    <p>The next step involved finding the value for the derivative constant Kd to remove overshoot at 
-                        180 degrees. I initially calculated the derivative using the following code (line 15):
-                        <script src="https://gist.github.com/MikaylaLahr/450552507b65d2188a40356e65c7a586.js"></script>
-                        This resulted in a large spike for the first derivative control calculation as well as some noise 
-                        as can be seen in the plotted graph for Kd = 0.05 below:
-                    </p>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.05Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.05.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.05PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.05PID2.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.05Motor.png"></img>
-                    <hr>
-                    <h4 class="mb-0">Derivative Kick and Changing Setpoint</h4> <!---------------------------------->
-                    <p>After observing the previous graphs and to prepare for changing the setpoint in real time, I 
-                        changed how the derivative control component was calculated. I used the information on 
-                        <a href="http://brettbeauregard.com/blog/2011/04/improving-the-beginner%E2%80%99s-pid-derivative-kick/">this website</a>.
-                        Instead of calculating the derivative of a signal using the integral of another signal, I 
-                        calculated the derivative using the Z output of the gyroscope using the following code:
-                        <script src="https://gist.github.com/MikaylaLahr/dbbfdbec5d0681798f347a19877280f9.js"></script>
-                        This resulted in the large spike being removed, but there was still some noise in the derivative 
-                        controller as can be seen in the plotted graph for Kd = 0.08 below:
-                    </p>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.08Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.08.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.08PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/BadKd0.08Motor.png"></img>
-                    <hr>
                     <h4 class="mb-0">Derivative Calculation: Lowpass Filter</h4> <!----------------------------------->
                     <p>The final derivative calculation used the previous gyroscope output combined with a low pass filter
                         with an alpha of 0.3055 to remove some of the noise. The calculation for alpha is found below 
@@ -821,29 +770,11 @@
                         in the below graphs. 
                     </p>
                     <hr>
-                    <p>Graphs for Kp = 2, Ki = 0.05, and Kd = 0.03:</p>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.03Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.03Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.03PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.03Motor.png"></img>
-                    <hr>
                     <p>Graphs for Kp = 2, Ki = 0.05, and Kd = 0.05:</p>
                         <img width="400" height="auto" src="Lab6/Kd/Kd0.05Yaw.png"></img>
                         <img width="400" height="auto" src="Lab6/Kd/Kd0.05Error.png"></img>
                         <img width="400" height="auto" src="Lab6/Kd/Kd0.05PID.png"></img>
                         <img width="400" height="auto" src="Lab6/Kd/Kd0.05Motor.png"></img>
-                    <hr>
-                    <p>Graphs for Kp = 2, Ki = 0.05, and Kd = 0.06:</p>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.06Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.06Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.06PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.06Motor.png"></img>
-                    <hr>
-                    <p>Graphs for Kp = 2, Ki = 0.05, and Kd = 0.08:</p>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.08Yaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.08Error.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.08PID.png"></img>
-                        <img width="400" height="auto" src="Lab6/Kd/Kd0.08Motor.png"></img>
                     <hr>
                     <p>I choose a final value of Kd = 0.05 as the robot did not overshoot the desired angle of 
                         180 degrees.
@@ -858,93 +789,24 @@
                     <h3 class="mb-0">Full PID Control and Programming Implementation</h3> <!------------------------>
                     <h4 class="mb-0">Sending Bluetooth Commands And Updating The Setpoint In Real Time</h4> <!------>
                     <p>After tuning the PID controller I tested changing the setpoint (desired angle) while the 
-                        controller was running and recording data for multiple changed angles. During the first few attempts 
-                        the data was not entirely recorded correctly as can be seen in the below graphs. 
+                        controller was running and recording data for multiple changed angles. 
                     </p>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullsetAngle.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullYaw.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullError.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullPID.png"></img>
-                        <img width="400" height="auto" src="Lab6/ChangeAngle/FullMotor.png"></img>
-                    <p>I realized that
-                        whenever I changed the angle the array indices changed for recording yaw. To address this issue I 
-                        added another if statement in the Arduino case ORIENTATION_CASE that allowed me to control when to 
-                        set yaw to zero and when to set the initial indicies for the array's to one. The changed and added 
-                        code can be found below.
-                    </p>
-                     <img width="300" height="auto" src="Lab6/Code/YawZero.png"></img>
                     <p>The example below shows a change of 60 degrees to 90 degrees: </p>
                         <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_setAngle.png"></img>
                         <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_Yaw.png"></img>
                         <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_Error.png"></img>
                         <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_PID.png"></img>
                         <img width="400" height="auto" src="Lab6/ChangeAngle/FullCorrect_MotorInput.png"></img>
-                    <p>I was able to record data for multiple angle changes.</p>
-                    <p>For future navigation and stunts, I might need to change the setpoint in real time depending on the 
-                        desired task. For this lab changing the setpoint was done through Jupyter Notebook, but changing
-                        the setpoint could also be done through a series of if statements in Arduino IDE. Changing the
-                        setpoint may be beneficial during navigation along with using data from the ToF sensor readings to 
-                        navigate through the course. 
-                    </p>
-                    <h4 class="mb-0">5000 Level Task: Wind Up Protection</h4> <!------------------------------------>
-                    <p>The full PID controller with wind up protection, as described earlier, can be observed in the 
-                        videos below.
-                    </p>
-                    <p>Robot turning +90 degrees on carpet:</p>
-                        <iframe width="550" height="400" src="https://youtube.com/embed/cOvaFdRnURQ"></iframe>
-                    <p>Robot at 0 degrees on carpet:</p>
-                        <iframe width="550" height="400" src="https://youtube.com/embed/_K4sHY2JrUc"></iframe>
-                    <p>The PID controller works on multiple surfaces when maintaining an angle. When turning towards 
-                        an angle there is slightly more delay compared to on a flat surface, but the robot is still 
-                        able to reach the desired angle. Below is a video showing the serial monitor outputs for the 
-                        wind up protection. In the video the KiIntegral term increases over time until reaching 200
-                        and then does not further increase.
-                    </p>
-                        <iframe width="550" height="400" src="https://drive.google.com/file/d/1JDlj8oD0mJJXp2D0nEhMRXEieSbcybDZ/preview"></iframe>
-                    <h4 class="mb-0">Controlling Orientation While Driving Forward And Backward</h4> <!------------->
-                    <p>The robots orientation can be controlled while driving by altering the Arduino IDE code from the
-                        previous Lab 5 for the functions FORWARD and BACKWARD. As the robot drives either forward or
-                        backward the desired yaw angle will be set to zero. If the yaw angle changes from zero the PID
-                        controller will be used to increase the PWM of one wheel side and decrease the PWM of the 
-                        other wheel side in order to keep the robot moving straight. For longer runs the gyroscope 
-                        drift may be needed to accounted for. In the below video the yaw drifts from 0.01 to -8.72 degrees
-                        over (27.299 - 04.300) = 22.999 seconds,which is around -0.3796 degrees per second.
-                    </p>
-                        <iframe width="550" height="400" src="https://drive.google.com/file/d/1paUwO8N0_7Zn2XfJBxYX78Tvz3mmAaPN/preview"></iframe>
-                    <h3 class="mb-0">5000 Level Task: Wind Up Protection</h3> <!------------------------------------>
-                    <p>See above: Completed previously.</p>
-<!-- Lab 6 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 6 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-            </div>
-        </section>
+                   <p></p>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>                    
 <!__ Lab 5: Linear PID Control and Linear Interpolation ____________________________________________________________>
-            <section class="resume-section" id="Lab 5">
-                <div class="resume-section-content">
                     <h2 class="mb-2.5">Lab 5: Linear PID Control and Linear Interpolation</h2>
-                    <p>The objective of the lab to to gain experience working with PID controllers. I am a 5000 level 
-                        student and I choose to work on a PID controller. Labs 5-8 detail PID, sensor fusion, and stunts.
-                        This lab is focused on using a PID controller for position control of the robot. Lectures 6, 7, 
-                        and 8 were consulted during the lab.
-                    </p>
-<!-- Lab 5 Prelab -------------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>The used lab materials include: 
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li><a href="https://www.amazon.com/SUMPK-Charging-Braided-Compatible-Samsung/dp/B09Z6J21LY/ref=sr_1_4?keywords=usb%2Bc%2Bto%2Bc&qid=1636380583&qsid=147-6677549-1776715&refinements=p_n_feature_ten_browse-bin%3A23555327011&rnid=23555276011&s=pc&sr=1-4&sres=B08D9SB161%2CB08R68T84N%2CB01CZVEUIE%2CB01FM51812%2CB07VCZV3R4%2CB075V68NVR%2CB075GMKZWW%2CB093BVBRJT%2CB09BBBJ33F%2CB09C2D9Z7T%2CB012V56D2A%2CB092CYFQMP%2CB081L4V3DN%2CB07Y6ZJT1D%2CB07Y2XKPX5%2CB07VPYJV8V%2CB07THJGZ9Z%2CB08W2TP2TT%2CB0744BKDRD%2CB07THFJ1J5&srpt=ELECTRONIC_CABLE&th=1">UCB-C to USB-C Cable</a></li>
-                        <li><a href="https://www.pololu.com/product/3415">Pololu TOF Distance Sensor</a> ; <a href="https://cdn.sparkfun.com/assets/e/1/8/4/e/VL53L1X_API.pdf">TOF Manual</a> ; <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">TOF Datasheet</a></li>
-                        <li><a href="https://www.sparkfun.com/products/18012">QWIIC Breakout Board</a></li>
-                        <li><a href="https://www.sparkfun.com/products/14426">QWIIC Connector</a></li>
-                        <li><a href="https://www.amazon.com/dp/B07V56N33J?smid=A2ZDGCOOU4F0SF&ref_=chk_typ_imgToDp&th=1">JST2 Connector + Cable</a></li>
-                        <li><a href="https://force1rc.com/products/cyclone-remote-control-car-for-kids-adults">Force1 RC Car</li>
-                        <li><a href="https://www.amazon.com/URGENEX-Battery-Rechargeable-Quadcopter-Charger/dp/B08T9FB56F/ref=sr_1_3?keywords=lipo+battery+3.7V+850mah&qid=1639066404&sr=8-3">Li-Ion 3.7V 850mAh battery</a></li>
-                        <li><a href="https://www.digikey.com/en/products/detail/pololu-corporation/2130/10450426">Dual Motor Drivers</a></li>
+                    <p>The objective of the lab to to gain experience working with PID controllers.
+                        Labs 5-8 detail PID, sensor fusion, and stunts.
+                        This lab is focused on using a PID controller for position control of the robot. 
                     </p>
                     <h3 class="mb-0">PID Control Explaination</h3> <!----------------------------------------------->
                         <p>For this lab a PID controller will be used for position control of the robot. The below 
