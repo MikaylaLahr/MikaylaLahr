@@ -1367,12 +1367,6 @@
                     <h2 class="mb-2.5">Lab Tasks</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
-                        <h3 class="mb-0">Task 1: Set Up The IMU</h3> <!--------------------------------------------->
-                        <h4 class="mb-0">Install SparkFun</h4>
-                        <p>The SparkFun 9DOF IMU Breakout - ICM 20948 - Arduino Library was installed. 
-                        </p>
-                        <img width="500" height="auto" src="Lab2/IMULibrary.png"></img>
-                        <hr>
                         <h4 class="mb-0">Artemis IMU Connections</h4>
                         <p>The setup for this lab is shown in the image below. 
                         </p>
@@ -1404,14 +1398,12 @@
                         <p>In the Example1_Basics code, I added a slow blink at the beginning of void setup() to 
                             turn the Artemis LED on and off three times. 
                         </p>
-                        <img width="300" height="auto" src="Lab2/Example1AddedBlinkArduino.png"></img>
-                        <hr>
                         <iframe width="550" height="400" src="https://youtube.com/embed/f2LucKU6QsM"></iframe>
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">    
-                        <h3 class="mb-0">Task 2: Accelerometer</h3> <!------------------------------------------------>
+                        <h3 class="mb-0">Accelerometer</h3> <!------------------------------------------------>
                         <h4 class="mb-0">Accelerometer Equations</h4>
                         <p>The following equations for pitch (theta) and roll (phi) were found in the FastRobots-4-IMU 
                             Lecture Presentation. 
@@ -1459,11 +1451,11 @@
                             future the IMU should be calibrated when it is secured to the robot to achieve the most accurate 
                             pitch and roll data.
                         </p>
-                        <img width="450" height="auto" src="Lab2/AccelPandR(0)Analysis.png"></img>
-                        <img width="450" height="auto" src="Lab2/AccelAnalysisPitch(90).png"></img>
-                        <img width="450" height="auto" src="Lab2/AccelAnalysisPitch(-90).png"></img>
-                        <img width="450" height="auto" src="Lab2/AccelAnalysisRoll(90).png"></img>
-                        <img width="450" height="auto" src="Lab2/AccelAnalysisRoll(-90).png"></img>
+                        <img width="400" height="auto" src="Lab2/AccelPandR(0)Analysis.png"></img>
+                        <img width="400" height="auto" src="Lab2/AccelAnalysisPitch(90).png"></img>
+                        <img width="400" height="auto" src="Lab2/AccelAnalysisPitch(-90).png"></img>
+                        <img width="400" height="auto" src="Lab2/AccelAnalysisRoll(90).png"></img>
+                        <img width="400" height="auto" src="Lab2/AccelAnalysisRoll(-90).png"></img>
                         <hr>
                         <h4 class="mb-0">Fast Fourier Transform (FFT) Graphs</h4>
                         <p>The noise in the accelerometer was examined using a Fast Fourier Transform. Data for the FFT was 
@@ -1471,10 +1463,10 @@
                             spike closer to 0Hz and less noise as the frequency increases. 
                             Note: I modified the code from Stephan Wagner's Ed Discussion post to plot the FFT graphs.
                         </p>
-                        <img width="450" height="auto" src="Lab2/PitchSin.png"></img>
-                        <img width="450" height="auto" src="Lab2/PitchFFT.png"></img>
-                        <img width="450" height="auto" src="Lab2/RollSin.png"></img>
-                        <img width="450" height="auto" src="Lab2/RollFFT.png"></img> 
+                        <img width="400" height="auto" src="Lab2/PitchSin.png"></img>
+                        <img width="400" height="auto" src="Lab2/PitchFFT.png"></img>
+                        <img width="400" height="auto" src="Lab2/RollSin.png"></img>
+                        <img width="400" height="auto" src="Lab2/RollFFT.png"></img> 
                         <hr>
                         <h4 class="mb-0">Low Pass Filter FFT Graphs</h4>
                         <p>From observing the above graphs, I choose a cutoff frequency of 25Hz to use for a low pass filter. 
@@ -1483,29 +1475,19 @@
                         </p>
                         <img width="450" height="auto" src="Lab2/LPFalpha.png"></img>
                         <p>The low pass filter alpha was calculated to be 0.3698</p>
-                        <p>The low pass filter was implemented in Arduino. The code to find pitch and roll for the accelerometer 
-                            can be found below.
-                        </p>
-                        <img width="450" height="auto" src="Lab2/AccelArduino1.png"></img>
-                        <img width="450" height="auto" src="Lab2/AccelArduino2.png"></img>
                         <p>The below FFT graphs show the original signal (red) and the reduction in noise after implementing a 
                             low pass filter (blue). Choosing a lower cut off frequency reduces more noise.
                         </p>
-                        <img width="450" height="auto" src="Lab2/LPFPitchSin.png"></img>
-                        <img width="450" height="auto" src="Lab2/LPFPitchFFT.png"></img>
-                        <img width="450" height="auto" src="Lab2/LPFRollSin.png"></img>
-                        <img width="450" height="auto" src="Lab2/LPFRollFFT.png"></img>
-                        <p>Prior to implementing a low pass filter, there was not a significant level of noise in the IMU data 
-                            due to a pre-existing internal low pass filter. The information for this can be found on page 10 of 
-                            the <a href="https://www.mouser.com/datasheet/2/813/DS_000189_ICM_20948_v1_3-2489786.pdf">datasheet</a> 
-                            for the IMU.
-                        </p>
-                        <img width="550" height="auto" src="Lab2/IMUDatasheet.png"></img>
+                        <img width="400" height="auto" src="Lab2/LPFPitchSin.png"></img>
+                        <img width="400" height="auto" src="Lab2/LPFPitchFFT.png"></img>
+                        <img width="400" height="auto" src="Lab2/LPFRollSin.png"></img>
+                        <img width="400" height="auto" src="Lab2/LPFRollFFT.png"></img>
+                      
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">    
-                        <h3 class="mb-0">Task 3: Gyroscope</h3> <!--------------------------------------------------->
+                        <h3 class="mb-0">Gyroscope</h3> <!--------------------------------------------------->
                         <h4 class="mb-0">Gyroscope Equations</h4>
                         <p>The following equations for pitch, roll, and yaw were found in the FastRobots-4-IMU Lecture Presentation.
                         </p>
@@ -1527,9 +1509,9 @@
                         <p>The drift for the gyroscope can be better seen in the below graphs. The gyroscope was held in the same 
                             position as the data was collected. As time increases the measurements drift away from the starting value.
                         </p>
-                        <img width="450" height="auto" src="Lab2/GDriftPitch.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GDriftRoll.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GDriftYaw.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GDriftPitch.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GDriftRoll.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GDriftYaw.png"></img> 
                         <p>Code to plot the above graphs: 
                         </p>
                         <img width="450" height="auto" src="Lab2/GyroArray.png"></img>
@@ -1555,18 +1537,18 @@
                         <p>Roll for Gyroscope (Blue), Gyroscope Complimentary Filter (Orange), and Accelerometer (Teal):</p>
                         <iframe width="550" height="400" src="https://youtube.com/embed/lSK8tIzuze0"></iframe>
                         <p>Pitch for Gyroscope, Gyroscope Complimentary Filter, and Accelerometer (alpha = 0.5):</p>
-                        <img width="450" height="auto" src="Lab2/GAPitch.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GAPitch2.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GAPitch.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GAPitch2.png"></img> 
                         <hr>
                         <p>Roll for Gyroscope, Gyroscope Complimentary Filter, and Accelerometer (alpha = 0.5):</p>
-                        <img width="450" height="auto" src="Lab2/GARoll.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GARoll2.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GARoll.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GARoll2.png"></img> 
                         <hr>
                         <p>Additional graphs when alpha = 0.2</p>
-                        <img width="450" height="auto" src="Lab2/GAPitchalpha.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GAPitchalpha2.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GARollalpha.png"></img> 
-                        <img width="450" height="auto" src="Lab2/GARollalpha2.png"></img>
+                        <img width="400" height="auto" src="Lab2/GAPitchalpha.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GAPitchalpha2.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GARollalpha.png"></img> 
+                        <img width="400" height="auto" src="Lab2/GARollalpha2.png"></img>
                         <p>Code to plot the above graphs: 
                         </p>
                         <img width="650" height="auto" src="Lab2/GyroCompArray.png"></img>
@@ -1574,7 +1556,7 @@
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">    
-                        <h3 class="mb-0">Task 4: Sample Data</h3> <!------------------------------------------------>
+                        <h3 class="mb-0">Sample Data</h3> <!------------------------------------------------>
                         <h4 class="mb-0">Speed Of Sampling</h4>
                         <p>All of the accelerometer and gyroscope data print statements and any delays in the ble_arduino.ino file were removed 
                             in order to speed up the execution of the main loop. A case called "ACC_GYR" was created that checked if the data was 
@@ -1598,36 +1580,11 @@
                             <img width="550" height="auto" src="Lab2/Lab2NewPart1.png"></img>
                             <img width="550" height="auto" src="Lab2/Lab2NewPart2.png"></img>
                         </p>
-                        <hr>
-                        <h4 class="mb-0">At Least 5 Seconds of IMU Data Sent Over Bluetooth</h4>
-                        <p> I collected data for the X,Y,Z positions of the accelerometer and gyroscope as well as the pitch and roll for the 
-                            accelerometer; and pitch, roll, and yaw for the gyroscope.
-                        </p>
-                        <img width="550" height="auto" src="Lab2/SampleData.png"></img>
-                        <img width="550" height="auto" src="Lab2/Lab2NewGraph.png"></img>
-                        <img width="550" height="auto" src="Lab2/Lab2NewData.png"></img>
-                        <!- <img width="550" height="auto" src="Lab2/SampleDataPrint.png"></img> 
+              
+                       
                         </div>
                     </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">    
-                        <h3 class="mb-0">Task 5: Stunt Recording</h3> <!-------------------------------------------->
-                        <p>The robot is moved using the controller. The robot can move very quickly, but it is hard to 
-                            control the speed. If the robot changes directions too quickly there is a chance that it 
-                            might flip over. It is also hard to slow down the robot to a stop. When slowing down the 
-                            robot, the reverse needs to be applied. This is easy to over compensate and the robot might 
-                            end up traveling in reverse rather than coming to a stop. 
-                        </p>
-                        <iframe width="550" height="400" src="https://youtube.com/embed/rJJAcrVZHNI"></iframe>
-                        </div>
-                    </div>
-<!-- Lab 2 References ---------------------------------------------------------------------------------------------->
-                <h2 class="mb-2.5">Lab 2 References</h2>
-                <p>Thank you to all of the TAs that answered my questions. I referenced the past lab reports of 
-                    Liam Kain, Rafael Gottlieb, Larry Lu, Julian Prieto, and Ignacio Romo.
-                </p>
-        </div>
-    </section>
+                
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
 <!__________________________________________________________________________________________________________________>
@@ -1639,17 +1596,6 @@
                     <h2 class="mb-5">Part 1</h2>
                     <p>Test the connection between the Artemis board and the computer. Arduino IDE was installed and 
                         a number of tasks were completed to show the functionality of the Artemis board.
-                    </p>
-<!-- Lab 1 Part 1 Prelab ------------------------------------------------------------------------------------------->
-                    <h2 class="mb-2.5">Prelab</h2>
-                    <p>Arduino IDE 2.2.1 was installed onto my computer.</p>
-                    <p>Materials include:
-                        <li><a href="https://www.arduino.cc/en/software">Arduino IDE</a></li>
-                        <li><a href="https://www.sparkfun.com/products/15443">SparkFun RedBoard Artemis Nano</a></li>
-                        <li>USB-C to USB-C cable</li>
-                    </p>
-                    <p><a href="https://hackaday.io/project/181686-better-serial-plotter">Better Serial Plotter</a> 
-                        was installed to plot the temperature in Task 4.
                     </p>
 <!-- Lab 1 Part 1 Lab Tasks ---------------------------------------------------------------------------------------->
                     <h2 class="mb-2.5">Lab Tasks</h2>
