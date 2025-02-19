@@ -370,24 +370,27 @@
                   </td>
                 </tr>
 
-                  <tr onmouseout="spatialtracker_stop()" onmouseover="spatialtracker_start()">
+                  <tr onmouseout="Temp_stop()" onmouseover="Temp_start()">
                   <td style="padding:20px;width:25%;vertical-align:middle">
                     <div class="one">
-                      <div class="two" id='spatialtracker_image'>
+                      <div class="two" id='Temp_image'>
                         <video  width="100%" height="100%" muted autoplay loop>
-                          <source src="images/spatial_tracker.mp4" type="video/mp4">
+                          <source src="Weather/Temp.mp4" type="video/mp4">
                         </video>
                       </div>
-                      <img src='images/spatial_tracker.jpg' id='spatialtracker_before' width="160" >
+                      <!-- <img src='images/spatial_tracker.jpg' id='spatialtracker_before' width="160" > -->
+                      <video  width="100%" height="100%" muted autoplay loop>
+                          <source src="Weather/Temp.mp4" type="video/mp4">
+                        </video>
                     </div>
                     <script type="text/javascript">
-                      function spatialtracker_start() {
-                        document.getElementById('spatialtracker_image').style.opacity = "1";
+                      function Temp_start() {
+                        document.getElementById('Temp_image').style.opacity = "1";
                       }
-                      function spatialtracker_stop() {
-                        document.getElementById('spatialtracker_image').style.opacity = "0";
+                      function Temp_stop() {
+                        document.getElementById('Temp_image').style.opacity = "0";
                       }
-                      spatialtracker_stop()
+                      Temp_stop()
                     </script>
                   </td>
 
@@ -396,6 +399,7 @@
                       <papertitle> Design With Embedded Operating Systems </papertitle>
                     </a>
                     <br>
+                    <strong><a href="https://www.ece.cornell.edu/faculty-directory/joseph-skovira">Prof. Joseph Skovira</a></strong>
                     <p></p>
                     <br>
                     <br>
