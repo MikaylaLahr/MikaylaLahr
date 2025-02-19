@@ -29,20 +29,53 @@
                         <div class="row gx-4 gx-lg-5 justify-content-center">
                             <div class="col-lg-10" style="text-align: left;">
                                 <p class="lead mb-5">Grade: A</p>
+                                <p>Final Project and Labs were completed with Master's student Mahathi Andavolu.</p>
+                                
                                 <h2>Objectives</h2>
                                 <ul>
-                                    <strong>Lab 1</strong>
-                                    <strong>Lab 2</strong>
-                                    <strong>Lab 3</strong>
-                                    <strong>Lab 4</strong>
+                                    <strong>Lab 1: Control Video Playback</strong>
+                                    <li>Assemble Raspberry-Pi 4 Model B and piTFT Screen</li>
+                                    <li>Install and Configure Rasbian Linux Kernel</li>
+                                    <li>Install and Configure Drivers and Software for piTFT Display</li>
+                                    <li>Install and Configure Drivers and Software for Video and Audio Playback</li>
+                                    <li>Develop Python Scripts to Control Video Playback on piTFT Screen Using Physical Buttons</li>
+                                    
+                                    <strong>Lab 2: Evaluate the Performance of the Video Player</strong>
+                                    <li>Add External Buttons to the R-Pi and Expand Video Control Functions</li>
+                                    <li>Compare Performance of Modified Python Scripts to Play Videos</li>
+                                    <li>Write Methods of Checking Performance of Applications (Performance Tuning)</li>
+                                    <li>Write Test Programs using PyGame and Expand Programs for Control Panels</li>
+                                    
+                                    <strong>Lab 3: Robot Platform for R-Pi</strong>
+                                    <li>Build Robot Platform for R-Pi</li>
+                                    <li>Write Reusable and Modular Code</li>
+                                    
+                                    <strong>Lab 4: PreemptRT Kernel Patch</strong>
+                                    <li>PreemptRT Kernel Patch</li>
+                                    <li>Performance Evaluation of Installed Raspbian</li>
+                                    <li>Build a New Kernel using Rasbian 6.1.93 Source and Corresponding PreemptRT Patch, Version 6.1.92</li>
+                                    
+                                    <strong>Final Project</strong>
                                 </ul>
 
-                                <h2>Final Project: WidowX 250 Robotic Arm Simulation</h2>
+                                <h2>Lab 4: PreemptRT Kernel Patch</h2>
                                 <p>
-                                    Simulate the WidowX 250 robotic arm to pick up and drop items in the desired locations. A particle
-                                    filter or predefined target pose establish the robot's target. A path is then computed between the start
-                                    and end positions. Inverse kinematics are used to convert between the target pose in Cartesian space
-                                    to the planner in joint space. The path is then sent to the controller to execute the trajectory. 
+                                    The objective of Lab 4, is to explore the PreemptRT kernel patch to investigate performance improvements. The lab begins by using simple C-based signal generation techniques on the current Raspbian system. We will then build a new kernel using Raspbian 6.1.93 source and the PreemptRT patch version 6.1.92. Once the patched kernel is installed, we will use Real-Time techniques provided by the patch for signal generation. The process includes installing utilities for managing GPIO in C, implementing and measuring a square wave signal in C, then installing the new kernel by downloading the Linux source, applying the PreemptRT patch, and compiling the kernel. After booting the new kernel, we will convert the system to real-time code and test its performance. Throughout the lab, various packages like Cyclictest, Perf, pigpio, and the PreemptRT patch will be installed, and system performance will be verified using tools like Perf, Cyclictest, and an oscilloscope or PiScope. The lab aims to provide hands-on experience in altering a Linux kernel, which is valuable knowledge for embedded systems.
+                                </p>
+
+                                <h2>Lab 3: Robot Platform for R-Pi</h2>
+                                <p>
+                                    The objective of Lab 3, is to focus on adding output capabilities to the Raspberry Pi by exploring various attached components. This includes building a robot platform for the Pi and investigating robot applications. We will integrate these applications with piTFT feedback and evaluate their performance. A key goal of the lab is to develop reusable and modular code that can be applied in future steps. Before starting the coding process, careful software design will be essential to map operations into Python functions that can be reused later. The lab report will include the design of these software components to demonstrate code reusability. Ultimately, the goal is to create an autonomous robot controlled by an application, allowing it to navigate within its environment while displaying status and control information.
+                                </p>
+
+                                <h2>Lab 2: Evaluate the Performance of the Video Player</h2>
+                                <p>
+                                    The objective of Lab 2, is to enhance the Raspberry Pi setup by adding external buttons to expand the control functions of the video_control.py from Lab 1. We will also compare the performance of the video_test.py program from Lab 1 with its modified versions. Additionally, we will develop methods for evaluating the performance of applications on the Raspberry Pi, focusing on performance tuning. Finally, we will create test programs using the PyGame library and develop them into control panels for animated videos.
+                                </p>
+
+                                <h2>Lab 1: Control Video Playback</h2>
+                                <p>
+                                    The main objective of this lab is to assemble the ECE5725 lab kit, which included components such as the Raspberry Pi 4 Model B, piTFT display, power adapter, breakout cables, and other essential peripherals. The first step involved installing the Raspbian Linux kernel and configuring the Raspberry Pi for optimal performance, including setting up drivers for the piTFT touchscreen display. Next, software was installed to enable video and audio playback on the piTFT. After setting up the hardware, Python scripts were written to control video playback on the piTFT screen using physical buttons. This required learning how to use the GPIO pins on the Raspberry Pi to detect button presses and map them to playback controls like pause, rewind, and fast-forward. The lab also involved developing a FIFO to send commands to the running media player instance. The final task was to integrate all the scripts into a bash script, automating the launch of the video player and control functions for a seamless hands-on experience with both hardware and software integration.
                                 </p>
                                 
                     </div>
