@@ -56,9 +56,34 @@
                                     <li>Build a New Kernel using Rasbian 6.1.93 Source and Corresponding PreemptRT Patch, Version 6.1.92</li>
                                     
                                     <strong>Final Project</strong>
+                                    <li>Design and Build a Weather Map using a R-Pi 4</li>
+                                    <li>Collect Real Time Weather Data Using an API Key</li>
                                 </ul>
 
-                                <p><a href="https://drive.google.com/drive/folders/1AQiyP8EJ-pakyD32u4QdGtvrMELiw-Mz">Link to all labs.</a></p>
+                                <h2><a href="https://drive.google.com/drive/folders/1AQiyP8EJ-pakyD32u4QdGtvrMELiw-Mz">Link to all labs.</a></h2>
+
+                                <h2>Final Project: Weather Map</h2>
+                                <p>
+                                    The objective of this project is to design and test a real time weather map using a Raspberry Pi, piTFT screen, and a 32x32 LED Matrix. An API from Open Weather Map is used to collect temperature and humidity weather data for 17 locations in New York State. The collected weather data is then displayed on the piTFT screen and the LEDs corresponding to each desired location are assigned a color based on the collected data.
+                                </p>
+                                <p>
+                                    The components of this project include a Raspberry Pi, piTFT screen, and a 32x32 LED Matrix. An interactive weather map will be created to display real time weather data. The numerical data for temperature and humidity, as well as the local weather data for temperature and precipitation will be displayed on the piTFT. In addition, specific LEDs on a 32x32 LED Matrix will be assigned to 17 different locations in New York State. Each LED will be assigned a color that will correspond with the temperature and humidity. When the system is powered on there is a start screen followed by four different user options. These options include:
+                                </p>
+                                    <ul>
+                                        <li>
+                                            Relative Temperature: Displays temperature data for all of the selected locations on the piTFT along with a scale legend. Assigns LED colors based on the highest and lowest temperature values in New York State.
+                                        </li>
+                                        <li>
+                                            Relative Humidity: Displays humidity data for all of the selected locations on the piTFT along with a scale legend. Assigns LED colors based on the highest and lowest humidity values in New York State.
+                                        </li>
+                                        <li>
+                                            Cities and Towns: Displays list of all selected cities and towns. When a location is chosen, the LED corresponding to the location turns on and the temperature and precipitation data for the selected location is displayed on the piTFT along with a weather icon.
+                                        </li>
+                                        <li>
+                                            Temperature: Displays temperature data for all of the selected locations on the piTFT along with a predefined scale legend. Assigns LED colors based on the set scale for temperature values (0 degrees F to 100 degrees F).
+                                        </li>
+                                    </ul>
+                                
                                 <h2>Lab 4: PreemptRT Kernel Patch</h2>
                                 <p>
                                     The objective of Lab 4, is to explore the PreemptRT kernel patch to investigate performance improvements. The lab begins by using simple C-based signal generation techniques on the current Raspbian system. We will then build a new kernel using Raspbian 6.1.93 source and the PreemptRT patch version 6.1.92. Once the patched kernel is installed, we will use Real-Time techniques provided by the patch for signal generation. The process includes installing utilities for managing GPIO in C, implementing and measuring a square wave signal in C, then installing the new kernel by downloading the Linux source, applying the PreemptRT patch, and compiling the kernel. After booting the new kernel, we will convert the system to real-time code and test its performance. Throughout the lab, various packages like Cyclictest, Perf, pigpio, and the PreemptRT patch will be installed, and system performance will be verified using tools like Perf, Cyclictest, and an oscilloscope or PiScope. The lab aims to provide hands-on experience in altering a Linux kernel, which is valuable knowledge for embedded systems.
