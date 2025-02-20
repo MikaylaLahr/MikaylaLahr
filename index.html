@@ -405,7 +405,7 @@
 
                   <td style="padding:20px;width:75%;vertical-align:middle">
                     <a href="folder/EmOS.html">
-                      <papertitle> Design With Embedded Operating Systems </papertitle>
+                      <papertitle> Weather Map: Embedded Operating Systems </papertitle>
                     </a>
                     <br>
                     <strong><a href="https://www.ece.cornell.edu/faculty-directory/joseph-skovira">Prof. Joseph Skovira</a></strong>
@@ -417,27 +417,27 @@
                   </td>
                 </tr>
 
-                                  <tr onmouseout="Temp_stop()" onmouseover="Temp_start()">
+                <tr onmouseout="rp_stop()" onmouseover="rp_start()">
                   <td style="padding:20px;width:25%;vertical-align:middle">
                     <div class="one">
-                      <div class="two" id='Temp_image'>
+                      <div class="two" id='rp_image'>
                         <video  width="100%" height="100%" muted autoplay loop>
-                          <source src="folder/Weather/Temp.mp4" type="video/mp4">
+                          <source src="folder/Weather/rp.mp4" type="video/mp4">
                         </video>
                       </div>
                       <!-- <img src='images/spatial_tracker.jpg' id='spatialtracker_before' width="160" > -->
                       <video  width="100%" height="100%" muted autoplay loop>
-                          <source src="folder/Weather/Temp.mp4" type="video/mp4">
+                          <source src="folder/Weather/rp.mp4" type="video/mp4">
                         </video>
                     </div>
                     <script type="text/javascript">
-                      function Temp_start() {
-                        document.getElementById('Temp_image').style.opacity = "1";
+                      function rp_start() {
+                        document.getElementById('rp_image').style.opacity = "1";
                       }
-                      function Temp_stop() {
-                        document.getElementById('Temp_image').style.opacity = "0";
+                      function rp_stop() {
+                        document.getElementById('rp_image').style.opacity = "0";
                       }
-                      Temp_stop()
+                      rp_stop()
                     </script>
                   </td>
 
